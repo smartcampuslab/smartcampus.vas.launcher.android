@@ -1,0 +1,62 @@
+<resources>
+
+    <color name="tile_background_unsel">#999999</color>
+    <color name="tile_text_unsel">#666666</color>
+
+    <string name="smartcampus_action_start">eu.trentorise.smartcampus.START</string>
+    
+    <string-array name="app_labels">
+        <item>Journey Planner</item>
+        <item>Discover Trento</item>
+        <item>Community Manager</item>
+        <item>Communicator</item>
+        <item>Experience Buster</item>
+        <item>Portfolio</item>
+    </string-array>
+    
+    <string-array name="app_packages">
+        <item>eu.trentorise.smartcampus.jp</item>
+        <item>eu.trentorise.smartcampus.dt</item>
+        <item>eu.trentorise.smartcampus.cm</item>
+        <item>eu.trentorise.smartcampus.communicator</item>
+        <item>eu.trentorise.smartcampus.eb</item>
+        <item>eu.trentorise.smartcampus.portfolio</item>
+    </string-array>
+    
+    <string-array name="app_urls">
+        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.journeyplanner.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.discovertrento.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.community-manager.android.apk</item>
+        <item>@null</item>
+        <item>@null</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS/apk/Portfolio.apk</item>
+    </string-array>
+    
+    <string-array name="app_backgrounds">
+        <item>#F85E99</item>
+        <item>#8B80C0</item>
+        <item>#36B249</item>
+        <item>#32CBFF</item>
+        <item>#FF8C06</item>
+        <item>#D7512B</item>
+    </string-array>
+
+    <array name="app_icons">
+        <item>@drawable/jp</item>
+        <item>@drawable/dt</item>
+        <item>@drawable/cm</item>
+        <item>@drawable/c</item>
+        <item>@drawable/eb</item>
+        <item>@drawable/p</item>
+    </array>
+    
+    <array name="app_gray_icons">
+        <item>@drawable/jp_g</item>
+        <item>@drawable/dt_g</item>
+        <item>@drawable/cm_g</item>
+        <item>@drawable/c_g</item>
+        <item>@drawable/eb_g</item>
+        <item>@drawable/p_g</item>
+    </array>
+
+</resources>
