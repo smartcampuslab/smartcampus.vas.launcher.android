@@ -27,7 +27,7 @@
         <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.journeyplanner.android.apk</item>
         <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.discovertrento.android.apk</item>
         <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.community-manager.android.apk</item>
-        <item>@null</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.communicator.android.apk</item>
         <item>@null</item>
         <item>http://smartcampus.trentorise.eu/download/VAS/apk/Portfolio.apk</item>
     </string-array>
