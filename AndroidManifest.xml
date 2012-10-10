@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="eu.trentorise.smartcampus.launcher.MainActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
 
         <activity
             android:name="eu.trentorise.smartcampus.ac.embedded.EmbeddedAuthActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@style/AppTheme" />
         
         <uses-library android:name="com.google.android.maps" />
     </application>

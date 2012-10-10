@@ -13,5 +13,14 @@
 
     <string name="token_required">Please login before proceeding with the SmartCampus application.</string>
     <string name="auth_failed">Application initialization failed.</string>
+    <string name="update_application_question">A new version is available. Would you like to update the application now?</string>
+    <string name="update_application_manual_list">Added to manual update</string>
+    <string name="update_option_list">Available update</string>
+    <string name="manual_update">Updates</string>
+    <string name="list_of_applications">List of applications</string>
+    <string name="list_empty">No updates available</string>
+    
+    
+    
     
 </resources>

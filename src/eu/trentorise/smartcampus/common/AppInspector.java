@@ -105,6 +105,16 @@ public final class AppInspector {
 		return res;
 	}
 	
+	/*
+	 * Check if the app is in the manual install applications list
+	 */
+	public boolean isAppManualInstall(String app) throws LauncherException{
+		boolean res =false;
+		// check in the Shared Preferences if the 'app-manualInstall' is true or not
+		
+		return res;
+	}
+	
 	/**
 	 * Tries to launch an application passing parameters after checks on application validity and presence.
 	 * 

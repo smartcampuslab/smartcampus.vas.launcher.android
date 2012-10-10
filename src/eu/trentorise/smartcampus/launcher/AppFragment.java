@@ -1,16 +1,31 @@
 package eu.trentorise.smartcampus.launcher;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -37,7 +52,7 @@ import eu.trentorise.smartcampus.launcher.widget.TileButton;
  * @author Simone Casagranda
  * 
  */
-public class AppFragment extends Fragment {
+public class AppFragment extends SherlockFragment {
 	
 	private ConnectivityManager mConnectivityManager;
 	private AppInspector mInspector;
@@ -45,9 +60,12 @@ public class AppFragment extends Fragment {
 	private GridView mGridView;	
 	private AppAdapter mAdapter;
 	private List<AppItem> mAppItems = new ArrayList<AppItem>();;
-	
+	private int heightActionBar =0;
 	private AppTask mAppTask;
 	private ApkDownloaderTask mDownloaderTask;
+	public static final String PREFS_NAME = "LauncherPreferences";
+	private Drawable ic_update;
+
 	
 	@Override
 	public void onCreate(Bundle args) {
@@ -55,7 +73,20 @@ public class AppFragment extends Fragment {
 		// Getting connectivity manager
 		mConnectivityManager = ConnectionUtil.getConnectivityManager(getActivity());
 		// Getting inspector
-		mInspector = new AppInspector(getActivity());
+		mInspector = new AppInspector(getActivity());	
+		// Asking for an option menu
+		setHasOptionsMenu(true);
+		
+		//if you have some proitem.app.nameblem with the stored data,  uncomment these lines and the data are erased
+/*		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+    	SharedPreferences.Editor editor = settings.edit();
+		editor.clear();
+        editor.commit();	*/
+        
+        
+        
+        ic_update =getResources().getDrawable(R.drawable.ic_app_update);
+
 	}
 
 	@Override
@@ -76,9 +107,21 @@ public class AppFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+	 	getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
+	 	getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+	 	getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+	 	getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.app_name));
+
+
+	 	if (getSherlockActivity().getSupportActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
+	 		getSherlockActivity().getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+	 	}
 		// Starting new task
 		startNewAppTask();
+		
+
 	}
+
 	
 	@Override
 	public void onStop() {
@@ -113,6 +156,9 @@ public class AppFragment extends Fragment {
 			String[] packages = getResources().getStringArray(R.array.app_packages);
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
 			String[] urls = getResources().getStringArray(R.array.app_urls);
+			int[] versions = getResources().getIntArray(R.array.app_version);
+			Drawable ic_update =getResources().getDrawable(R.drawable.ic_app_update);
+
 			TypedArray icons = getResources().obtainTypedArray(R.array.app_icons);
 			TypedArray grayIcons = getResources().obtainTypedArray(R.array.app_gray_icons);
 			// They have to be the same length
@@ -131,6 +177,8 @@ public class AppFragment extends Fragment {
 				try {
 					mInspector.isAppInstalled(item.app.appPackage);
 					item.status = eu.trentorise.smartcampus.common.Status.OK;
+					if (!mInspector.isAppUpdated(item.app.appPackage, versions[i]))
+						item.status=eu.trentorise.smartcampus.common.Status.NOT_UPDATED;
 				} catch (LauncherException e) {
 					e.printStackTrace();
 					// Getting status
@@ -138,9 +186,14 @@ public class AppFragment extends Fragment {
 				}
 				// Matching just retrieved status
 				switch (item.status) {
-				case OK:
+				case OK: 
 					items.add(item);
 					break;
+				case NOT_UPDATED:
+					//Installed but updated
+					items.add(item);
+					//actually is the same of OK
+					break;				
 				default:
 					// Not installed list
 					notInstalledItems.add(item);
@@ -173,9 +226,13 @@ public class AppFragment extends Fragment {
 		
 		AppInspector mAppInspector = new AppInspector(getActivity());
 		int mWidth, mHeight;
+		DialogInterface.OnClickListener updateDialogClickListener;
 
 		public AppAdapter(List<AppItem> items) {
 			super(getActivity(), R.layout.item_app_tile, items);
+			
+			//declare the listener for the update dialogBox
+
 		}
 		
 		@Override
@@ -188,8 +245,14 @@ public class AppFragment extends Fragment {
 				holder = new TileButton(convertView);
 				// add Holder to View
 				convertView.setTag(holder);
+				if (heightActionBar<1)
+					heightActionBar=((SherlockFragmentActivity) getActivity()).getSupportActionBar().getHeight();
 				// Calculating sizes
-				if(mWidth<1||mHeight<1){
+				
+				//Sometimes it's called and it's bigger than the screen (maybe without the action bar??).
+				//So actually it's called every time it's reloaded
+				
+				//if(mWidth<1||mHeight<1){
 					Rect rectgle= new Rect();
 					Window window= getActivity().getWindow();
 					window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
@@ -199,8 +262,9 @@ public class AppFragment extends Fragment {
 					Display display = getActivity().getWindowManager().getDefaultDisplay();
 					// We are using android v8
 					mWidth = Math.round(display.getWidth()/2f);
-					mHeight = Math.round((display.getHeight()-statusBarHeight)/3f);					
-				}
+					mHeight = Math.round(((display.getHeight()-heightActionBar)-statusBarHeight)/3f);					
+				//}
+					
 				// Setting sizes
 				convertView.setMinimumWidth(mWidth);
 				convertView.setMinimumHeight(mHeight);
@@ -214,11 +278,39 @@ public class AppFragment extends Fragment {
 			if(item.status == eu.trentorise.smartcampus.common.Status.OK){
 				holder.setImage(item.app.icon);
 				holder.setBackgroundColor(item.app.background);
-				holder.setTextColor(Color.WHITE);				
-			}else{
+				holder.setTextColor(Color.WHITE);
+				holder.mUpdateVisible(false);
+
+			}
+			else{
 				holder.setImage(item.app.gray_icon);
 				holder.setBackgroundColor(getResources().getColor(R.color.tile_background_unsel));
 				holder.setTextColor(getResources().getColor(R.color.tile_text_unsel));				
+			}
+			
+			if(item.status == eu.trentorise.smartcampus.common.Status.NOT_UPDATED)// e non e' nella blacklist;l
+				{
+				 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+				 settings.toString();
+			     boolean autoupdate = settings.getBoolean(item.app.name+"-update", true);
+				if (autoupdate){
+				//if update is not set (true) and is not updated
+				holder.setImage(item.app.icon);
+				holder.setBackgroundColor(item.app.background);
+				holder.setTextColor(Color.WHITE);
+				holder.setmUpdate(ic_update);
+				holder.mUpdateVisible(true);
+				} 
+				else{
+					//if it is set to false is manual 
+					holder.setImage(item.app.icon);
+					holder.setBackgroundColor(item.app.background);
+					holder.setTextColor(Color.WHITE);
+					holder.mUpdateVisible(false);
+					item.status=Status.OK;
+				}
+				
+
 			}
 			// Setting application info name
 			switch (item.status) {
@@ -234,27 +326,55 @@ public class AppFragment extends Fragment {
 					}
 				});
 				break;
+				
+			case NOT_UPDATED:
+				holder.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						//dialog box per fare update
+						updateDialogClickListener=  new DialogInterface.OnClickListener() {
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						        switch (which){
+						        case DialogInterface.BUTTON_POSITIVE:
+						            //If yes is pressed download the new app
+
+									downloadApplication(item.app.url, item.app.name);
+						            break;
+
+						        case DialogInterface.BUTTON_NEGATIVE:
+						        	//If no is pressed add to the manual list applications update
+						        	//Put the application in the blacklist in the SharedPreferences
+						        	SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+						        	SharedPreferences.Editor editor = settings.edit();
+						        	if (settings.getBoolean(item.app.name+"-update", true))
+						            {
+						        		editor.putBoolean(item.app.name+"-update", false);
+							            editor.commit();
+
+						            }
+						        	Toast.makeText(getContext(), getString(R.string.update_application_manual_list), Toast.LENGTH_SHORT).show();
+						        	//change the icon like the updated, notifica che e' cambiato
+						        	mAdapter.notifyDataSetChanged();
+						            break;
+						        }
+						    }
+						};
+						AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+						builder.setMessage(getString(R.string.update_application_question)).setPositiveButton("Yes", updateDialogClickListener)
+						    .setNegativeButton("No", updateDialogClickListener).show();
+
+					}
+				});
+				break;
+				
 			case NOT_FOUND:
 				holder.setOnClickListener(new OnClickListener() {					
 					@Override
 					public void onClick(View v) {
-						if (ConnectionUtil.isConnected(mConnectivityManager)) {
-							// Checking url
-							if(!TextUtils.isEmpty(item.app.url)){
-								if(mDownloaderTask != null && !mDownloaderTask.isCancelled()){
-									mDownloaderTask.cancel(true);
-								}
-								mDownloaderTask = new ApkDownloaderTask(getActivity(), item.app.url);
-								mDownloaderTask.execute();
-							}else{
-								Log.d(AppFragment.class.getName(), "Empty url for download: " + item.app.name);
-								Toast.makeText(getActivity(), R.string.error_occurs,Toast.LENGTH_SHORT).show();
-							}
-						} else {
-							Toast.makeText(getActivity(), R.string.enable_connection,Toast.LENGTH_SHORT).show();
-							Intent intent = ConnectionUtil.getWifiSettingsIntent();
-							startActivity(intent);
-						}
+						downloadApplication(item.app.url, item.app.name);
 					}
 				});
 				break;
@@ -275,6 +395,56 @@ public class AppFragment extends Fragment {
 			// Returning just filled view
 			return convertView;
 		}
+		
+		private void downloadApplication(String url, String name){
+			if (ConnectionUtil.isConnected(mConnectivityManager)) {
+				// Checking url
+				if(!TextUtils.isEmpty(url)){
+					if(mDownloaderTask != null && !mDownloaderTask.isCancelled()){
+						mDownloaderTask.cancel(true);
+					}
+					mDownloaderTask = new ApkDownloaderTask(getActivity(), url);
+					mDownloaderTask.execute();
+				}else{
+					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
+					Toast.makeText(getActivity(), R.string.error_occurs,Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(getActivity(), R.string.enable_connection,Toast.LENGTH_SHORT).show();
+				Intent intent = ConnectionUtil.getWifiSettingsIntent();
+				startActivity(intent);
+			}
+		}
+
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
+	     inflater.inflate(R.menu.update_menu, menu);
+
+	}
+
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.update_option_list:
+
+      	
+	            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+	            Fragment newFragment = new ManualUpdateFragment();
+	            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+	            transaction.replace(R.id.fragment_container, newFragment);
+	            transaction.addToBackStack(null);
+	            transaction.commit();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	            
+	    }
 
 	}
 
@@ -283,4 +453,10 @@ public class AppFragment extends Fragment {
 		SmartApp app;
 		eu.trentorise.smartcampus.common.Status status = Status.NOT_FOUND;	
 	}
+
+
+	
+	
+
+
 }
