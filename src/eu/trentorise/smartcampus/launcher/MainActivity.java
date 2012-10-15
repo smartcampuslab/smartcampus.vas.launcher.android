@@ -1,20 +1,16 @@
 package eu.trentorise.smartcampus.launcher;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.accounts.AccountManager;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 
 
@@ -59,6 +55,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		} else {
 			Toast.makeText(this, getString(R.string.token_required), Toast.LENGTH_LONG).show();
+			finish();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
