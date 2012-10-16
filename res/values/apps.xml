@@ -33,12 +33,12 @@
     </string-array>
     
     <integer-array name="app_version">
-        <item>3</item>         	<!-- Journey Planner -->
-        <item>3</item>        	<!-- Discover Trento -->
-        <item>3</item>        	<!-- Community Manager -->
-        <item>3</item>  		<!-- Communicator -->
-        <item>2</item> 			<!-- Experience Buster -->
-        <item>2</item>  		<!-- Portfolio -->
+        <item>4</item>         	<!-- Journey Planner -->
+        <item>4</item>        	<!-- Discover Trento -->
+        <item>4</item>        	<!-- Community Manager -->
+        <item>4</item>  		<!-- Communicator -->
+        <item>3</item>  		<!-- Portfolio -->
+        <item>1</item> 			<!-- Experience Buster -->
     </integer-array>
     
     <string-array name="app_backgrounds">
