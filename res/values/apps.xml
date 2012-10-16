@@ -37,8 +37,8 @@
         <item>4</item>        	<!-- Discover Trento -->
         <item>4</item>        	<!-- Community Manager -->
         <item>4</item>  		<!-- Communicator -->
-        <item>3</item>  		<!-- Portfolio -->
         <item>1</item> 			<!-- Experience Buster -->
+        <item>3</item>  		<!-- Portfolio -->
     </integer-array>
     
     <string-array name="app_backgrounds">
