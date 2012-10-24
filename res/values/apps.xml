@@ -24,21 +24,21 @@
     </string-array>
     
     <string-array name="app_urls">
-        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.journeyplanner.android.apk</item>
-        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.discovertrento.android.apk</item>
-        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.community-manager.android.apk</item>
-        <item>http://smartcampus.trentorise.eu/download/VAS/apk/smartcampus.vas.communicator.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS-dev/apk/smartcampus.vas.journeyplanner.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS-dev/apk/smartcampus.vas.discovertrento.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS-dev/apk/smartcampus.vas.community-manager.android.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS-dev/apk/smartcampus.vas.communicator.android.apk</item>
         <item>@null</item>
-        <item>http://smartcampus.trentorise.eu/download/VAS/apk/Portfolio.apk</item>
+        <item>http://smartcampus.trentorise.eu/download/VAS-dev/apk/Portfolio.apk</item>
     </string-array>
     
     <integer-array name="app_version">
-        <item>4</item>         	<!-- Journey Planner -->
-        <item>4</item>        	<!-- Discover Trento -->
+        <item>5</item>         	<!-- Journey Planner -->
+        <item>5</item>        	<!-- Discover Trento -->
         <item>4</item>        	<!-- Community Manager -->
-        <item>4</item>  		<!-- Communicator -->
+        <item>5</item>  		<!-- Communicator -->
         <item>1</item> 			<!-- Experience Buster -->
-        <item>3</item>  		<!-- Portfolio -->
+        <item>4</item>  		<!-- Portfolio -->
     </integer-array>
     
     <string-array name="app_backgrounds">
