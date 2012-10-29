@@ -23,7 +23,8 @@
         android:theme="@style/Theme.discoverTrento" >
         <activity
             android:name="eu.trentorise.smartcampus.launcher.MainActivity"
-            android:theme="@style/Theme.discoverTrento" >
+            android:theme="@style/Theme.discoverTrento" 
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
