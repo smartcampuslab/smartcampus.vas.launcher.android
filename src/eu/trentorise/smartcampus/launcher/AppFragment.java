@@ -1,16 +1,9 @@
 package eu.trentorise.smartcampus.launcher;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import org.json.JSONException;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,7 +17,6 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,13 +29,30 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
 import eu.trentorise.smartcampus.launcher.apps.ApkInstaller.ApkDownloaderTask;
 import eu.trentorise.smartcampus.launcher.models.SmartApp;
+import eu.trentorise.smartcampus.launcher.models.UpdateModel;
 import eu.trentorise.smartcampus.launcher.util.ConnectionUtil;
 import eu.trentorise.smartcampus.launcher.widget.TileButton;
+import eu.trentorise.smartcampus.protocolcarrier.ProtocolCarrier;
+import eu.trentorise.smartcampus.protocolcarrier.common.Constants.Method;
+import eu.trentorise.smartcampus.protocolcarrier.custom.MessageRequest;
+import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
+import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
+import eu.trentorise.smartcampus.protocolcarrier.exceptions.ProtocolException;
+import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 /**
  * 
@@ -64,6 +73,10 @@ public class AppFragment extends SherlockFragment {
 	private AppTask mAppTask;
 	private ApkDownloaderTask mDownloaderTask;
 	public static final String PREFS_NAME = "LauncherPreferences";
+	private static final String UPDATE = "_updateModel";
+	private static final String UPDATE_ADDRESS = "/download/VAS/update.conf";
+	private static final String UPDATE_HOST = "smartcampus.trentorise.eu";
+	private static final String LAUNCHER = "SmartLAuncher";
 	private Drawable ic_update;
 
 	
@@ -143,12 +156,53 @@ public class AppFragment extends SherlockFragment {
 			mAppTask.cancel(true);
 		}
 	}
+
+	private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
+		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+		int[] res = defaultVersions; 
+		UpdateModel update = null;
+		long nextUpdate = -1;
+		if (settings != null && settings.contains(UPDATE)) {
+			String json = settings.getString(UPDATE, null);
+			if (json != null) {
+				try {
+					update = new UpdateModel(json);
+					nextUpdate = update.getNextUpdate();
+				} catch (JSONException e) {
+					Log.e(AppFragment.class.getName(), "Failed to parse update model: "+e.getMessage());
+				}
+			}
+		}
+		if (update == null || nextUpdate < System.currentTimeMillis()) {
+			MessageRequest req = new MessageRequest(UPDATE_HOST, UPDATE_ADDRESS);
+			req.setMethod(Method.GET);
+			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
+			try {
+				MessageResponse mres = pc.invokeSync(req, LAUNCHER, new EmbeddedSCAccessProvider().readToken(getActivity(), null));
+				if (mres != null && mres.getBody() != null) {
+					update = new UpdateModel(mres.getBody());
+					settings.edit().putString(UPDATE, mres.getBody()).commit();
+					for (int i = 0; i < packageNames.length; i++) {
+						Integer version = update.getVersion(packageNames[i]);
+						res[i] = version == null ? 0 : version;
+					}
+				}
+			} catch (Exception e) {
+				Log.e(AppFragment.class.getName(),"Error reading update config: "+e.getMessage());
+			}
+		}
+		
+		return res;
+	}
 	
+
 	// Task that retrieves applications info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>>{
 
+
 		@Override
 		protected List<AppItem> doInBackground(Void... params) {
+			
 			List<AppItem> items = new ArrayList<AppItem>();
 			List<AppItem> notInstalledItems = new ArrayList<AppItem>();
 			// Getting applications names, packages, ...
@@ -157,6 +211,9 @@ public class AppFragment extends SherlockFragment {
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
 			String[] urls = getResources().getStringArray(R.array.app_urls);
 			int[] versions = getResources().getIntArray(R.array.app_version);
+
+//			versions = readUpdateVersions(packages, versions);
+
 			Drawable ic_update =getResources().getDrawable(R.drawable.ic_app_update);
 
 			TypedArray icons = getResources().obtainTypedArray(R.array.app_icons);
@@ -205,7 +262,7 @@ public class AppFragment extends SherlockFragment {
 			// Returning result
 			return items;
 		}
-		
+
 		@Override
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
