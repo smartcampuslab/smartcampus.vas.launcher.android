@@ -53,9 +53,6 @@ import eu.trentorise.smartcampus.protocolcarrier.ProtocolCarrier;
 import eu.trentorise.smartcampus.protocolcarrier.common.Constants.Method;
 import eu.trentorise.smartcampus.protocolcarrier.custom.MessageRequest;
 import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ProtocolException;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 /**
  * 
@@ -81,6 +78,7 @@ public class AppFragment extends SherlockFragment {
 	private static final String UPDATE_HOST = "smartcampus.trentorise.eu";
 	private static final String LAUNCHER = "SmartLAuncher";
 	private Drawable ic_update;
+	private boolean availableUpdate=false;
 
 	
 	@Override
@@ -274,7 +272,10 @@ public class AppFragment extends SherlockFragment {
 			// Checking result
 			if(result!=null){
 				mAppItems.addAll(result);
+
+
 			}
+			AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
 		}
@@ -368,6 +369,10 @@ public class AppFragment extends SherlockFragment {
 					holder.setTextColor(Color.WHITE);
 					holder.mUpdateVisible(false);
 					item.status=Status.OK;
+					//menu available update presente
+					//se ce n'e' uno NOT UPDATED => true
+					availableUpdate=true;
+					AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
 				}
 				
 
@@ -416,6 +421,10 @@ public class AppFragment extends SherlockFragment {
 
 						            }
 						        	Toast.makeText(getContext(), getString(R.string.update_application_manual_list), Toast.LENGTH_SHORT).show();
+
+									availableUpdate=true;
+
+									AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
 						        	//change the icon like the updated, notifica che e' cambiato
 						        	mAdapter.notifyDataSetChanged();
 						            break;
@@ -502,9 +511,7 @@ public class AppFragment extends SherlockFragment {
 	/*check if there are update or nor*/
 	
 	private boolean availableUpdate() {
-		//se ci sono available update return true
-		//altrimenti false
-		return true;
+		return availableUpdate;
 }
 
 	@Override
@@ -512,8 +519,6 @@ public class AppFragment extends SherlockFragment {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	        case R.id.update_option_list:
-
-      	
 	            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 	            Fragment newFragment = new ManualUpdateFragment();
 	            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
