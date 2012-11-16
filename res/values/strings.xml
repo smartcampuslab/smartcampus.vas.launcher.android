@@ -19,6 +19,7 @@
     <string name="manual_update">Updates</string>
     <string name="list_of_applications">List of applications</string>
     <string name="list_empty">No updates available</string>
+    <string name="empty" />
     
     
     

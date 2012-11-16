@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import android.R.drawable;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +37,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 
+import eu.trentorise.smartcampus.R;
 import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
@@ -475,15 +478,35 @@ public class AppFragment extends SherlockFragment {
 
 	}
 	
-	@Override
+/*	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu, inflater);
 	     inflater.inflate(R.menu.update_menu, menu);
 
+	}*/
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.gripmenu, menu);
+		SubMenu submenu = menu.getItem(0).getSubMenu();
+		submenu.clear();
+		submenu.setIcon(R.drawable.ic_action_overflow);
+		submenu.add(Menu.CATEGORY_SYSTEM, R.id.update_option_list, Menu.NONE,
+				R.string.update_option_list).setEnabled(availableUpdate()); //enable or disable the option menu
+		
+		
 	}
 
+	/*check if there are update or nor*/
 	
+	private boolean availableUpdate() {
+		//se ci sono available update return true
+		//altrimenti false
+		return true;
+}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection

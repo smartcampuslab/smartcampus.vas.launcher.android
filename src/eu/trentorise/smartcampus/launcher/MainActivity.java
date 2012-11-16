@@ -9,8 +9,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import eu.trentorise.smartcampus.R;
 import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 
 
@@ -59,6 +62,16 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.clear();
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.emptymenu, menu);
+		return true;
+	}
+	
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

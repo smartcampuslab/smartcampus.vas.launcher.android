@@ -34,7 +34,9 @@
 
         <activity
             android:name="eu.trentorise.smartcampus.ac.embedded.EmbeddedAuthActivity"
-            android:theme="@style/Theme.discoverTrento" />
+            android:theme="@style/Theme.discoverTrento"
+            android:configChanges="orientation|screenSize"
+             />
         
         <uses-library android:name="com.google.android.maps" />
     </application>
