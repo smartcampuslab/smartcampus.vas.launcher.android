@@ -6,6 +6,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="app_uid_label">SmartCampus</string>
     <string name="label_portfolio_apk">Portfolio</string>
+    <string name="downloaded_app">temp</string>
     <string name="getting_apk">Retrieving the app&#8230;</string>
     <string name="error_occurs">OOPS! This app is not available yet.</string>
     <string name="not_secure_app">Not secure app!</string>

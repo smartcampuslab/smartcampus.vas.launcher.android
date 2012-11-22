@@ -120,7 +120,7 @@ public class ApkInstaller {
 		protected Uri doInBackground(Void... params) {
 			Uri uri = null;
 			uri = retrieveApk(mAppUrl,
-					mContext.getString(R.string.label_portfolio_apk));
+					mContext.getString(R.string.downloaded_app));
 			return uri;
 		}
 
