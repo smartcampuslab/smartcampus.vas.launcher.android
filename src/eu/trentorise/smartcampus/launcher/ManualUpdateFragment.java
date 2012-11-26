@@ -2,6 +2,8 @@ package eu.trentorise.smartcampus.launcher;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,14 +37,20 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.MenuItem;
 
+import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
 import eu.trentorise.smartcampus.launcher.AppFragment.AppItem;
 import eu.trentorise.smartcampus.launcher.apps.ApkInstaller.ApkDownloaderTask;
 import eu.trentorise.smartcampus.launcher.models.SmartApp;
+import eu.trentorise.smartcampus.launcher.models.UpdateModel;
 import eu.trentorise.smartcampus.launcher.util.ConnectionUtil;
 import eu.trentorise.smartcampus.launcher.widget.TileButton;
+import eu.trentorise.smartcampus.protocolcarrier.ProtocolCarrier;
+import eu.trentorise.smartcampus.protocolcarrier.common.Constants.Method;
+import eu.trentorise.smartcampus.protocolcarrier.custom.MessageRequest;
+import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
 
 
 public class ManualUpdateFragment extends SherlockFragment {
@@ -56,6 +64,8 @@ public class ManualUpdateFragment extends SherlockFragment {
 	private AppInspector mInspector;
 	private ListView mList;
 	private TextView mEmpty;
+	private static final String UPDATE = "_updateModel";
+
     public ManualUpdateFragment() {
         super();
     }
@@ -135,6 +145,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
 			String[] urls = getResources().getStringArray(R.array.app_urls);
 			int[] versions = getResources().getIntArray(R.array.app_version);
+			versions = readUpdateVersions(packages, versions);
 
 			TypedArray icons = getResources().obtainTypedArray(R.array.app_icons);
 			TypedArray grayIcons = getResources().obtainTypedArray(R.array.app_gray_icons);
@@ -163,6 +174,8 @@ public class ManualUpdateFragment extends SherlockFragment {
 						{
 						// after a new installation, I must remove the application from the list
 		        		editor.remove(item.app.name+"-update");
+		        		editor.remove(item.app.name+"-version");
+
 			            editor.commit();
 		            	}
 					}
@@ -186,7 +199,18 @@ public class ManualUpdateFragment extends SherlockFragment {
 			// Returning result
 			return notUpdatedItems;
 		}
-		
+		private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
+
+			
+			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+			int[] res = defaultVersions; 
+
+				 for (int i = 0; i < packageNames.length; i++) {
+					 	res[i]=settings.getInt(packageNames[i]+"-version", 0);
+					}
+			
+			return res;
+		}	
 		@Override
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
@@ -230,14 +254,13 @@ public class ManualUpdateFragment extends SherlockFragment {
 
 		  @Override
 		  public View getView(final int position, View convertView, ViewGroup parent) {
-			  
+			  convertView = null;
 			    if(convertView==null){
 					// Inflate View for ListItem
 					convertView = LayoutInflater.from(getActivity()).inflate(R.layout.update_adapter, null);
 			    TileButton holder = new TileButton(convertView);
 				// add Holder to View
-				convertView.setTag(holder)			//mAppItems.clear();
-;
+				convertView.setTag(holder)	;		//mAppItems.clear();
 				holder.setText(values.get(position).app.name);
 				holder.setImage(values.get(position).app.icon);
 				holder.setBackgroundColor(values.get(position).app.background);

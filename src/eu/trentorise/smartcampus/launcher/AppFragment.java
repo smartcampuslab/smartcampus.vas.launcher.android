@@ -1,12 +1,15 @@
 package eu.trentorise.smartcampus.launcher;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 
 import android.R.drawable;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -74,11 +77,13 @@ public class AppFragment extends SherlockFragment {
 	private ApkDownloaderTask mDownloaderTask;
 	public static final String PREFS_NAME = "LauncherPreferences";
 	private static final String UPDATE = "_updateModel";
-	private static final String UPDATE_ADDRESS = "/download/VAS/update.conf";
-	private static final String UPDATE_HOST = "smartcampus.trentorise.eu";
+	private static final String UPDATE_ADDRESS = "/download/VAS-dev/update.conf";
+	private static final String UPDATE_HOST = "www.smartcampuslab.it";
 	private static final String LAUNCHER = "SmartLAuncher";
 	private Drawable ic_update;
 	private boolean availableUpdate=false;
+	private int[] version;
+	private boolean toUpdate=true;
 
 	
 	@Override
@@ -91,15 +96,15 @@ public class AppFragment extends SherlockFragment {
 		// Asking for an option menu
 		setHasOptionsMenu(true);
 		
-		//if you have some proitem.app.nameblem with the stored data,  uncomment these lines and the data are erased
+		//if you have some problem with the stored data,  uncomment these lines and the data are erased
 /*		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
     	SharedPreferences.Editor editor = settings.edit();
 		editor.clear();
         editor.commit();	*/
-        
-        
-        
+    
         ic_update =getResources().getDrawable(R.drawable.ic_app_update);
+
+
 
 	}
 
@@ -118,6 +123,11 @@ public class AppFragment extends SherlockFragment {
 		mGridView.setAdapter(mAdapter);
 	}
 	
+	public void flip(){
+	mAdapter = new AppAdapter(mAppItems);
+	mGridView.setAdapter(mAdapter);
+	
+	}
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -159,11 +169,26 @@ public class AppFragment extends SherlockFragment {
 	}
 
 	private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
-		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+		/*SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
 		int[] res = defaultVersions; 
 		UpdateModel update = null;
 		long nextUpdate = -1;
 		if (settings != null && settings.contains(UPDATE)) {
+			// Update every 24h
+			  //nextUpdate = System.currentTimeMillis();
+
+			//check tomorrow
+				Calendar dateCal = Calendar.getInstance();
+				// make it now
+				dateCal.setTime(new Date());
+				// make it tomorrow
+				dateCal.add(Calendar.DAY_OF_YEAR, 1);
+				// Now set it to the time you want
+				dateCal.set(Calendar.HOUR_OF_DAY, 0);
+				dateCal.set(Calendar.MINUTE, 0);
+				dateCal.set(Calendar.SECOND, 0);
+				dateCal.set(Calendar.MILLISECOND, 0);
+				nextUpdate=dateCal.getTime().getTime();
 			String json = settings.getString(UPDATE, null);
 			if (json != null) {
 				try {
@@ -187,11 +212,78 @@ public class AppFragment extends SherlockFragment {
 						Integer version = update.getVersion(packageNames[i]);
 						res[i] = version == null ? 0 : version;
 					}
+					version = res;
 				}
 			} catch (Exception e) {
 				Log.e(AppFragment.class.getName(),"Error reading update config: "+e.getMessage());
 			}
 		}
+		
+		return res;*/
+		
+		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+		int[] res = defaultVersions; 
+		UpdateModel update = null;
+		long nextUpdate = -1;
+		if (settings != null && settings.contains(UPDATE)) {
+			 nextUpdate = settings.getLong(UPDATE, -1);
+			}
+		
+
+			/*String json = settings.getString(UPDATE, null);
+			if (json != null) {
+				try {
+					update = new UpdateModel(json);
+					nextUpdate = update.getNextUpdate();
+				} catch (JSONException e) {
+					Log.e(AppFragment.class.getName(), "Failed to parse update model: "+e.getMessage());
+				}
+			}*/
+		
+		if ( nextUpdate < System.currentTimeMillis()) {
+			 toUpdate=true;
+
+			//try to update
+			MessageRequest req = new MessageRequest(UPDATE_HOST, UPDATE_ADDRESS);
+			req.setMethod(Method.GET);
+			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
+			try {
+				MessageResponse mres = pc.invokeSync(req, LAUNCHER, new EmbeddedSCAccessProvider().readToken(getActivity(), null));
+				if (mres != null && mres.getBody() != null) {
+					// Update every 24h
+					//check tomorrow
+						Calendar dateCal = Calendar.getInstance();
+						// make it now
+						dateCal.setTime(new Date());
+						// make it tomorrow
+						dateCal.add(Calendar.DAY_OF_YEAR, 1);
+						// Now set it to the time you want
+						dateCal.set(Calendar.HOUR_OF_DAY, 0);
+						dateCal.set(Calendar.MINUTE, 0);
+						dateCal.set(Calendar.SECOND, 0);
+						dateCal.set(Calendar.MILLISECOND, 0);
+						nextUpdate=dateCal.getTime().getTime();
+					update = new UpdateModel(mres.getBody());
+					settings.edit().putLong(UPDATE, nextUpdate).commit();
+					for (int i = 0; i < packageNames.length; i++) {
+						Integer version = update.getVersion(packageNames[i]);
+						res[i] = version == null ? 0 : version;
+						settings.edit().putInt(packageNames[i]+"-version", version).commit();
+					}
+					version = res;
+				}
+			} catch (Exception e) {
+				Log.e(AppFragment.class.getName(),"Error reading update config: "+e.getMessage());
+			}
+		}
+		 else 
+		 {
+			 toUpdate=false;
+			 for (int i = 0; i < packageNames.length; i++) {
+				 	res[i]=settings.getInt(packageNames[i]+"-version", 0);
+				}
+				version = res;
+		 }
 		
 		return res;
 	}
@@ -199,7 +291,15 @@ public class AppFragment extends SherlockFragment {
 
 	// Task that retrieves applications info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>>{
+		private ProgressDialog progress = null;
+		private DialogInterface.OnClickListener updateDialogClickListener;
+		private AppItem launcher;
+		@Override
+		protected void onPreExecute() {
+			if (toUpdate)
+				progress  = ProgressDialog.show(getSherlockActivity(), "", "Checking applications version", true);
 
+		};
 
 		@Override
 		protected List<AppItem> doInBackground(Void... params) {
@@ -213,7 +313,7 @@ public class AppFragment extends SherlockFragment {
 			String[] urls = getResources().getStringArray(R.array.app_urls);
 			int[] versions = getResources().getIntArray(R.array.app_version);
 
-//			versions = readUpdateVersions(packages, versions);
+			versions = readUpdateVersions(packages, versions);
 
 			Drawable ic_update =getResources().getDrawable(R.drawable.ic_app_update);
 
@@ -248,7 +348,7 @@ public class AppFragment extends SherlockFragment {
 					items.add(item);
 					break;
 				case NOT_UPDATED:
-					//Installed but updated
+					//Installed but not updated
 					items.add(item);
 					//actually is the same of OK
 					break;				
@@ -267,6 +367,74 @@ public class AppFragment extends SherlockFragment {
 		@Override
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
+			//se anche il launcher 
+			if (progress != null) {
+				try {
+					progress.cancel();
+				} catch (Exception e) {
+					Log.w(getClass().getName(),"Problem closing progress dialog: "+e.getMessage());
+				}
+			}
+			int i=0;
+			for (AppItem app: result){
+				if (app.app.name.compareTo("Launcher")==0)
+					break;
+				i++;
+			}
+			launcher = result.get(i);
+			updateDialogClickListener=  new DialogInterface.OnClickListener() {
+			    @Override
+			    public void onClick(DialogInterface dialog, int which) {
+			        switch (which){
+			        case DialogInterface.BUTTON_POSITIVE:
+			            //If yes is pressed download the new app
+
+						downloadApplication(launcher.app.url, launcher.app.name);
+			            break;
+
+			        case DialogInterface.BUTTON_NEGATIVE:
+			        	//If no is pressed add to the manual list applications update
+			        	//Put the application in the blacklist in the SharedPreferences
+			        	SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+			        	SharedPreferences.Editor editor = settings.edit();
+			        	if (settings.getBoolean(launcher.app.name+"-update", true))
+			            {
+			        		editor.putBoolean(launcher.app.name+"-update", false);
+				            editor.commit();
+
+			            }
+			        	Toast.makeText(getSherlockActivity(), getString(R.string.update_application_manual_list), Toast.LENGTH_SHORT).show();
+
+						availableUpdate=true;
+
+						AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
+			        	//change the icon like the updated, notifica che e' cambiato
+			        	mAdapter.notifyDataSetChanged();
+			            break;
+			        }
+			    }
+			};
+			if(launcher.status == eu.trentorise.smartcampus.common.Status.NOT_UPDATED)// e non e' nella blacklist;l
+			{
+			 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+			 settings.toString();
+		     boolean autoupdate = settings.getBoolean(launcher.app.name+"-update", true);
+			if (autoupdate){
+				//update
+				AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
+				builder.setMessage(getString(R.string.update_application_question)).setPositiveButton("Yes", updateDialogClickListener)
+				    .setNegativeButton("No", updateDialogClickListener).show();
+				
+			}else {
+				//not update
+				availableUpdate=true;
+
+			}
+			}
+
+			//tolgo dalle app normali il launcher
+			result.remove(i);
+			
 			// Clearing items list
 			mAppItems.clear();
 			// Checking result
@@ -278,6 +446,26 @@ public class AppFragment extends SherlockFragment {
 			AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
+		}
+		
+		private void downloadApplication(String url, String name){
+			if (ConnectionUtil.isConnected(mConnectivityManager)) {
+				// Checking url
+				if(!TextUtils.isEmpty(url)){
+					if(mDownloaderTask != null && !mDownloaderTask.isCancelled()){
+						mDownloaderTask.cancel(true);
+					}
+					mDownloaderTask = new ApkDownloaderTask(getActivity(), url);
+					mDownloaderTask.execute();
+				}else{
+					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
+					Toast.makeText(getActivity(), R.string.error_occurs,Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(getActivity(), R.string.enable_connection,Toast.LENGTH_SHORT).show();
+				Intent intent = ConnectionUtil.getWifiSettingsIntent();
+				startActivity(intent);
+			}
 		}
 		
 	}
@@ -306,8 +494,6 @@ public class AppFragment extends SherlockFragment {
 				holder = new TileButton(convertView);
 				// add Holder to View
 				convertView.setTag(holder);
-				if (heightActionBar<1)
-					heightActionBar=((SherlockFragmentActivity) getActivity()).getSupportActionBar().getHeight();
 				// Calculating sizes
 				
 				//Sometimes it's called and it's bigger than the screen (maybe without the action bar??).
@@ -322,6 +508,7 @@ public class AppFragment extends SherlockFragment {
 					// Dimension
 					Display display = getActivity().getWindowManager().getDefaultDisplay();
 					// We are using android v8
+					heightActionBar= getSherlockActivity().getSupportActionBar().getHeight();
 					mWidth = Math.round(display.getWidth()/2f);
 					mHeight = Math.round(((display.getHeight()-heightActionBar)-statusBarHeight)/3f);					
 				//}
@@ -521,6 +708,10 @@ public class AppFragment extends SherlockFragment {
 	        case R.id.update_option_list:
 	            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 	            Fragment newFragment = new ManualUpdateFragment();
+	            Bundle args = new Bundle();
+	            args.putIntArray("versions", version);
+	            // Put any other arguments
+	            newFragment.setArguments(args);
 	            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 	            transaction.replace(R.id.fragment_container, newFragment);
 	            transaction.addToBackStack(null);

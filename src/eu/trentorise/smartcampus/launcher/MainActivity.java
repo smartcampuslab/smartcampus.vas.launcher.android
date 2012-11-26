@@ -3,8 +3,10 @@ package eu.trentorise.smartcampus.launcher;
 import android.accounts.AccountManager;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
 
 
 public class MainActivity extends SherlockFragmentActivity {
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,17 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 	
 
- 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		  FragmentManager fragmentManager = getSupportFragmentManager();
+		  try{
+		  AppFragment appfragment =  (AppFragment) fragmentManager.findFragmentById(R.id.fragment_container);	
+		  appfragment.flip();
+		  } catch (ClassCastException e){
+			  
+		  }
+		  }
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -70,7 +83,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		inflater.inflate(R.menu.emptymenu, menu);
 		return true;
 	}
-	
 	
 	
 	@Override
