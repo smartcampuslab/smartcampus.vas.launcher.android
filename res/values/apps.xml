@@ -39,12 +39,12 @@
     
     <integer-array name="app_version">
         <item>9</item>         	<!-- Journey Planner -->
-        <item>11</item>        	<!-- Discover Trento -->
+        <item>12</item>        	<!-- Discover Trento -->
         <item>8</item>        	<!-- Community Manager -->
         <item>9</item>  		<!-- Communicator -->
-        <item>6</item> 			<!-- Experience Buster -->
-        <item>10</item>  		<!-- Portfolio -->
-        <item>12</item>  		<!-- Launcher -->
+        <item>7</item> 			<!-- Experience Buster -->
+        <item>11</item>  		<!-- Portfolio -->
+        <item>11</item>  		<!-- Launcher -->
     
     </integer-array>
     
