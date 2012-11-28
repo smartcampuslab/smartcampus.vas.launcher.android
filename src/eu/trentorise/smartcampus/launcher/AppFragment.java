@@ -77,13 +77,16 @@ public class AppFragment extends SherlockFragment {
 	private ApkDownloaderTask mDownloaderTask;
 	public static final String PREFS_NAME = "LauncherPreferences";
 	private static final String UPDATE = "_updateModel";
-	private static final String UPDATE_ADDRESS = "/download/VAS-dev/update.conf";
-	private static final String UPDATE_HOST = "www.smartcampuslab.it";
+	private String UPDATE_ADDRESS = null;
+	private  String UPDATE_HOST = null;
 	private static final String LAUNCHER = "SmartLAuncher";
 	private Drawable ic_update;
 	private boolean availableUpdate=false;
 	private int[] version;
 	private boolean toUpdate=true;
+	private boolean isDialogOpen=false;
+	private ProgressDialog progress = null;
+
 
 	
 	@Override
@@ -95,7 +98,9 @@ public class AppFragment extends SherlockFragment {
 		mInspector = new AppInspector(getActivity());	
 		// Asking for an option menu
 		setHasOptionsMenu(true);
-		
+		UPDATE_ADDRESS=getResources().getString(R.string.update_address);
+		UPDATE_HOST=getResources().getString(R.string.update_host);
+
 		//if you have some problem with the stored data,  uncomment these lines and the data are erased
 /*		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
     	SharedPreferences.Editor editor = settings.edit();
@@ -147,6 +152,7 @@ public class AppFragment extends SherlockFragment {
 	}
 
 	
+
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -250,18 +256,10 @@ public class AppFragment extends SherlockFragment {
 			try {
 				MessageResponse mres = pc.invokeSync(req, LAUNCHER, new EmbeddedSCAccessProvider().readToken(getActivity(), null));
 				if (mres != null && mres.getBody() != null) {
-					// Update every 24h
-					//check tomorrow
+					// Update from variable sec
 						Calendar dateCal = Calendar.getInstance();
-						// make it now
 						dateCal.setTime(new Date());
-						// make it tomorrow
-						dateCal.add(Calendar.DAY_OF_YEAR, 1);
-						// Now set it to the time you want
-						dateCal.set(Calendar.HOUR_OF_DAY, 0);
-						dateCal.set(Calendar.MINUTE, 0);
-						dateCal.set(Calendar.SECOND, 0);
-						dateCal.set(Calendar.MILLISECOND, 0);
+						dateCal.add(Calendar.SECOND, getResources().getInteger(R.integer.check_interval));
 						nextUpdate=dateCal.getTime().getTime();
 					update = new UpdateModel(mres.getBody());
 					settings.edit().putLong(UPDATE, nextUpdate).commit();
@@ -291,12 +289,11 @@ public class AppFragment extends SherlockFragment {
 
 	// Task that retrieves applications info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>>{
-		private ProgressDialog progress = null;
 		private DialogInterface.OnClickListener updateDialogClickListener;
 		private AppItem launcher;
 		@Override
 		protected void onPreExecute() {
-			if (toUpdate)
+			if ((toUpdate)&&(progress==null))
 				progress  = ProgressDialog.show(getSherlockActivity(), "", "Checking applications version", true);
 
 		};
@@ -385,11 +382,13 @@ public class AppFragment extends SherlockFragment {
 			updateDialogClickListener=  new DialogInterface.OnClickListener() {
 			    @Override
 			    public void onClick(DialogInterface dialog, int which) {
+			    	isDialogOpen=false;
 			        switch (which){
 			        case DialogInterface.BUTTON_POSITIVE:
 			            //If yes is pressed download the new app
 
 						downloadApplication(launcher.app.url, launcher.app.name);
+						
 			            break;
 
 			        case DialogInterface.BUTTON_NEGATIVE:
@@ -419,11 +418,12 @@ public class AppFragment extends SherlockFragment {
 			 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
 			 settings.toString();
 		     boolean autoupdate = settings.getBoolean(launcher.app.name+"-update", true);
-			if (autoupdate){
+			if ((autoupdate)&&(!isDialogOpen)){
 				//update
 				AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
 				builder.setMessage(getString(R.string.update_application_question)).setPositiveButton("Yes", updateDialogClickListener)
 				    .setNegativeButton("No", updateDialogClickListener).show();
+				isDialogOpen=true;
 				
 			}else {
 				//not update
@@ -674,13 +674,7 @@ public class AppFragment extends SherlockFragment {
 
 	}
 	
-/*	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
-		super.onCreateOptionsMenu(menu, inflater);
-	     inflater.inflate(R.menu.update_menu, menu);
 
-	}*/
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {

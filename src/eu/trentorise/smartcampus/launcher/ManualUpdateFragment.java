@@ -55,8 +55,8 @@ import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
 
 public class ManualUpdateFragment extends SherlockFragment {
 	public static final String PREFS_NAME = "LauncherPreferences";
-    private ArrayAdapter<AppItem> mListAdapter;
-    private ArrayList<AppItem> apps = new ArrayList<AppItem>();
+	private ArrayAdapter<AppItem> mListAdapter;
+	private ArrayList<AppItem> apps = new ArrayList<AppItem>();
 	private DialogInterface.OnClickListener updateDialogClickListener;
 	private ConnectivityManager mConnectivityManager;
 	private ApkDownloaderTask mDownloaderTask;
@@ -66,47 +66,47 @@ public class ManualUpdateFragment extends SherlockFragment {
 	private TextView mEmpty;
 	private static final String UPDATE = "_updateModel";
 
-    public ManualUpdateFragment() {
-        super();
-    }
+	public ManualUpdateFragment() {
+		super();
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mInspector = new AppInspector(getActivity());	
 		mConnectivityManager = ConnectionUtil.getConnectivityManager(getActivity());
 
-    }
+	}
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getSherlockActivity().getSupportActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
+	@Override
+	public void onStart() {
+		super.onStart();
+		if (getSherlockActivity().getSupportActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
 			getSherlockActivity().getSupportActionBar().setNavigationMode(
 					ActionBar.NAVIGATION_MODE_STANDARD);
 		}
-     // Starting new task
-     	startNewAppTask();
-    }
-    @Override
+		// Starting new task
+		startNewAppTask();
+	}
+	@Override
 	public void onStop() {
 		super.onStop();
 		// Stopping any active task
 		stopAnyActiveAppTask();
 	}
-    
-    @Override
-    public void onResume() {
-    	// TODO Auto-generated method stub
-    	super.onResume();
-    	if (getActivity() instanceof SherlockFragmentActivity) {
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (getActivity() instanceof SherlockFragmentActivity) {
 			((SherlockFragmentActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 			((SherlockFragmentActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			((SherlockFragmentActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.manual_update));
 		}
-    }
-    
-    
+	}
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,	Bundle args) {
 		View v = inflater.inflate(R.layout.manualupdatelist, null);
@@ -115,7 +115,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 		mEmpty = (TextView) v.findViewById(R.id.labelEmptyList);
 		return v;
 	}
-	
+
 	private void startNewAppTask(){
 		// Stopping task
 		stopAnyActiveAppTask();
@@ -123,20 +123,20 @@ public class ManualUpdateFragment extends SherlockFragment {
 		mAppTask = new AppTask();
 		mAppTask.execute();
 	}
-	
+
 	private void stopAnyActiveAppTask(){
 		if(mAppTask != null && !mAppTask.isCancelled()){
 			mAppTask.cancel(true);
 		}
 	}
-	
+
 	// Task that retrieves the not updated application info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>>{
 
 		@Override
 		protected List<AppItem> doInBackground(Void... params) {
-			 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-	        	SharedPreferences.Editor editor = settings.edit();
+			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
 
 			List<AppItem> notUpdatedItems = new ArrayList<AppItem>();
 			// Getting applications names, packages, ...
@@ -170,16 +170,16 @@ public class ManualUpdateFragment extends SherlockFragment {
 						item.status=eu.trentorise.smartcampus.common.Status.NOT_UPDATED;
 					else{
 						if (!settings.getBoolean(item.app.name+"-update", true))
-					
-						{
-						// after a new installation, I must remove the application from the list
-		        		editor.remove(item.app.name+"-update");
-		        		editor.remove(item.app.name+"-version");
 
-			            editor.commit();
-		            	}
+						{
+							// after a new installation, I must remove the application from the list
+							editor.remove(item.app.name+"-update");
+							editor.remove(item.app.name+"-version");
+
+							editor.commit();
+						}
 					}
-					
+
 				} catch (LauncherException e) {
 					e.printStackTrace();
 					// Getting status
@@ -189,9 +189,9 @@ public class ManualUpdateFragment extends SherlockFragment {
 				switch (item.status) {
 				case NOT_UPDATED:
 					//Installed but updated
-					 boolean autoupdate = settings.getBoolean(item.app.name+"-update", true);
-					 if (!autoupdate)
-						 notUpdatedItems.add(item);
+					boolean autoupdate = settings.getBoolean(item.app.name+"-update", true);
+					if (!autoupdate)
+						notUpdatedItems.add(item);
 					break;				
 				}				
 			}
@@ -201,14 +201,14 @@ public class ManualUpdateFragment extends SherlockFragment {
 		}
 		private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
 
-			
+
 			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
 			int[] res = defaultVersions; 
 
-				 for (int i = 0; i < packageNames.length; i++) {
-					 	res[i]=settings.getInt(packageNames[i]+"-version", 0);
-					}
-			
+			for (int i = 0; i < packageNames.length; i++) {
+				res[i]=settings.getInt(packageNames[i]+"-version", 0);
+			}
+
 			return res;
 		}	
 		@Override
@@ -230,82 +230,82 @@ public class ManualUpdateFragment extends SherlockFragment {
 				mEmpty.setVisibility(View.INVISIBLE);
 			}
 			// Notifying adapter
-	        mListAdapter = new UpdateElementAdapter(getActivity(), apps);
-	        mList.setAdapter(mListAdapter);
+			mListAdapter = new UpdateElementAdapter(getActivity(), apps);
+			mList.setAdapter(mListAdapter);
 
 			mListAdapter.notifyDataSetChanged();
 		}
-		
+
 	}
-    
-    public void setOnItemClickListener(OnItemClickListener listener) {
-    	mList.setOnItemClickListener(listener);
-    }
-    
+
+	public void setOnItemClickListener(OnItemClickListener listener) {
+		mList.setOnItemClickListener(listener);
+	}
+
 	private class UpdateElementAdapter extends ArrayAdapter<AppItem> {
-		  private final Context context;
-		  private  ArrayList<AppItem> values= new ArrayList<AppItem>();
+		private final Context context;
+		private  ArrayList<AppItem> values= new ArrayList<AppItem>();
 
-		  public UpdateElementAdapter(Context context, ArrayList<AppItem> values) {
-		    super(context, R.layout.update_adapter, values);
-		    this.context = context;
-		    this.values = values;
-		  }
+		public UpdateElementAdapter(Context context, ArrayList<AppItem> values) {
+			super(context, R.layout.update_adapter, values);
+			this.context = context;
+			this.values = values;
+		}
 
-		  @Override
-		  public View getView(final int position, View convertView, ViewGroup parent) {
-			  convertView = null;
-			    if(convertView==null){
-					// Inflate View for ListItem
-					convertView = LayoutInflater.from(getActivity()).inflate(R.layout.update_adapter, null);
-			    TileButton holder = new TileButton(convertView);
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			convertView = null;
+			if(convertView==null){
+				// Inflate View for ListItem
+				convertView = LayoutInflater.from(getActivity()).inflate(R.layout.update_adapter, null);
+				TileButton holder = new TileButton(convertView);
 				// add Holder to View
-				convertView.setTag(holder)	;		//mAppItems.clear();
+				convertView.setTag(holder)	;		
 				holder.setText(values.get(position).app.name);
 				holder.setImage(values.get(position).app.icon);
 				holder.setBackgroundColor(values.get(position).app.background);
 
-		    holder.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					//vuoi installare application
-					updateDialogClickListener=  new DialogInterface.OnClickListener() {
-					    @Override
-					    public void onClick(DialogInterface dialog, int which) {
-					        switch (which){
-					        case DialogInterface.BUTTON_POSITIVE:
-					            //If yes is pressed download the new app
+				holder.setOnClickListener(new OnClickListener() {
 
-								downloadApplication(values.get(position).app.url, values.get(position).app.name);
-					            break;
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						//vuoi installare application
+						updateDialogClickListener=  new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								switch (which){
+								case DialogInterface.BUTTON_POSITIVE:
+									//If yes is pressed download the new app
 
-					        case DialogInterface.BUTTON_NEGATIVE:
-					        	//If no is pressed add to the manual list applications update
-					        	//Put the application in the blacklist in the SharedPreferences
-					        	SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-					        	SharedPreferences.Editor editor = settings.edit();
-					            editor.putBoolean(values.get(position).app.name+"-update", false);
-					            editor.commit();
-					        	//change the icon like the updated, notifica che e' cambiato
-					        	notifyDataSetChanged();
-					            break;
-					        }
-					    }
-					};
-					AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-					builder.setMessage(getString(R.string.update_application_question)).setPositiveButton("Yes", updateDialogClickListener)
-					    .setNegativeButton("No", updateDialogClickListener).show();
-					
-				}
-			});
+									downloadApplication(values.get(position).app.url, values.get(position).app.name);
+									break;
 
-			    }
-		    return convertView;
-		  }
+								case DialogInterface.BUTTON_NEGATIVE:
+									//If no is pressed add to the manual list applications update
+									//Put the application in the blacklist in the SharedPreferences
+									SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+									SharedPreferences.Editor editor = settings.edit();
+									editor.putBoolean(values.get(position).app.name+"-update", false);
+									editor.commit();
+									//change the icon like the updated, notifica che e' cambiato
+									notifyDataSetChanged();
+									break;
+								}
+							}
+						};
+						AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+						builder.setMessage(getString(R.string.update_application_question)).setPositiveButton("Yes", updateDialogClickListener)
+						.setNegativeButton("No", updateDialogClickListener).show();
+
+					}
+				});
+
+			}
+			return convertView;
 		}
-    
+	}
+
 	private void downloadApplication(String url, String name){
 		if (ConnectionUtil.isConnected(mConnectivityManager)) {
 			// Checking url
@@ -328,8 +328,8 @@ public class ManualUpdateFragment extends SherlockFragment {
 			startActivity(intent);
 		}
 	}
-	
-	
+
+
 
 
 
