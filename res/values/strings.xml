@@ -21,8 +21,10 @@
     <string name="list_of_applications">List of applications</string>
     <string name="list_empty">No updates available</string>
     <string name="empty" />
-    <string name="update_address">/download/VAS-dev/update.conf</string>
-	<string name="update_host">www.smartcampuslab.it</string>
+    <!-->string name="update_address">/download/VAS/update.conf</string-->
+    <string name="update_address">/download/VAS-dev/update-dev.conf</string>
+    <!-->string name="update_address">/download/update-test.conf</string-->
+    <string name="update_host">www.smartcampuslab.it</string>
     
     
     
