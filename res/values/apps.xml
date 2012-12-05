@@ -4,6 +4,9 @@
     <color name="tile_text_unsel">#666666</color>
 
     <string name="smartcampus_action_start">eu.trentorise.smartcampus.START</string>
+
+    <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/ac-service-provider-web-dev/ac/</string>
+    <string name="smartcampus_app_url">https://vas-dev.smartcampuslab.it</string>
     
     <string-array name="app_labels">
         <item>Journey Planner</item>
@@ -25,6 +28,7 @@
         <item>eu.trentorise.smartcampus.portfolio</item>
         <item>eu.trentorise.smartcampus.launcher</item>
     </string-array>
+    
     
     <string-array name="app_urls">
         <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.journeyplanner.android.apk</item>

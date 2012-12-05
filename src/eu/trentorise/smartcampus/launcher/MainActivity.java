@@ -3,7 +3,9 @@ package eu.trentorise.smartcampus.launcher;
 import android.accounts.AccountManager;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +18,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import eu.trentorise.smartcampus.R;
+import eu.trentorise.smartcampus.ac.Constants;
 import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
+import eu.trentorise.smartcampus.android.common.GlobalConfig;
 
 
 
@@ -29,6 +33,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_main);
 		
 		try {
+			initGlobalConstants();
 			new EmbeddedSCAccessProvider().getAuthToken(this, null);
 		} catch (OperationCanceledException e) {
 			Toast.makeText(this, getString(R.string.token_required), Toast.LENGTH_LONG).show();
@@ -45,10 +50,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			Fragment frag = new AppFragment();
 			ft.add(R.id.fragment_container, frag).commit();
 		}
-		
-
 	}
-	
+
+	private void initGlobalConstants() throws NameNotFoundException, NotFoundException {
+		Constants.setAuthUrl(this, getResources().getString(R.string.smartcampus_auth_url));
+		GlobalConfig.setAppUrl(this, getResources().getString(R.string.smartcampus_app_url));
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
