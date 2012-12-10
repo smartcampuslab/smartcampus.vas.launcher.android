@@ -42,13 +42,13 @@
     </string-array>
     
     <integer-array name="app_version">
-        <item>9</item>         	<!-- Journey Planner -->
-        <item>14</item>        	<!-- Discover Trento -->
-        <item>10</item>        	<!-- Community Manager -->
-        <item>9</item>  		<!-- Communicator -->
-        <item>10</item> 			<!-- Experience Buster -->
-        <item>12</item>  		<!-- Portfolio -->
-        <item>14</item>  		<!-- Launcher -->
+        <item>12</item>         	<!-- Journey Planner -->
+        <item>15</item>        	<!-- Discover Trento -->
+        <item>11</item>        	<!-- Community Manager -->
+        <item>10</item>  		<!-- Communicator -->
+        <item>12</item> 			<!-- Experience Buster -->
+        <item>13</item>  		<!-- Portfolio -->
+        <item>15</item>  		<!-- Launcher -->
     
     </integer-array>
     
