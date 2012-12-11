@@ -22,11 +22,8 @@
     <string name="list_empty">No updates available</string>
     <string name="empty" />
     <!-- string name="update_address">/download/VAS/update.conf</string-->
-    <string name="update_address">/download/VAS-dev/update-dev.conf</string>
-    <!-- string name="update_address">/download/update-test.conf</string-->
+    <!-- string name="update_address">/download/VAS-dev/update-dev.conf</string-->
+    <string name="update_address">/download/VAS-test/update-test.conf</string>
     <string name="update_host">www.smartcampuslab.it</string>
-    
-    
-    
-    
+      
 </resources>
