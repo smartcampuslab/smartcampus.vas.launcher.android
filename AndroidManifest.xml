@@ -38,7 +38,11 @@
             android:theme="@style/Theme.discoverTrento"
             android:configChanges="orientation|screenSize"
              />
-        
+         <activity
+            android:name=".settings.SettingsActivity"
+            android:theme="@style/Theme.discoverTrento"            
+            android:configChanges="orientation|screenSize"
+            />
         <uses-library android:name="com.google.android.maps" />
     </application>
 

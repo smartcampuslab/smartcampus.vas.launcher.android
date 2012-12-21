@@ -27,11 +27,21 @@ public class TileButton {
 
 
 
+
 	public TileButton(View v) {
 		mParentView = v;
 		mImageView = (ImageView) v.findViewById(R.id.image);
 		mTextView = (TextView) v.findViewById(R.id.text);
 		mUpdate = (ImageView) v.findViewById(R.id.image_update);
+	}
+	
+
+	public View getmParentView() {
+		return mParentView;
+	}
+
+	public void setmParentView(View mParentView) {
+		this.mParentView = mParentView;
 	}
 	
 	public void setOnClickListener(OnClickListener listener){
