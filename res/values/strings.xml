@@ -31,9 +31,7 @@
     <string name="check_updates">Check for updates</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="update_dev">Update version</string>
-    <string name="update_dev_sum">Select which version you get</string>
-    
-    
-    
+    <string name="update_dev">Apps Version</string>
+    <string name="update_dev_sum">Get also test version</string>
+
 </resources>
