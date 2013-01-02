@@ -16,14 +16,18 @@ public class SmartApp {
 	public Drawable icon;
 	public Drawable gray_icon;
 	public String background;
+	public int version;
+	public String filename;
 
-	public void fillApp(String name, String pack, String url, Drawable icon, Drawable gray, String background) {
+	public void fillApp(String name, String pack, String url, Drawable icon, Drawable gray, String background, int versions, String filename) {
 		this.name = name;
 		this.appPackage = pack;
 		this.url = url;
 		this.icon = icon;
 		this.gray_icon = gray;
 		this.background = background;
+		this.version = versions;
+		this.filename = filename;
 	}
 
 }

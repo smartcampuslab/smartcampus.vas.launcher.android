@@ -4,6 +4,22 @@
     <color name="tile_text_unsel">#666666</color>
 
     <string name="smartcampus_action_start">eu.trentorise.smartcampus.START</string>
+
+    <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/ac-service-provider-web-dev/ac/</string>
+    <string name="smartcampus_app_url">https://vas-dev.smartcampuslab.it</string>
+    
+    
+    <string name="smartcampus_url_apk">https://www.smartcampuslab.it/download/VAS/apk/</string>
+    
+    <string-array name="apk_filename">
+        <item>smartcampus.vas.journeyplanner.android.apk</item>
+        <item>smartcampus.vas.discovertrento.android.apk</item>
+        <item>smartcampus.vas.community-manager.android.apk</item>
+        <item>smartcampus.vas.communicator.android.apk</item>
+        <item>smartcampus.vas.experiencebuster.android.apk</item>
+        <item>smartcampus.vas.portfolio.android.apk</item>
+        <item>smartcampus.vas.launcher.android.apk</item>        
+    </string-array>
     
     <string-array name="app_labels">
         <item>Journey Planner</item>
@@ -26,25 +42,26 @@
         <item>eu.trentorise.smartcampus.launcher</item>
     </string-array>
     
+    
+    
     <string-array name="app_urls">
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.journeyplanner.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.discovertrento.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.community-manager.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.communicator.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.experiencebuster.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/Portfolio.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-dev/apk/smartcampus.vas.launcher.apk</item>
-        
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.journeyplanner.android.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.discovertrento.android.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.community-manager.android.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.communicator.android.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.experiencebuster.android.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/Portfolio.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.launcher.apk</item>        
     </string-array>
     
     <integer-array name="app_version">
-        <item>9</item>         	<!-- Journey Planner -->
-        <item>14</item>        	<!-- Discover Trento -->
-        <item>10</item>        	<!-- Community Manager -->
-        <item>9</item>  		<!-- Communicator -->
-        <item>10</item> 			<!-- Experience Buster -->
-        <item>12</item>  		<!-- Portfolio -->
-        <item>14</item>  		<!-- Launcher -->
+        <item>14</item>         <!-- Journey Planner -->
+        <item>17</item>        	<!-- Discover Trento -->
+        <item>12</item>        	<!-- Community Manager -->
+        <item>11</item>  		<!-- Communicator -->
+        <item>13</item> 		<!-- Experience Buster -->
+        <item>14</item>  		<!-- Portfolio -->
+        <item>17</item>  		<!-- Launcher -->
     
     </integer-array>
     

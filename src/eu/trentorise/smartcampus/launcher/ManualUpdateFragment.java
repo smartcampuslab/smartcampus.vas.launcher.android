@@ -144,6 +144,8 @@ public class ManualUpdateFragment extends SherlockFragment {
 			String[] packages = getResources().getStringArray(R.array.app_packages);
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
 			String[] urls = getResources().getStringArray(R.array.app_urls);
+			String[] filenames = getResources().getStringArray(R.array.apk_filename);
+
 			int[] versions = getResources().getIntArray(R.array.app_version);
 			versions = readUpdateVersions(packages, versions);
 
@@ -162,7 +164,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 				item.app = new SmartApp();
 				item.app.fillApp(labels[i], packages[i], urls[i],
 						icons.getDrawable(i), grayIcons.getDrawable(i),
-						backgrounds[i]);
+						backgrounds[i], versions[i], filenames[i]);
 				try {
 					mInspector.isAppInstalled(item.app.appPackage);
 					item.status = eu.trentorise.smartcampus.common.Status.OK;
