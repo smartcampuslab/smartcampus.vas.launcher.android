@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2012-2013 Trento RISE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
 import android.accounts.AccountManager;
@@ -17,9 +32,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import eu.trentorise.smartcampus.launcher.R;
 import eu.trentorise.smartcampus.ac.Constants;
-import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
+import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 
 
@@ -34,7 +48,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		try {
 			initGlobalConstants();
-			new EmbeddedSCAccessProvider().getAuthToken(this, null);
+			new AMSCAccessProvider().getAuthToken(this, null);
 		} catch (OperationCanceledException e) {
 			Toast.makeText(this, getString(R.string.token_required), Toast.LENGTH_LONG).show();
 			finish();
