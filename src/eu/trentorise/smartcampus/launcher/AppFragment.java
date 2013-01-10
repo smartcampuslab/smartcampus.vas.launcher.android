@@ -30,6 +30,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -804,16 +805,18 @@ public class AppFragment extends SherlockFragment {
 			startActivity(new Intent(getActivity(), SettingsActivity.class));
 			return true;
 		case R.id.about:
-			fragmentTransaction = getActivity().getSupportFragmentManager()
-					.beginTransaction();
-			newFragment = new AboutFragment();
-			args = new Bundle();
-			newFragment.setArguments(args);
-			transaction = getActivity().getSupportFragmentManager()
-					.beginTransaction();
-			transaction.replace(R.id.fragment_container, newFragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.smartcampus_url_credits)));
+			startActivity(browserIntent);
+//			fragmentTransaction = getActivity().getSupportFragmentManager()
+//					.beginTransaction();
+//			newFragment = new AboutFragment();
+//			args = new Bundle();
+//			newFragment.setArguments(args);
+//			transaction = getActivity().getSupportFragmentManager()
+//					.beginTransaction();
+//			transaction.replace(R.id.fragment_container, newFragment);
+//			transaction.addToBackStack(null);
+//			transaction.commit();
 			return true;
 
 		default:

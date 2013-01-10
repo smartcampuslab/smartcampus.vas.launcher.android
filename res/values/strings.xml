@@ -48,5 +48,5 @@
     <string name="about">About</string>
     <string name="update_dev">Apps Version</string>
     <string name="update_dev_sum">Get also test version</string>
-
+	<string name="smartcampus_url_credits">https://vas.smartcampuslab.it/credits.html</string>
 </resources>
