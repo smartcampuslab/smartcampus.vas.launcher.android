@@ -53,7 +53,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
-import eu.trentorise.smartcampus.ac.embedded.EmbeddedSCAccessProvider;
+import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
@@ -239,7 +239,7 @@ public class AppFragment extends SherlockFragment {
 			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
 			try {
 				MessageResponse mres = pc.invokeSync(req, LAUNCHER,
-						new EmbeddedSCAccessProvider().readToken(getActivity(),
+						new AMSCAccessProvider().readToken(getActivity(),
 								null));
 				if (mres != null && mres.getBody() != null) {
 					// Update from variable sec
