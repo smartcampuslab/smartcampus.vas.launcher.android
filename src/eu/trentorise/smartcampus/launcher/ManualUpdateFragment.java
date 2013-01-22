@@ -52,6 +52,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.MenuItem;
 
+import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
@@ -68,6 +69,19 @@ import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
 
 
 public class ManualUpdateFragment extends SherlockFragment {
+	
+	
+	 // variable used for changing version downloaded
+	 
+	private static final String KEY_UPDATE_DEV = "update_dev";
+	
+	
+	 // variable used for forcing refresh coming back from setting activity
+	 
+	private static final String KEY_UPDATE_REFRESH = "refresh";	
+	private String UPDATE_ADDRESS = null;
+	private String UPDATE_ADDRESS_DEV = null;
+	
 	public static final String PREFS_NAME = "LauncherPreferences";
 	private ArrayAdapter<AppItem> mListAdapter;
 	private ArrayList<AppItem> apps = new ArrayList<AppItem>();
@@ -79,6 +93,14 @@ public class ManualUpdateFragment extends SherlockFragment {
 	private ListView mList;
 	private TextView mEmpty;
 	private static final String UPDATE = "_updateModel";
+	private String UPDATE_HOST = null;
+	private static final String LAUNCHER = "SmartLAuncher";
+	private int[] version;
+
+	private SharedPreferences settings;
+	private boolean forced = false;
+	private boolean toUpdate = true;
+
 
 	public ManualUpdateFragment() {
 		super();
@@ -149,7 +171,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 
 		@Override
 		protected List<AppItem> doInBackground(Void... params) {
-			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+			settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
 
 			List<AppItem> notUpdatedItems = new ArrayList<AppItem>();
@@ -157,7 +179,8 @@ public class ManualUpdateFragment extends SherlockFragment {
 			String[] labels = getResources().getStringArray(R.array.app_labels);
 			String[] packages = getResources().getStringArray(R.array.app_packages);
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
-			String[] urls = getResources().getStringArray(R.array.app_urls);
+			String url = getResources().getString(R.string.smartcampus_url_apk);
+		//	String[] urls = getResources().getStringArray(R.array.app_urls);
 			String[] filenames = getResources().getStringArray(R.array.apk_filename);
 
 			int[] versions = getResources().getIntArray(R.array.app_version);
@@ -168,7 +191,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 			// They have to be the same length
 			assert labels.length == packages.length
 					&& labels.length == backgrounds.length
-					&& labels.length == urls.length
+//					&& labels.length == urls.length
 					&& labels.length == icons.length()
 					&& labels.length == grayIcons.length();
 			// Preparing all items
@@ -176,7 +199,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 				AppFragment outer = new AppFragment();
 				AppFragment.AppItem  item = outer.new AppItem();
 				item.app = new SmartApp();
-				item.app.fillApp(labels[i], packages[i], urls[i],
+				item.app.fillApp(labels[i], packages[i], buildUrlDownloadApp(url,packages[i],versions[i],filenames[i]),
 						icons.getDrawable(i), grayIcons.getDrawable(i),
 						backgrounds[i], versions[i], filenames[i]);
 				try {
@@ -215,18 +238,92 @@ public class ManualUpdateFragment extends SherlockFragment {
 			// Returning result
 			return notUpdatedItems;
 		}
-		private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
+//		private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
+//
+//
+//			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+//			int[] res = defaultVersions; 
+//
+//			for (int i = 0; i < packageNames.length; i++) {
+//				res[i]=settings.getInt(packageNames[i]+"-version", 0);
+//			}
+//
+//			return res;
+//		}	
+		
+		private int[] readUpdateVersions(String[] packageNames,
+				int[] defaultVersions) {
 
 
-			SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-			int[] res = defaultVersions; 
+			int[] res = defaultVersions;
+			UpdateModel update = null;
+			long nextUpdate = -1;
+			if (settings != null && settings.contains(UPDATE)) {
+				nextUpdate = settings.getLong(UPDATE, -1);
+			}
+			
 
-			for (int i = 0; i < packageNames.length; i++) {
-				res[i]=settings.getInt(packageNames[i]+"-version", 0);
+			if (nextUpdate < System.currentTimeMillis() || forced) {
+				//if press the button check now and don't the next time
+				if (!forced)
+					toUpdate = true;
+
+				// try to update
+				//MessageRequest req = new MessageRequest(UPDATE_HOST, UPDATE_ADDRESS);
+				
+				String destination = new String(UPDATE_ADDRESS);
+				if (settings.getBoolean(KEY_UPDATE_DEV,	false))
+				{
+					destination=UPDATE_ADDRESS_DEV;
+				}
+				MessageRequest req = new MessageRequest(UPDATE_HOST, destination);
+				
+				
+				
+				req.setMethod(Method.GET);
+				ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
+				try {
+					MessageResponse mres = pc.invokeSync(req, LAUNCHER,
+							new AMSCAccessProvider().readToken(getActivity(),
+									null));
+					if (mres != null && mres.getBody() != null) {
+						// Update from variable sec
+						Calendar dateCal = Calendar.getInstance();
+						dateCal.setTime(new Date());
+						dateCal.add(Calendar.SECOND,
+								getResources().getInteger(R.integer.check_interval));
+						nextUpdate = dateCal.getTime().getTime();
+						update = new UpdateModel(mres.getBody());
+						settings.edit().putLong(UPDATE, nextUpdate).commit();
+						for (int i = 0; i < packageNames.length; i++) {
+							Integer version = update.getVersion(packageNames[i]);
+							res[i] = version == null ? 0 : version;
+							settings.edit()
+									.putInt(packageNames[i] + "-version", version)
+									.commit();
+						}
+						version = res;
+					}
+				} catch (Exception e) {
+					Log.e(AppFragment.class.getName(),
+							"Error reading update config: " + e.getMessage());
+				}
+			} else {
+				toUpdate = false;
+				for (int i = 0; i < packageNames.length; i++) {
+					res[i] = settings.getInt(packageNames[i] + "-version", 0);
+				}
+				version = res;
 			}
 
 			return res;
-		}	
+		}
+		
+		private String buildUrlDownloadApp(String url, String packages, int versions,
+				String filenames) {
+			return  new String(url+packages+"/"+versions+"/"+filenames);
+		}
+		
 		@Override
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
