@@ -47,6 +47,6 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="update_dev">Apps Version</string>
-    <string name="update_dev_sum">Get also test version</string>
+    <string name="update_dev_sum">Get test releases (might not be stable)</string>
 	<string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
 </resources>
