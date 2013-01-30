@@ -37,12 +37,12 @@
     </string-array>
     
     <string-array name="app_labels">
-        <item>Journey Planner</item>
-        <item>Discover Trento</item>
-        <item>Community Manager</item>
-        <item>Communicator</item>
-        <item>Experience Buster</item>
-        <item>Portfolio</item>
+        <item>ViaggiaTrento</item>
+        <item>ViviTrento</item>
+        <item>MyPeople</item>
+        <item>INBox</item>
+        <item>LifeLog</item>
+        <item>MyCVs</item>
         <item>Launcher</item>
         
     </string-array>
