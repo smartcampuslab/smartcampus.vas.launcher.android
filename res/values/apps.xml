@@ -37,12 +37,12 @@
     </string-array>
     
     <string-array name="app_labels">
-        <item>Journey Planner</item>
-        <item>Discover Trento</item>
-        <item>Community Manager</item>
-        <item>Communicator</item>
-        <item>Experience Buster</item>
-        <item>Portfolio</item>
+        <item>ViaggiaTrento</item>
+        <item>ViviTrento</item>
+        <item>MyPeople</item>
+        <item>INBox</item>
+        <item>LifeLog</item>
+        <item>MyCVs</item>
         <item>Launcher</item>
         
     </string-array>
@@ -70,13 +70,13 @@
     </string-array>
     
     <integer-array name="app_version">
-        <item>14</item>         <!-- Journey Planner -->
-        <item>17</item>        	<!-- Discover Trento -->
-        <item>12</item>        	<!-- Community Manager -->
-        <item>11</item>  		<!-- Communicator -->
-        <item>13</item> 		<!-- Experience Buster -->
-        <item>14</item>  		<!-- Portfolio -->
-        <item>17</item>  		<!-- Launcher -->
+        <item>17</item>         <!-- Journey Planner -->
+        <item>22</item>        	<!-- Discover Trento -->
+        <item>14</item>        	<!-- Community Manager -->
+        <item>14</item>  		<!-- Communicator -->
+        <item>15</item> 		<!-- Experience Buster -->
+        <item>16</item>  		<!-- Portfolio -->
+        <item>20</item>  		<!-- Launcher -->
     
     </integer-array>
     
