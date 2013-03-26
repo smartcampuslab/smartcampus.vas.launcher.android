@@ -20,7 +20,9 @@
 
     <string name="smartcampus_action_start">eu.trentorise.smartcampus.START</string>
 
-    <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/ac-service-provider-web/ac/</string>
+<!--     <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/ac-service-provider-web/ac/</string> -->
+<!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
+    <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/accesstoken-provider/ac/</string>
     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string>
     
     
