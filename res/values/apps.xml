@@ -35,6 +35,8 @@
         <item>smartcampus.vas.communicator.android.apk</item>
         <item>smartcampus.vas.experiencebuster.android.apk</item>
         <item>smartcampus.vas.portfolio.android.apk</item>
+         <item>smartcampus.vas.studyMate.android.apk</item> 
+         <item>smartcampus.vas.iFame.android.apk</item>
         <item>smartcampus.vas.launcher.android.apk</item>        
     </string-array>
     
@@ -45,6 +47,8 @@
         <item>INBox</item>
         <item>LifeLog</item>
         <item>MyCVs</item>
+        <item>StudyMate</item>
+        <item>iFame</item>
         <item>Launcher</item>
         
     </string-array>
@@ -56,6 +60,8 @@
         <item>eu.trentorise.smartcampus.communicator</item>
         <item>eu.trentorise.smartcampus.eb</item>
         <item>eu.trentorise.smartcampus.portfolio</item>
+        <item>eu.trentorise.smartcampus.studyMate</item>
+        <item>eu.trentorise.smartcampus.iFame</item>
         <item>eu.trentorise.smartcampus.launcher</item>
     </string-array>
     
@@ -68,6 +74,8 @@
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.communicator.android.apk</item>
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.experiencebuster.android.apk</item>
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/Portfolio.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/studyMate.apk</item>
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/iFame.apk</item>
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.launcher.apk</item>        
     </string-array>
     
@@ -78,6 +86,8 @@
         <item>14</item>  		<!-- Communicator -->
         <item>15</item> 		<!-- Experience Buster -->
         <item>16</item>  		<!-- Portfolio -->
+        <item>1</item>  		<!-- StudyMate -->
+        <item>1</item>  		<!-- iFame -->
         <item>20</item>  		<!-- Launcher -->
     
     </integer-array>
@@ -89,6 +99,8 @@
         <item>#32CBFF</item>
         <item>#FF8C06</item>
         <item>#D7512B</item>
+        <item>#0066CC</item>
+        <item>#CC0000</item>
         <item>#FFFFFF</item>
         
     </string-array>
@@ -100,6 +112,8 @@
         <item>@drawable/c</item>
         <item>@drawable/eb</item>
         <item>@drawable/p</item>
+        <item>@drawable/logo_laurea</item>
+        <item>@drawable/ifame_logo</item>
         <item>@drawable/launcher</item>
         
     </array>
@@ -111,6 +125,8 @@
         <item>@drawable/c_g</item>
         <item>@drawable/eb_g</item>
         <item>@drawable/p_g</item>
+        <item>@drawable/logo_laurea</item>
+        <item>@drawable/ifame_logo</item>
         <item>@drawable/launcher</item>     
     </array>
 
