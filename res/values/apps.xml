@@ -22,8 +22,10 @@
 
 <!--     <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/ac-service-provider-web/ac/</string> -->
 <!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
-    <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/accesstoken-provider/ac/</string>
-    <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string>
+    <string name="smartcampus_auth_url"> https://vas-dev.smartcampuslab.it/accesstoken-provider/ac</string>
+    <string name="smartcampus_app_url">https://vas-dev.smartcampuslab.it</string>
+<!--     <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/accesstoken-provider/ac/</string> -->
+<!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
     
     
     <string name="smartcampus_url_apk">https://www.smartcampuslab.it/download/VAS/apk/</string>

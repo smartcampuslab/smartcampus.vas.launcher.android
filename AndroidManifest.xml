@@ -35,49 +35,73 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    
-    <permission android:name="eu.trentorise.smartcampus.ac.AUTHENTICATE" android:protectionLevel="signature"/>
-    
+
+    <permission
+        android:name="eu.trentorise.smartcampus.ac.AUTHENTICATE"
+        android:protectionLevel="signature" />
+
     <application
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcer_sm"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/Theme.smartcampus" 
-        android:allowBackup="false">
+        android:theme="@style/Theme.smartcampus" >
+        <meta-data
+            android:name="CLIENT_ID"
+            android:value="477099a7-7c76-41df-80e7-cdef18ad1827" />
+        <meta-data
+            android:name="CLIENT_SECRET"
+            android:value="af383f0f-1402-42fc-a5e1-96c367631912" />
+        <meta-data
+            android:name="eu.trentorise.smartcampus.account.AUTH_URL"
+            android:value="https://vas-dev.smartcampuslab.it/acc" />
+        <meta-data
+            android:name="eu.trentorise.smartcampus.account.ACCOUNT_TYPE"
+            android:value="SmartCampus" />
+        <meta-data
+            android:name="eu.trentorise.smartcampus.account.ACCOUNT_NAME"
+            android:value="SmartCampus" />
+        <meta-data
+            android:name="eu.trentorise.smartcampus.account.ACCOUNT_LABEL"
+            android:value="SmartCampus" />
+        <meta-data
+            android:name="eu.trentorise.smartcampus.account.ACCOUNT_BASED_ACCESS"
+            android:value="true" />
+
         <activity
             android:name="eu.trentorise.smartcampus.launcher.MainActivity"
-            android:theme="@style/Theme.smartcampus" 
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask">
-             <intent-filter>
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.smartcampus" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> 
+            </intent-filter>
         </activity>
 
-         <service android:name="eu.trentorise.smartcampus.ac.authenticator.AuthenticationService" 
-             android:exported="true" 
-             android:permission="eu.trentorise.smartcampus.ac.AUTHENTICATE">
+        <service
+            android:name="eu.trentorise.smartcampus.ac.aaccount.AuthenticationService"
+            android:exported="true"
+            android:permission="eu.trentorise.smartcampus.ac.AUTHENTICATE" >
             <intent-filter>
-                <action
-                    android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-        
+
         <activity
-            android:name="eu.trentorise.smartcampus.ac.authenticator.AuthenticatorActivity"
-            android:label="@string/ui_auth_activity_title"
-            android:theme="@style/Theme.smartcampus"
-            android:configChanges="orientation|screenSize"/>
-         <activity
-            android:name=".settings.SettingsActivity"
-            android:theme="@style/Theme.smartcampus"            
+            android:name="eu.trentorise.smartcampus.ac.account.AuthenticatorActivity"
             android:configChanges="orientation|screenSize"
-            />
+            android:theme="@style/Theme.smartcampus" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.smartcampus" />
+
         <uses-library android:name="com.google.android.maps" />
     </application>
 

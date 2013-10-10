@@ -52,7 +52,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.MenuItem;
 
-import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
+import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
@@ -284,8 +284,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 				ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
 				try {
 					MessageResponse mres = pc.invokeSync(req, LAUNCHER,
-							new AMSCAccessProvider().readToken(getActivity(),
-									null));
+							SCAccessProvider.getInstance(getSherlockActivity()).readToken(getSherlockActivity(), LauncherHelper.getCLIENT_ID(), LauncherHelper.getCLIENT_SECRET()));
 					if (mres != null && mres.getBody() != null) {
 						// Update from variable sec
 						Calendar dateCal = Calendar.getInstance();
