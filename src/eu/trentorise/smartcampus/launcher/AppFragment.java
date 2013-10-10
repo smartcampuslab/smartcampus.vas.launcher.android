@@ -230,7 +230,7 @@ public class AppFragment extends SherlockFragment {
 			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
 			try {
 				MessageResponse mres = pc.invokeSync(req, LAUNCHER,
-						SCAccessProvider.getInstance(getSherlockActivity()).readToken(getActivity(), LauncherHelper.getCLIENT_ID(), LauncherHelper.getCLIENT_SECRET()));
+						SCAccessProvider.getInstance(getSherlockActivity()).readToken(getActivity()));
 				if (mres != null && mres.getBody() != null) {
 					// Update from variable sec
 					Calendar dateCal = Calendar.getInstance();

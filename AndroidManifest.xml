@@ -47,17 +47,17 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.smartcampus" >
         <meta-data
-            android:name="CLIENT_ID"
+            android:name="eu.trentorise.smartcampus.account.CLIENT_ID"
             android:value="477099a7-7c76-41df-80e7-cdef18ad1827" />
         <meta-data
-            android:name="CLIENT_SECRET"
+            android:name="eu.trentorise.smartcampus.account.CLIENT_SECRET"
             android:value="af383f0f-1402-42fc-a5e1-96c367631912" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.AUTH_URL"
-            android:value="https://vas-dev.smartcampuslab.it/acc" />
+            android:value="https://vas-dev.smartcampuslab.it/aac" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.ACCOUNT_TYPE"
-            android:value="SmartCampus" />
+            android:value="eu.trentorise.smartcampus.account" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.ACCOUNT_NAME"
             android:value="SmartCampus" />
@@ -81,7 +81,7 @@
         </activity>
 
         <service
-            android:name="eu.trentorise.smartcampus.ac.aaccount.AuthenticationService"
+            android:name="eu.trentorise.smartcampus.ac.account.AuthenticationService"
             android:exported="true"
             android:permission="eu.trentorise.smartcampus.ac.AUTHENTICATE" >
             <intent-filter>

@@ -284,7 +284,7 @@ public class ManualUpdateFragment extends SherlockFragment {
 				ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
 				try {
 					MessageResponse mres = pc.invokeSync(req, LAUNCHER,
-							SCAccessProvider.getInstance(getSherlockActivity()).readToken(getSherlockActivity(), LauncherHelper.getCLIENT_ID(), LauncherHelper.getCLIENT_SECRET()));
+							SCAccessProvider.getInstance(getSherlockActivity()).readToken(getSherlockActivity()));
 					if (mres != null && mres.getBody() != null) {
 						// Update from variable sec
 						Calendar dateCal = Calendar.getInstance();

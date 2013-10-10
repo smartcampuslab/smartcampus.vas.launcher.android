@@ -48,11 +48,10 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		LauncherHelper.init(this);
 		
 		try {
 			initGlobalConstants();
-			SCAccessProvider.getInstance(this).login(this, LauncherHelper.getCLIENT_ID(), LauncherHelper.getCLIENT_SECRET(), null);
+			SCAccessProvider.getInstance(this).login(this, null);
 		
 		} catch (Exception e) {
 			Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
