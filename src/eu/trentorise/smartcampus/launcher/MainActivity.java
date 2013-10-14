@@ -54,6 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			SCAccessProvider.getInstance(this).login(this, null);
 		
 		} catch (Exception e) {
+			e.printStackTrace();
 			Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
 			finish();
 		}
