@@ -103,9 +103,9 @@ public class AppFragment extends SherlockFragment {
 	private Drawable ic_update;
 	private boolean availableUpdate = false;
 	private int[] version;
-	private boolean toUpdate = true;
+//	private boolean toUpdate = true;
 	private boolean isDialogOpen = false;
-	private ProgressDialog progress = null;
+//	private ProgressDialog progress = null;
 
 	// force the update pressing the menu button
 
@@ -210,9 +210,9 @@ public class AppFragment extends SherlockFragment {
 		
 
 		if (nextUpdate < System.currentTimeMillis() || forced) {
-			//if press the button check now and don't the next time
-			if (!forced)
-				toUpdate = true;
+//			//if press the button check now and don't the next time
+//			if (!forced)
+//				toUpdate = true;
 
 			// try to update
 			//MessageRequest req = new MessageRequest(UPDATE_HOST, UPDATE_ADDRESS);
@@ -254,7 +254,7 @@ public class AppFragment extends SherlockFragment {
 						"Error reading update config: " + e.getMessage());
 			}
 		} else {
-			toUpdate = false;
+//			toUpdate = false;
 			for (int i = 0; i < packageNames.length; i++) {
 				res[i] = settings.getInt(packageNames[i] + "-version", 0);
 			}
@@ -276,8 +276,8 @@ public class AppFragment extends SherlockFragment {
 				SharedPreferences.Editor editor = settings.edit();
 				editor.remove(KEY_UPDATE_REFRESH).commit();
 			}
-			if (((toUpdate) && (progress == null)) || forced)
-				progress = ProgressDialog.show(getSherlockActivity(), "", "Checking applications version", true);
+//			if (((toUpdate) && (progress == null)) || forced)
+//				progress = ProgressDialog.show(getSherlockActivity(), "", "Checking applications version", true);
 
 		};
 
@@ -351,14 +351,14 @@ public class AppFragment extends SherlockFragment {
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
 			// se anche il launcher
-			if (progress != null) {
-				try {
-					progress.cancel();
-					progress = null;
-				} catch (Exception e) {
-					Log.w(getClass().getName(), "Problem closing progress dialog: " + e.getMessage());
-				}
-			}
+//			if (progress != null) {
+//				try {
+//					progress.cancel();
+//					progress = null;
+//				} catch (Exception e) {
+//					Log.w(getClass().getName(), "Problem closing progress dialog: " + e.getMessage());
+//				}
+//			}
 			int i = 0;
 			for (AppItem app : result) {
 				if (app.app.name.compareTo("Launcher") == 0)
