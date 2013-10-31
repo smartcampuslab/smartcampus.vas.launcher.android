@@ -511,7 +511,7 @@ public class AppFragment extends SherlockFragment {
 			// We are using android v8
 			heightActionBar = getSherlockActivity().getSupportActionBar().getHeight();
 			mWidth = Math.round(display.getWidth() / 2f);
-			mHeight = Math.round(((display.getHeight() - heightActionBar) - statusBarHeight) / 3f);
+			mHeight = Math.round(((display.getHeight() - heightActionBar) - statusBarHeight) / 4f);
 			// }
 
 			// Setting sizes
