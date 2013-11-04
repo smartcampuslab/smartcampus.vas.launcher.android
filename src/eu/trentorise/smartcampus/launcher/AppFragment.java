@@ -144,6 +144,8 @@ public class AppFragment extends SherlockFragment {
 		View v = inflater.inflate(R.layout.frag_apps, null);
 		// Getting UI references
 		mGridView = (GridView) v.findViewById(R.id.gridview);
+		mGridView.setEnabled(false); //disable scrolling
+		mGridView.setVerticalScrollBarEnabled(false);
 		return v;
 	}
 
@@ -511,8 +513,8 @@ public class AppFragment extends SherlockFragment {
 			// We are using android v8
 			heightActionBar = getSherlockActivity().getSupportActionBar().getHeight();
 			mWidth = Math.round(display.getWidth() / 2f);
-			mHeight = Math.round(((display.getHeight() - heightActionBar) - statusBarHeight) / 4f);
-			// }
+			mHeight = Math.round(((display.getHeight() - (heightActionBar)) - statusBarHeight) / 4f); //problem if the sum of the tails is less than the number
+			// }																							
 
 			// Setting sizes
 			convertView.setMinimumWidth(mWidth);

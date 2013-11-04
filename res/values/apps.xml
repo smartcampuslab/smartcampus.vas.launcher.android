@@ -116,8 +116,8 @@
         <item>@drawable/c</item>
         <item>@drawable/eb</item>
         <item>@drawable/p</item>
-        <item>@drawable/eb</item>
-        <item>@drawable/p</item>
+        <item>@drawable/ifa</item>
+        <item>@drawable/sm</item>
         <item>@drawable/launcher</item>
         
     </array>
@@ -129,8 +129,8 @@
         <item>@drawable/c_g</item>
         <item>@drawable/eb_g</item>
         <item>@drawable/p_g</item>
-        <item>@drawable/eb_g</item>
-        <item>@drawable/p_g</item>
+        <item>@drawable/ifa_g</item>
+        <item>@drawable/sm_g</item>
         <item>@drawable/launcher</item>     
     </array>
 
