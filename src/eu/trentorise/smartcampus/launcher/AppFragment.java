@@ -87,6 +87,8 @@ public class AppFragment extends SherlockFragment {
 	// variable used for forcing refresh coming back from setting activity
 
 	private static final String KEY_UPDATE_REFRESH = "refresh";
+	private static final int NUMBER_OF_ROWS = 4;
+	private static final int NUMBER_OF_COLUMNS = 2;
 
 	private GridView mGridView;
 	private AppAdapter mAdapter;
@@ -103,9 +105,9 @@ public class AppFragment extends SherlockFragment {
 	private Drawable ic_update;
 	private boolean availableUpdate = false;
 	private int[] version;
-//	private boolean toUpdate = true;
+	// private boolean toUpdate = true;
 	private boolean isDialogOpen = false;
-//	private ProgressDialog progress = null;
+	// private ProgressDialog progress = null;
 
 	// force the update pressing the menu button
 
@@ -144,8 +146,8 @@ public class AppFragment extends SherlockFragment {
 		View v = inflater.inflate(R.layout.frag_apps, null);
 		// Getting UI references
 		mGridView = (GridView) v.findViewById(R.id.gridview);
-		mGridView.setEnabled(false); //disable scrolling
-		mGridView.setVerticalScrollBarEnabled(false);
+//		mGridView.setEnabled(false); // disable scrolling
+//		mGridView.setVerticalScrollBarEnabled(false);
 		return v;
 	}
 
@@ -199,9 +201,7 @@ public class AppFragment extends SherlockFragment {
 		}
 	}
 
-	private int[] readUpdateVersions(String[] packageNames,
-			int[] defaultVersions) {
-
+	private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
 
 		int[] res = defaultVersions;
 		UpdateModel update = null;
@@ -209,54 +209,47 @@ public class AppFragment extends SherlockFragment {
 		if (settings != null && settings.contains(UPDATE)) {
 			nextUpdate = settings.getLong(UPDATE, -1);
 		}
-		
 
 		if (nextUpdate < System.currentTimeMillis() || forced) {
-//			//if press the button check now and don't the next time
-//			if (!forced)
-//				toUpdate = true;
+			// //if press the button check now and don't the next time
+			// if (!forced)
+			// toUpdate = true;
 
 			// try to update
-			//MessageRequest req = new MessageRequest(UPDATE_HOST, UPDATE_ADDRESS);
-			
+			// MessageRequest req = new MessageRequest(UPDATE_HOST,
+			// UPDATE_ADDRESS);
+
 			String destination = new String(UPDATE_ADDRESS);
-			if (settings.getBoolean(KEY_UPDATE_DEV,	false))
-			{
-				destination=UPDATE_ADDRESS_DEV;
+			if (settings.getBoolean(KEY_UPDATE_DEV, false)) {
+				destination = UPDATE_ADDRESS_DEV;
 			}
 			MessageRequest req = new MessageRequest(UPDATE_HOST, destination);
-			
-			
-			
+
 			req.setMethod(Method.GET);
 			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
 			try {
-				MessageResponse mres = pc.invokeSync(req, LAUNCHER,
-						SCAccessProvider.getInstance(getSherlockActivity()).readToken(getActivity()));
+				MessageResponse mres = pc.invokeSync(req, LAUNCHER, SCAccessProvider.getInstance(getSherlockActivity())
+						.readToken(getActivity()));
 				if (mres != null && mres.getBody() != null) {
 					// Update from variable sec
 					Calendar dateCal = Calendar.getInstance();
 					dateCal.setTime(new Date());
-					dateCal.add(Calendar.SECOND,
-							getResources().getInteger(R.integer.check_interval));
+					dateCal.add(Calendar.SECOND, getResources().getInteger(R.integer.check_interval));
 					nextUpdate = dateCal.getTime().getTime();
 					update = new UpdateModel(mres.getBody());
 					settings.edit().putLong(UPDATE, nextUpdate).commit();
 					for (int i = 0; i < packageNames.length; i++) {
 						Integer version = update.getVersion(packageNames[i]);
 						res[i] = version == null ? 0 : version;
-						settings.edit()
-								.putInt(packageNames[i] + "-version", version)
-								.commit();
+						settings.edit().putInt(packageNames[i] + "-version", version).commit();
 					}
 					version = res;
 				}
 			} catch (Exception e) {
-				Log.e(AppFragment.class.getName(),
-						"Error reading update config: " + e.getMessage());
+				Log.e(AppFragment.class.getName(), "Error reading update config: " + e.getMessage());
 			}
 		} else {
-//			toUpdate = false;
+			// toUpdate = false;
 			for (int i = 0; i < packageNames.length; i++) {
 				res[i] = settings.getInt(packageNames[i] + "-version", 0);
 			}
@@ -278,8 +271,9 @@ public class AppFragment extends SherlockFragment {
 				SharedPreferences.Editor editor = settings.edit();
 				editor.remove(KEY_UPDATE_REFRESH).commit();
 			}
-//			if (((toUpdate) && (progress == null)) || forced)
-//				progress = ProgressDialog.show(getSherlockActivity(), "", "Checking applications version", true);
+			// if (((toUpdate) && (progress == null)) || forced)
+			// progress = ProgressDialog.show(getSherlockActivity(), "",
+			// "Checking applications version", true);
 
 		};
 
@@ -353,14 +347,15 @@ public class AppFragment extends SherlockFragment {
 		protected void onPostExecute(List<AppItem> result) {
 			super.onPostExecute(result);
 			// se anche il launcher
-//			if (progress != null) {
-//				try {
-//					progress.cancel();
-//					progress = null;
-//				} catch (Exception e) {
-//					Log.w(getClass().getName(), "Problem closing progress dialog: " + e.getMessage());
-//				}
-//			}
+			// if (progress != null) {
+			// try {
+			// progress.cancel();
+			// progress = null;
+			// } catch (Exception e) {
+			// Log.w(getClass().getName(), "Problem closing progress dialog: " +
+			// e.getMessage());
+			// }
+			// }
 			int i = 0;
 			for (AppItem app : result) {
 				if (app.app.name.compareTo("Launcher") == 0)
@@ -512,10 +507,26 @@ public class AppFragment extends SherlockFragment {
 			Display display = getActivity().getWindowManager().getDefaultDisplay();
 			// We are using android v8
 			heightActionBar = getSherlockActivity().getSupportActionBar().getHeight();
-			mWidth = Math.round(display.getWidth() / 2f);
-			mHeight = Math.round(((display.getHeight() - (heightActionBar)) - statusBarHeight) / 4f); //problem if the sum of the tails is less than the number
-			// }																							
-
+			mWidth = Math.round(display.getWidth() / NUMBER_OF_COLUMNS);
+			mHeight = Math.round(((display.getHeight() - (heightActionBar)) - statusBarHeight) / NUMBER_OF_ROWS); // problem
+																													// if
+																													// the
+																													// sum
+																													// of
+																													// the
+																													// tails
+																													// is
+																													// less
+																													// or
+																													// great
+																													// than
+																													// the
+																													// number
+			// if the row is the last add the difference (positive or negative)
+			if (position >= (NUMBER_OF_COLUMNS * (NUMBER_OF_ROWS - 1))) {
+				mHeight = mHeight
+						+ (display.getHeight() - (mHeight * NUMBER_OF_ROWS+heightActionBar+statusBarHeight));
+			}
 			// Setting sizes
 			convertView.setMinimumWidth(mWidth);
 			convertView.setMinimumHeight(mHeight);
