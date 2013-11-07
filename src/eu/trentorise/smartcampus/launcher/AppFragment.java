@@ -485,12 +485,11 @@ public class AppFragment extends SherlockFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
 
-			// Inflate View for ListItem
 			convertView = LayoutInflater.from(getActivity()).inflate(R.layout.item_app_tile, null);
 			// Create Holder
 			holder.button = new TileButton(convertView);
 			// add Holder to View
-			convertView.setTag(holder.button);
+//			convertView.setTag(holder.button);
 			// Calculating sizes
 
 			// Sometimes it's called and it's bigger than the screen (maybe
