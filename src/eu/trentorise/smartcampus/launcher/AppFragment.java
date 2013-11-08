@@ -241,7 +241,9 @@ public class AppFragment extends SherlockFragment {
 					for (int i = 0; i < packageNames.length; i++) {
 						Integer version = update.getVersion(packageNames[i]);
 						res[i] = version == null ? 0 : version;
-						settings.edit().putInt(packageNames[i] + "-version", version).commit();
+						if(version != null){
+							settings.edit().putInt(packageNames[i] + "-version", version).commit();
+						}
 					}
 					version = res;
 				}
