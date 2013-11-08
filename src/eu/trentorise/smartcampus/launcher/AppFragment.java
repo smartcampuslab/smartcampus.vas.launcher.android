@@ -118,9 +118,9 @@ public class AppFragment extends SherlockFragment {
 	public void onCreate(Bundle args) {
 		super.onCreate(args);
 		// Getting connectivity manager
-		mConnectivityManager = ConnectionUtil.getConnectivityManager(getActivity());
+		mConnectivityManager = ConnectionUtil.getConnectivityManager(getSherlockActivity());
 		// Getting inspector
-		mInspector = new AppInspector(getActivity());
+		mInspector = new AppInspector(getSherlockActivity());
 		// Asking for an option menu
 		setHasOptionsMenu(true);
 		UPDATE_ADDRESS = getResources().getString(R.string.update_address);
@@ -132,13 +132,13 @@ public class AppFragment extends SherlockFragment {
 		// and the data are erased
 		/*
 		 * SharedPreferences settings =
-		 * getActivity().getSharedPreferences(PREFS_NAME, 0);
+		 * getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 		 * SharedPreferences.Editor editor = settings.edit(); editor.clear();
 		 * editor.commit();
 		 */
 
 		ic_update = getResources().getDrawable(R.drawable.ic_app_update);
-		settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+		settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 	}
 
 	@Override
@@ -226,10 +226,10 @@ public class AppFragment extends SherlockFragment {
 			MessageRequest req = new MessageRequest(UPDATE_HOST, destination);
 
 			req.setMethod(Method.GET);
-			ProtocolCarrier pc = new ProtocolCarrier(getActivity(), LAUNCHER);
+			ProtocolCarrier pc = new ProtocolCarrier(getSherlockActivity(), LAUNCHER);
 			try {
 				MessageResponse mres = pc.invokeSync(req, LAUNCHER, SCAccessProvider.getInstance(getSherlockActivity())
-						.readToken(getActivity()));
+						.readToken(getSherlockActivity()));
 				if (mres != null && mres.getBody() != null) {
 					// Update from variable sec
 					Calendar dateCal = Calendar.getInstance();
@@ -382,7 +382,7 @@ public class AppFragment extends SherlockFragment {
 						// update
 						// Put the application in the blacklist in the
 						// SharedPreferences
-						SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+						SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 						SharedPreferences.Editor editor = settings.edit();
 						if (settings.getBoolean(launcher.app.name + "-update", true)) {
 							editor.putBoolean(launcher.app.name + "-update", false);
@@ -408,7 +408,7 @@ public class AppFragment extends SherlockFragment {
 																						// nella
 																						// blacklist;l
 			{
-				SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+				SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 				settings.toString();
 				boolean autoupdate = settings.getBoolean(launcher.app.name + "-update", true);
 				if ((autoupdate) && (!isDialogOpen)) {
@@ -450,14 +450,14 @@ public class AppFragment extends SherlockFragment {
 					if (mDownloaderTask != null && !mDownloaderTask.isCancelled()) {
 						mDownloaderTask.cancel(true);
 					}
-					mDownloaderTask = new ApkDownloaderTask(getActivity(), url);
+					mDownloaderTask = new ApkDownloaderTask(getSherlockActivity(), url);
 					mDownloaderTask.execute();
 				} else {
 					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
-					Toast.makeText(getActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
 				}
 			} else {
-				Toast.makeText(getActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
 				Intent intent = ConnectionUtil.getWifiSettingsIntent();
 				startActivity(intent);
 			}
@@ -472,12 +472,12 @@ public class AppFragment extends SherlockFragment {
 	// Array adapter for GridView
 	private class AppAdapter extends ArrayAdapter<AppItem> {
 
-		AppInspector mAppInspector = new AppInspector(getActivity());
+		AppInspector mAppInspector = new AppInspector(getSherlockActivity());
 		int mWidth, mHeight;
 		DialogInterface.OnClickListener updateDialogClickListener;
 
 		public AppAdapter(List<AppItem> items) {
-			super(getActivity(), R.layout.item_app_tile, items);
+			super(getSherlockActivity(), R.layout.item_app_tile, items);
 
 			// declare the listener for the update dialogBox
 
@@ -487,7 +487,7 @@ public class AppFragment extends SherlockFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
 
-			convertView = LayoutInflater.from(getActivity()).inflate(R.layout.item_app_tile, null);
+			convertView = LayoutInflater.from(getSherlockActivity()).inflate(R.layout.item_app_tile, null);
 			// Create Holder
 			holder.button = new TileButton(convertView);
 			// add Holder to View
@@ -500,12 +500,12 @@ public class AppFragment extends SherlockFragment {
 
 			// if(mWidth<1||mHeight<1){
 			Rect rectgle = new Rect();
-			Window window = getActivity().getWindow();
+			Window window = getSherlockActivity().getWindow();
 			window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
 			int statusBarHeight = rectgle.top;
 			int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
 			// Dimension
-			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			Display display = getSherlockActivity().getWindowManager().getDefaultDisplay();
 			// We are using android v8
 			heightActionBar = getSherlockActivity().getSupportActionBar().getHeight();
 			mWidth = Math.round(display.getWidth() / NUMBER_OF_COLUMNS);
@@ -554,7 +554,7 @@ public class AppFragment extends SherlockFragment {
 																					// nella
 																					// blacklist;l
 			{
-				SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+				SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 				settings.toString();
 				boolean autoupdate = settings.getBoolean(item.app.name + "-update", true);
 				if (autoupdate) {
@@ -616,7 +616,7 @@ public class AppFragment extends SherlockFragment {
 									// applications update
 									// Put the application in the blacklist in
 									// the SharedPreferences
-									SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+									SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 									SharedPreferences.Editor editor = settings.edit();
 									if (settings.getBoolean(item.app.name + "-update", true)) {
 										editor.putBoolean(item.app.name + "-update", false);
@@ -658,7 +658,7 @@ public class AppFragment extends SherlockFragment {
 					@Override
 					public void onClick(View v) {
 						// Asking user to remove application
-						Toast.makeText(getActivity(), R.string.not_secure_app, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getSherlockActivity(), R.string.not_secure_app, Toast.LENGTH_SHORT).show();
 					}
 				});
 				break;
@@ -678,14 +678,14 @@ public class AppFragment extends SherlockFragment {
 					if (mDownloaderTask != null && !mDownloaderTask.isCancelled()) {
 						mDownloaderTask.cancel(true);
 					}
-					mDownloaderTask = new ApkDownloaderTask(getActivity(), url);
+					mDownloaderTask = new ApkDownloaderTask(getSherlockActivity(), url);
 					mDownloaderTask.execute();
 				} else {
 					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
-					Toast.makeText(getActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
 				}
 			} else {
-				Toast.makeText(getActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
 				Intent intent = ConnectionUtil.getWifiSettingsIntent();
 				startActivity(intent);
 			}
@@ -729,13 +729,13 @@ public class AppFragment extends SherlockFragment {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.update_option_list:
-			FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+			FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
 			Fragment newFragment = new ManualUpdateFragment();
 			Bundle args = new Bundle();
 			args.putIntArray("versions", version);
 			// Put any other arguments
 			newFragment.setArguments(args);
-			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+			FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
 			transaction.replace(R.id.fragment_container, newFragment);
 			transaction.addToBackStack(null);
 			transaction.commit();
@@ -746,18 +746,18 @@ public class AppFragment extends SherlockFragment {
 			startNewAppTask();
 			return true;
 		case R.id.settings:
-			startActivity(new Intent(getActivity(), SettingsActivity.class));
+			startActivity(new Intent(getSherlockActivity(), SettingsActivity.class));
 			return true;
 		case R.id.about:
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(getString(R.string.smartcampus_url_credits)));
 			startActivity(browserIntent);
-			// fragmentTransaction = getActivity().getSupportFragmentManager()
+			// fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
 			// .beginTransaction();
 			// newFragment = new AboutFragment();
 			// args = new Bundle();
 			// newFragment.setArguments(args);
-			// transaction = getActivity().getSupportFragmentManager()
+			// transaction = getSherlockActivity().getSupportFragmentManager()
 			// .beginTransaction();
 			// transaction.replace(R.id.fragment_container, newFragment);
 			// transaction.addToBackStack(null);
