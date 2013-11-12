@@ -48,13 +48,13 @@
         android:theme="@style/Theme.smartcampus" >
         <meta-data
             android:name="eu.trentorise.smartcampus.account.CLIENT_ID"
-            android:value="bbde6aea-bc7a-4ea0-afc9-91c15e4d6da1" />
+            android:value="" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.CLIENT_SECRET"
-            android:value="8c44736a-56c1-46a5-b572-f577e72c44f2" />
+            android:value="" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.AUTH_URL"
-            android:value="https://vas-dev.smartcampuslab.it/aac" />
+            android:value="https://ac.smartcampuslab.it/aac" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.ACCOUNT_TYPE"
             android:value="eu.trentorise.smartcampus.account" />
