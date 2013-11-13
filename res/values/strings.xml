@@ -38,8 +38,8 @@
     <string name="empty" />
     <!-- string name="update_address">/download/VAS/update.conf</string-->
     <!-- string name="update_address">/download/VAS-dev/update-dev.conf</string-->
-    <string name="update_address">/download/VAS/tmp-update-test.conf</string>
-<!--  <string name="update_address">/download/VAS/update-prod.conf</string> -->
+<!--     <string name="update_address">/download/VAS/tmp-update-test.conf</string> -->
+	<string name="update_address">/download/VAS/update-prod.conf</string>
     <string name="update_address_develop">/download/VAS/update-test.conf</string>
    
     <string name="update_host">https://www.smartcampuslab.it</string>
