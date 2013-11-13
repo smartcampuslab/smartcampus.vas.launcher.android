@@ -16,7 +16,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Theme.smartcampus" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="android:background">@android:color/transparent</item>
+<!--         <item name="android:background">@android:color/transparent</item> -->
         <item name="actionBarSize">48dip</item>
         <item name="android:actionBarSize">48dip</item> 
     </style>
