@@ -15,6 +15,8 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
+import org.apache.http.HttpStatus;
+
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -123,10 +125,15 @@ public class MainActivity extends SherlockFragmentActivity {
 				return provider.readToken(MainActivity.this);
 			} catch (AACException e) {
 				Log.e(MainActivity.class.getName(), ""+e.getMessage());
-				try {
-					provider.logout(MainActivity.this);
-				} catch (AACException e1) {
-					e1.printStackTrace();
+				switch (e.getStatus()) {
+				case HttpStatus.SC_UNAUTHORIZED:
+					try {
+						provider.logout(MainActivity.this);
+					} catch (AACException e1) {
+						e1.printStackTrace();
+					}
+				default:
+					break;
 				}
 				return null;
 			}
