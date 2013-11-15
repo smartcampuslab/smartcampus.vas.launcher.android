@@ -20,10 +20,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,15 +33,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 
-
-
 public class MainActivity extends SherlockFragmentActivity {
-	
-
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +46,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		try {
 			initGlobalConstants();
-			SCAccessProvider.getInstance(this).login(this, null);
+			if (!SCAccessProvider.getInstance(this).login(this, null)) {
+				new TokenTask().execute();
+			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,5 +114,36 @@ public class MainActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private class TokenTask extends AsyncTask<Void, Void, String> {
+
+		@Override
+		protected String doInBackground(Void... params) {
+			SCAccessProvider provider = SCAccessProvider.getInstance(MainActivity.this);
+			try {
+				return provider.readToken(MainActivity.this);
+			} catch (AACException e) {
+				Log.e(MainActivity.class.getName(), ""+e.getMessage());
+				try {
+					provider.logout(MainActivity.this);
+				} catch (AACException e1) {
+					e1.printStackTrace();
+				}
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (result == null) {
+				SCAccessProvider provider = SCAccessProvider.getInstance(MainActivity.this);
+				try {
+					provider.login(MainActivity.this, null);
+				} catch (AACException e) {
+					Log.e(MainActivity.class.getName(), ""+e.getMessage());
+				}
+			}
+		}
+		
+	} 
 	
 }

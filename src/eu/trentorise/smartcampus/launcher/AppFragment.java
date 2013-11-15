@@ -491,7 +491,7 @@ public class AppFragment extends SherlockFragment {
 			// Create Holder
 			holder.button = new TileButton(convertView);
 			// add Holder to View
-//			convertView.setTag(holder.button);
+			convertView.setTag(holder.button);
 			// Calculating sizes
 
 			// Sometimes it's called and it's bigger than the screen (maybe
