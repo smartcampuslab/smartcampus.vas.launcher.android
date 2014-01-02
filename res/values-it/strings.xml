@@ -24,10 +24,10 @@
     <string name="not_secure_app">App non sicura!</string>
     <string name="enable_connection">Connettività assente!\nAttiva una connessione di rete e riprova.</string>
 
-    <string name="token_required">Per accedere alla app Smart Campus è necessario effettuare l'autenticazione.</string>
-    <string name="auth_failed">Errore di inizializzazione dell'applicazione.</string>
+    <string name="token_required">Per accedere alla app Smart Campus è necessario effettuare l\'autenticazione.</string>
+    <string name="auth_failed">Errore di inizializzazione dell\'applicazione.</string>
     <string name="update_application_question">È disponibile una nuova versione. Vuoi aggiornarla adesso?</string>
-    <string name="update_application_manual_list">Aggiunta all'aggiornamento manuale</string>
+    <string name="update_application_manual_list">Aggiunta all\'aggiornamento manuale</string>
     <string name="update_option_list">Aggiornamento manuale</string>
     <string name="manual_update">Aggiornamenti</string>
     <string name="list_of_applications">Lista delle applicazioni</string>
