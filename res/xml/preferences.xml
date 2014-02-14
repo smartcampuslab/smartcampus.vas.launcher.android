@@ -4,8 +4,5 @@
 
     <PreferenceCategory
         android:title="Settings">
-        <CheckBoxPreference
-            android:title="@string/update_dev_sum"
-            android:key="update_dev"/>
     </PreferenceCategory>
 </PreferenceScreen>
