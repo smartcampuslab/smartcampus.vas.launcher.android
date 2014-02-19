@@ -18,10 +18,13 @@ package eu.trentorise.smartcampus.launcher;
 import org.apache.http.HttpStatus;
 
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,9 +51,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		try {
 			initGlobalConstants();
-			if (!SCAccessProvider.getInstance(this).login(this, null)) {
-				new TokenTask().execute();
-			}
+			showDownloadMarket();
+//			if (!SCAccessProvider.getInstance(this).login(this, null)) {
+//				new TokenTask().execute();
+//			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,6 +69,32 @@ public class MainActivity extends SherlockFragmentActivity {
 			Fragment frag = new AppFragment();
 			ft.add(R.id.fragment_container, frag).commit();
 		}
+		
+	}
+
+	private void showDownloadMarket() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.dialog_market_title))
+				.setMessage(getString(R.string.dialog_market_info))
+				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String package_name= MainActivity.this.getPackageName();
+						Intent market = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+package_name));
+						startActivity(market);
+						finish();
+					}
+				})
+				.setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						finish();
+					}
+				});	
+		builder.create().show();
 	}
 
 	private void initGlobalConstants() throws NameNotFoundException, NotFoundException {
