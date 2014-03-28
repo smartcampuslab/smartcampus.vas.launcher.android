@@ -38,7 +38,7 @@
         <item>smartcampus.vas.experiencebuster.android.apk</item>
         <item>smartcampus.vas.portfolio.android.apk</item>
         <item>smartcampus.vas.ifame.android.apk</item>        
-        <item>smartcampus.vas.studymate.android.apk</item>            
+        <item>smartcampus.vas.corsi.android.apk</item>            
         <item>smartcampus.vas.launcher.android.apk</item>
     
                 
@@ -79,7 +79,7 @@
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.experiencebuster.android.apk</item>
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/Portfolio.apk</item>
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.ifame.android.apk</item>
-        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.studymate.android.apk</item>        
+        <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.corsi.android.apk</item>        
         <item>http://www.smartcampuslab.it/download/VAS-test/apk/smartcampus.vas.launcher.apk</item>        
     </string-array>
     
