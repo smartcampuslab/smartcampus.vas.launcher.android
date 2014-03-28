@@ -579,18 +579,18 @@ public class AppFragment extends SherlockFragment {
 				}
 
 			}
-			//temporary Coming Soon
-			if ("eu.trentorise.smartcampus.studymate".equals(item.app.appPackage))
-			{
-				holder.button.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// Asking user to remove application
-						Toast.makeText(getActivity(), R.string.label_coming_soon, Toast.LENGTH_SHORT).show();
-					}
-				});
-				return convertView;
-			}
+//			//temporary Coming Soon
+//			if ("eu.trentorise.smartcampus.studymate".equals(item.app.appPackage))
+//			{
+//				holder.button.setOnClickListener(new OnClickListener() {
+//					@Override
+//					public void onClick(View v) {
+//						// Asking user to remove application
+//						Toast.makeText(getActivity(), R.string.label_coming_soon, Toast.LENGTH_SHORT).show();
+//					}
+//				});
+//				return convertView;
+//			}
 			// Setting application info name
 			switch (item.status) {
 			case OK:
