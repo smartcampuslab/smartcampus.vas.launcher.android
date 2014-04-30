@@ -16,11 +16,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.smartcampuslab.launcher"
     android:installLocation="internalOnly"
-    android:versionCode="27"
-    android:versionName="0.14.3" >
+    android:versionCode="28"
+    android:versionName="0.15.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
