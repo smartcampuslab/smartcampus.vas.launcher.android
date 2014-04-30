@@ -15,6 +15,8 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
+import it.smartcampuslab.launcher.R;
+
 import org.apache.http.HttpStatus;
 
 import android.accounts.AccountManager;

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
+import it.smartcampuslab.launcher.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -296,7 +298,7 @@ public class AppFragment extends SherlockFragment {
 				mAppItems.addAll(result);
 
 			}
-			AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
+			AppFragment.this.getSherlockActivity().supportInvalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
 			if (forced)

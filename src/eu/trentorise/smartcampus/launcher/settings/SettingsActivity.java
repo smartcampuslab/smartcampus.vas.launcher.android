@@ -1,13 +1,12 @@
 package eu.trentorise.smartcampus.launcher.settings;
 
+import it.smartcampuslab.launcher.R;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import eu.trentorise.smartcampus.launcher.R;
 
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {

@@ -1,5 +1,6 @@
 package eu.trentorise.smartcampus.launcher;
 
+import it.smartcampuslab.launcher.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -15,22 +15,10 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher.apps;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import eu.trentorise.smartcampus.launcher.R;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.widget.Toast;
 
 /**
  * 
