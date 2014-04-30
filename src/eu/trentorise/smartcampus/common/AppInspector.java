@@ -61,9 +61,9 @@ public final class AppInspector {
 		try {
 			info = mPackageManager.getApplicationInfo(app, 0);
 			// Checking application User ID
-			if(mContext.getApplicationInfo().uid != info.uid){
-				throw new LauncherException(Status.NOT_VALID_UID);
-			}
+//			if(mContext.getApplicationInfo().uid != info.uid){
+//				throw new LauncherException(Status.NOT_VALID_UID);
+//			}
 			// Checking application signature
 			if(mPackageManager.checkSignatures(mContext.getPackageName(), info.packageName) < PackageManager.SIGNATURE_MATCH){
 				throw new LauncherException(Status.NOT_VALID_SIGNATURE);
