@@ -15,13 +15,14 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
+import it.smartcampuslab.launcher.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,20 +54,13 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
-import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
-import eu.trentorise.smartcampus.launcher.apps.ApkInstaller.ApkDownloaderTask;
 import eu.trentorise.smartcampus.launcher.models.SmartApp;
-import eu.trentorise.smartcampus.launcher.models.UpdateModel;
 import eu.trentorise.smartcampus.launcher.settings.SettingsActivity;
 import eu.trentorise.smartcampus.launcher.util.ConnectionUtil;
 import eu.trentorise.smartcampus.launcher.widget.TileButton;
-import eu.trentorise.smartcampus.protocolcarrier.ProtocolCarrier;
-import eu.trentorise.smartcampus.protocolcarrier.common.Constants.Method;
-import eu.trentorise.smartcampus.protocolcarrier.custom.MessageRequest;
-import eu.trentorise.smartcampus.protocolcarrier.custom.MessageResponse;
 
 /**
  * 
@@ -80,9 +74,6 @@ public class AppFragment extends SherlockFragment {
 	private ConnectivityManager mConnectivityManager;
 	private AppInspector mInspector;
 
-	// variable used for changing version downloaded
-
-	private static final String KEY_UPDATE_DEV = "update_dev";
 
 	// variable used for forcing refresh coming back from setting activity
 
@@ -95,18 +86,8 @@ public class AppFragment extends SherlockFragment {
 	private List<AppItem> mAppItems = new ArrayList<AppItem>();;
 	private int heightActionBar = 0;
 	private AppTask mAppTask;
-	private ApkDownloaderTask mDownloaderTask;
 	public static final String PREFS_NAME = "LauncherPreferences";
-	private static final String UPDATE = "_updateModel";
-	private String UPDATE_ADDRESS = null;
-	private String UPDATE_ADDRESS_DEV = null;
-	private String UPDATE_HOST = null;
-	private static final String LAUNCHER = "SmartLAuncher";
-	private Drawable ic_update;
-	private boolean availableUpdate = false;
-	private int[] version;
-	// private boolean toUpdate = true;
-	private boolean isDialogOpen = false;
+
 	// private ProgressDialog progress = null;
 
 	// force the update pressing the menu button
@@ -123,21 +104,7 @@ public class AppFragment extends SherlockFragment {
 		mInspector = new AppInspector(getSherlockActivity());
 		// Asking for an option menu
 		setHasOptionsMenu(true);
-		UPDATE_ADDRESS = getResources().getString(R.string.update_address);
-		UPDATE_ADDRESS_DEV = getResources().getString(R.string.update_address_develop);
 
-		UPDATE_HOST = getResources().getString(R.string.update_host);
-
-		// if you have some problem with the stored data, uncomment these lines
-		// and the data are erased
-		/*
-		 * SharedPreferences settings =
-		 * getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-		 * SharedPreferences.Editor editor = settings.edit(); editor.clear();
-		 * editor.commit();
-		 */
-
-		ic_update = getResources().getDrawable(R.drawable.ic_app_update);
 		settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 	}
 
@@ -201,71 +168,32 @@ public class AppFragment extends SherlockFragment {
 		}
 	}
 
-	private int[] readUpdateVersions(String[] packageNames, int[] defaultVersions) {
-
-		int[] res = defaultVersions;
-		UpdateModel update = null;
-		long nextUpdate = -1;
-		if (settings != null && settings.contains(UPDATE)) {
-			nextUpdate = settings.getLong(UPDATE, -1);
-		}
-
-		if (nextUpdate < System.currentTimeMillis() || forced) {
-			// //if press the button check now and don't the next time
-			// if (!forced)
-			// toUpdate = true;
-
-			// try to update
-			// MessageRequest req = new MessageRequest(UPDATE_HOST,
-			// UPDATE_ADDRESS);
-
-			String destination = new String(UPDATE_ADDRESS);
-			if (settings.getBoolean(KEY_UPDATE_DEV, false)) {
-				destination = UPDATE_ADDRESS_DEV;
-			}
-			MessageRequest req = new MessageRequest(UPDATE_HOST, destination);
-
-			req.setMethod(Method.GET);
-			ProtocolCarrier pc = new ProtocolCarrier(getSherlockActivity(), LAUNCHER);
-			try {
-				MessageResponse mres = pc.invokeSync(req, LAUNCHER, 
-						null);
-//						SCAccessProvider.getInstance(getSherlockActivity()).readToken(getSherlockActivity()));
-				if (mres != null && mres.getBody() != null) {
-					// Update from variable sec
-					Calendar dateCal = Calendar.getInstance();
-					dateCal.setTime(new Date());
-					dateCal.add(Calendar.SECOND, getResources().getInteger(R.integer.check_interval));
-					nextUpdate = dateCal.getTime().getTime();
-					update = new UpdateModel(mres.getBody());
-					settings.edit().putLong(UPDATE, nextUpdate).commit();
-					for (int i = 0; i < packageNames.length; i++) {
-						Integer version = update.getVersion(packageNames[i]);
-						res[i] = version == null ? 0 : version;
-						if (version != null){
-							settings.edit().putInt(packageNames[i] + "-version", version).commit();
-						}
-					}
-					version = res;
-				}
-			} catch (Exception e) {
-				Log.e(AppFragment.class.getName(), "Error reading update config: " + e.getMessage());
+	
+	private void downloadApplication(String url, String name) {
+		if (ConnectionUtil.isConnected(mConnectivityManager)) {
+			// Checking url
+			if (!TextUtils.isEmpty(url)) {
+				startPlayStore(url);
+			} else {
+				Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
+				Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			// toUpdate = false;
-			for (int i = 0; i < packageNames.length; i++) {
-				res[i] = settings.getInt(packageNames[i] + "-version", 0);
-			}
-			version = res;
+			Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
+			Intent intent = ConnectionUtil.getWifiSettingsIntent();
+			startActivity(intent);
 		}
-
-		return res;
 	}
 
+	private void startPlayStore(String url) {
+		Intent openPlayStore = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+		Log.i(AppFragment.class.getName(), "open market for: "+url);
+		startActivity(openPlayStore);
+	}
+
+	
 	// Task that retrieves applications info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>> {
-		private DialogInterface.OnClickListener updateDialogClickListener;
-		private AppItem launcher;
 
 		@Override
 		protected void onPreExecute() {
@@ -289,13 +217,12 @@ public class AppFragment extends SherlockFragment {
 			String[] labels = getResources().getStringArray(R.array.app_labels);
 			String[] packages = getResources().getStringArray(R.array.app_packages);
 			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
-			String url = getResources().getString(R.string.smartcampus_url_apk);
+			
+			String url = getResources().getString(R.string.open_playstore_url);
+			
 			int[] versions = getResources().getIntArray(R.array.app_version);
 			String[] filenames = getResources().getStringArray(R.array.apk_filename);
 
-			versions = readUpdateVersions(packages, versions);
-
-			Drawable ic_update = getResources().getDrawable(R.drawable.ic_app_update);
 
 			TypedArray icons = getResources().obtainTypedArray(R.array.app_icons);
 			TypedArray grayIcons = getResources().obtainTypedArray(R.array.app_gray_icons);
@@ -308,13 +235,12 @@ public class AppFragment extends SherlockFragment {
 				item.app = new SmartApp();
 
 				item.app.fillApp(labels[i], packages[i],
-						buildUrlDownloadApp(url, packages[i], versions[i], filenames[i]), icons.getDrawable(i),
+						buildUrlDownloadApp(url, packages[i]), icons.getDrawable(i),
 						grayIcons.getDrawable(i), backgrounds[i], versions[i], filenames[i]);
 				try {
 					mInspector.isAppInstalled(item.app.appPackage);
 					item.status = eu.trentorise.smartcampus.common.Status.OK;
-					if (!mInspector.isAppUpdated(item.app.appPackage, versions[i]))
-						item.status = eu.trentorise.smartcampus.common.Status.NOT_UPDATED;
+
 				} catch (LauncherException e) {
 					e.printStackTrace();
 					// Getting status
@@ -324,11 +250,6 @@ public class AppFragment extends SherlockFragment {
 				switch (item.status) {
 				case OK:
 					items.add(item);
-					break;
-				case NOT_UPDATED:
-					// Installed but not updated
-					items.add(item);
-					// actually is the same of OK
 					break;
 				default:
 					// Not installed list
@@ -341,9 +262,10 @@ public class AppFragment extends SherlockFragment {
 			// Returning result
 			return items;
 		}
-
-		private String buildUrlDownloadApp(String url, String packages, int versions, String filenames) {
-			return new String(url + packages + "/" + versions + "/" + filenames);
+		
+		
+		private String buildUrlDownloadApp(String url,String packageID) {
+			return String.format(url, packageID);
 		}
 
 		@Override
@@ -365,67 +287,6 @@ public class AppFragment extends SherlockFragment {
 					break;
 				i++;
 			}
-			launcher = result.get(i);
-			updateDialogClickListener = new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					isDialogOpen = false;
-					switch (which) {
-					case DialogInterface.BUTTON_POSITIVE:
-						// If yes is pressed download the new app
-
-						downloadApplication(launcher.app.url, launcher.app.name);
-
-						break;
-
-					case DialogInterface.BUTTON_NEGATIVE:
-						// If no is pressed add to the manual list applications
-						// update
-						// Put the application in the blacklist in the
-						// SharedPreferences
-						SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-						SharedPreferences.Editor editor = settings.edit();
-						if (settings.getBoolean(launcher.app.name + "-update", true)) {
-							editor.putBoolean(launcher.app.name + "-update", false);
-							editor.commit();
-
-						}
-						Toast.makeText(getSherlockActivity(), getString(R.string.update_application_manual_list),
-								Toast.LENGTH_SHORT).show();
-
-						availableUpdate = true;
-
-						AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
-						// change the icon like the updated, notifica che e'
-						// cambiato
-						mAdapter.notifyDataSetChanged();
-						break;
-					}
-				}
-			};
-			if (launcher.status == eu.trentorise.smartcampus.common.Status.NOT_UPDATED)// e
-																						// non
-																						// e'
-																						// nella
-																						// blacklist;l
-			{
-				SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-				settings.toString();
-				boolean autoupdate = settings.getBoolean(launcher.app.name + "-update", true);
-				if ((autoupdate) && (!isDialogOpen)) {
-					// update
-					AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
-					builder.setMessage(getString(R.string.update_application_question))
-							.setPositiveButton("Yes", updateDialogClickListener)
-							.setNegativeButton("No", updateDialogClickListener).show();
-					isDialogOpen = true;
-
-				} else {
-					// not update
-					availableUpdate = true;
-
-				}
-			}
 
 			// tolgo dalle app normali il launcher
 			result.remove(i);
@@ -437,32 +298,13 @@ public class AppFragment extends SherlockFragment {
 				mAppItems.addAll(result);
 
 			}
-			AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
+			AppFragment.this.getSherlockActivity().supportInvalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
 			if (forced)
 				forced = false;
 		}
 
-		private void downloadApplication(String url, String name) {
-			if (ConnectionUtil.isConnected(mConnectivityManager)) {
-				// Checking url
-				if (!TextUtils.isEmpty(url)) {
-					if (mDownloaderTask != null && !mDownloaderTask.isCancelled()) {
-						mDownloaderTask.cancel(true);
-					}
-					mDownloaderTask = new ApkDownloaderTask(getSherlockActivity(), url);
-					mDownloaderTask.execute();
-				} else {
-					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
-					Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
-				}
-			} else {
-				Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
-				Intent intent = ConnectionUtil.getWifiSettingsIntent();
-				startActivity(intent);
-			}
-		}
 
 	}
 
@@ -475,7 +317,6 @@ public class AppFragment extends SherlockFragment {
 
 		AppInspector mAppInspector = new AppInspector(getSherlockActivity());
 		int mWidth, mHeight;
-		DialogInterface.OnClickListener updateDialogClickListener;
 
 		public AppAdapter(List<AppItem> items) {
 			super(getSherlockActivity(), R.layout.item_app_tile, items);
@@ -549,36 +390,8 @@ public class AppFragment extends SherlockFragment {
 				holder.button.setTextColor(getResources().getColor(R.color.tile_text_unsel));
 			}
 
-			if (item.status == eu.trentorise.smartcampus.common.Status.NOT_UPDATED)// e
-																					// non
-																					// e'
-																					// nella
-																					// blacklist;l
-			{
-				SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-				settings.toString();
-				boolean autoupdate = settings.getBoolean(item.app.name + "-update", true);
-				if (autoupdate) {
-					// if update is not set (true) and is not updated
-					holder.button.setImage(item.app.icon);
-					holder.button.setBackgroundColor(item.app.background);
-					holder.button.setTextColor(Color.WHITE);
-					holder.button.setmUpdate(ic_update);
-					holder.button.mUpdateVisible(true);
-				} else {
-					// if it is set to false is manual
-					holder.button.setImage(item.app.icon);
-					holder.button.setBackgroundColor(item.app.background);
-					holder.button.setTextColor(Color.WHITE);
-					holder.button.mUpdateVisible(false);
-					item.status = Status.OK;
-					// menu available update presente
-					// se ce n'e' uno NOT UPDATED => true
-					availableUpdate = true;
-					AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
-				}
 
-			}
+
 //			//temporary Coming Soon
 //			if ("eu.trentorise.smartcampus.studymate".equals(item.app.appPackage))
 //			{
@@ -591,6 +404,7 @@ public class AppFragment extends SherlockFragment {
 //				});
 //				return convertView;
 //			}
+
 			// Setting application info name
 			switch (item.status) {
 			case OK:
@@ -606,58 +420,6 @@ public class AppFragment extends SherlockFragment {
 					}
 				});
 				break;
-
-			case NOT_UPDATED:
-				holder.button.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						// dialog box per fare update
-						updateDialogClickListener = new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								switch (which) {
-								case DialogInterface.BUTTON_POSITIVE:
-									// If yes is pressed download the new app
-
-									downloadApplication(item.app.url, item.app.name);
-									break;
-
-								case DialogInterface.BUTTON_NEGATIVE:
-									// If no is pressed add to the manual list
-									// applications update
-									// Put the application in the blacklist in
-									// the SharedPreferences
-									SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-									SharedPreferences.Editor editor = settings.edit();
-									if (settings.getBoolean(item.app.name + "-update", true)) {
-										editor.putBoolean(item.app.name + "-update", false);
-										editor.commit();
-
-									}
-									Toast.makeText(getContext(), getString(R.string.update_application_manual_list),
-											Toast.LENGTH_SHORT).show();
-
-									availableUpdate = true;
-
-									AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
-									// change the icon like the updated,
-									// notifica che e' cambiato
-									mAdapter.notifyDataSetChanged();
-									break;
-								}
-							}
-						};
-						AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-						builder.setMessage(getString(R.string.update_application_question))
-								.setPositiveButton("Yes", updateDialogClickListener)
-								.setNegativeButton("No", updateDialogClickListener).show();
-
-					}
-				});
-				break;
-
 			case NOT_FOUND:
 				holder.button.setOnClickListener(new OnClickListener() {
 					@Override
@@ -684,26 +446,6 @@ public class AppFragment extends SherlockFragment {
 			return convertView;
 		}
 
-		private void downloadApplication(String url, String name) {
-			if (ConnectionUtil.isConnected(mConnectivityManager)) {
-				// Checking url
-				if (!TextUtils.isEmpty(url)) {
-					if (mDownloaderTask != null && !mDownloaderTask.isCancelled()) {
-						mDownloaderTask.cancel(true);
-					}
-					mDownloaderTask = new ApkDownloaderTask(getSherlockActivity(), url);
-					mDownloaderTask.execute();
-				} else {
-					Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
-					Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
-				}
-			} else {
-				Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
-				Intent intent = ConnectionUtil.getWifiSettingsIntent();
-				startActivity(intent);
-			}
-		}
-
 	}
 
 	@Override
@@ -713,51 +455,18 @@ public class AppFragment extends SherlockFragment {
 		SubMenu submenu = menu.getItem(0).getSubMenu();
 		submenu.clear();
 		submenu.setIcon(R.drawable.ic_action_overflow);
-		submenu.add(Menu.CATEGORY_SYSTEM, R.id.update_option_list, Menu.NONE, R.string.update_option_list).setEnabled(
-				availableUpdate()); // enable
-									// or
-									// disable
-									// the
-									// option
-									// menu
-		submenu.add(Menu.CATEGORY_SYSTEM, R.id.check_updates, Menu.NONE, R.string.check_updates);// force
-																									// the
-																									// update
-																									// check
-		submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE, R.string.settings);// settings
+//		submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE, R.string.settings);// settings
 																						// page
 		submenu.add(Menu.CATEGORY_SYSTEM, R.id.about, Menu.NONE, R.string.about);// about
 																					// page
 
 	}
 
-	/* check if there are update or nor */
-
-	private boolean availableUpdate() {
-		return availableUpdate;
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.update_option_list:
-			FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-			Fragment newFragment = new ManualUpdateFragment();
-			Bundle args = new Bundle();
-			args.putIntArray("versions", version);
-			// Put any other arguments
-			newFragment.setArguments(args);
-			FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-			transaction.replace(R.id.fragment_container, newFragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
-			return true;
-		case R.id.check_updates:
-			// force the updates
-			forced = true;
-			startNewAppTask();
-			return true;
 		case R.id.settings:
 			startActivity(new Intent(getSherlockActivity(), SettingsActivity.class));
 			return true;

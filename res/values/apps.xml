@@ -24,6 +24,7 @@
 <!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
 <!--     <string name="smartcampus_auth_url"> https://vas-dev.smartcampuslab.it/accesstoken-provider/ac</string> -->
     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string>
+    <string name="open_playstore_url">market://details?id=%1$s</string>
 <!--     <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/accesstoken-provider/ac/</string> -->
 <!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
     
@@ -59,14 +60,14 @@
     
     <string-array name="app_packages">
         <item>eu.trentorise.smartcampus.jp</item>
-        <item>eu.trentorise.smartcampus.dt</item>
-        <item>eu.trentorise.smartcampus.cm</item>
-        <item>eu.trentorise.smartcampus.communicator</item>
-        <item>eu.trentorise.smartcampus.eb</item>
-        <item>eu.trentorise.smartcampus.portfolio</item>
-        <item>eu.trentorise.smartcampus.ifame</item>
-        <item>eu.trentorise.smartcampus.studymate</item>        
-        <item>eu.trentorise.smartcampus.launcher</item>
+        <item>it.smartcampuslab.dt</item>
+        <item>it.smartcampuslab.cm</item>
+        <item>it.smartcampuslab.communicator</item>
+        <item>it.smartcampuslab.eb</item>
+        <item>it.smartcampuslab.portfolio</item>
+        <item>it.smartcampuslab.ifame</item>
+        <item>it.smartcampuslab.studymate</item>        
+        <item>it.smartcampuslab.launcher</item>
     </string-array>
     
     

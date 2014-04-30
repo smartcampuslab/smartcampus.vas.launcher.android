@@ -61,9 +61,9 @@ public final class AppInspector {
 		try {
 			info = mPackageManager.getApplicationInfo(app, 0);
 			// Checking application User ID
-			if(mContext.getApplicationInfo().uid != info.uid){
-				throw new LauncherException(Status.NOT_VALID_UID);
-			}
+//			if(mContext.getApplicationInfo().uid != info.uid){
+//				throw new LauncherException(Status.NOT_VALID_UID);
+//			}
 			// Checking application signature
 			if(mPackageManager.checkSignatures(mContext.getPackageName(), info.packageName) < PackageManager.SIGNATURE_MATCH){
 				throw new LauncherException(Status.NOT_VALID_SIGNATURE);
@@ -104,21 +104,6 @@ public final class AppInspector {
 		return info;
 	}
 	
-	/**
-	 * Utility method that allows to know if an application is updated or not
-	 */
-	public boolean isAppUpdated(String app, int versionCode) throws LauncherException{
-		boolean res = false;
-		ApplicationInfo appInfo = isAppInstalled(app);
-		PackageInfo packInfo;
-		try {
-			packInfo = mContext.getPackageManager().getPackageInfo(appInfo.packageName, 0);
-			res = packInfo.versionCode >= versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
 	
 	/*
 	 * Check if the app is in the manual install applications list

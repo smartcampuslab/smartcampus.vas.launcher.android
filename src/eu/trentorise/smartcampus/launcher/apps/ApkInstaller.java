@@ -15,22 +15,10 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher.apps;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import eu.trentorise.smartcampus.launcher.R;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.widget.Toast;
 
 /**
  * 
@@ -72,82 +60,4 @@ public class ApkInstaller {
 
 	}
 
-	/**
-	 * Retrieves an APK from a passed URL and try to store in the preferred
-	 * folder.
-	 * 
-	 * @param urlLocation
-	 * @param appLabel
-	 * @return
-	 */
-	public static Uri retrieveApk(String urlLocation, String appLabel) {
-		try {
-			// Preparing folder and file
-			File folder = new File(FOLDER);
-			folder.mkdirs();
-			File apkFile = new File(folder, appLabel + FILE_EXT);
-			FileOutputStream fos = new FileOutputStream(apkFile);
-			// Opening connection
-			URL url = new URL(urlLocation);
-			HttpURLConnection c = (HttpURLConnection) url.openConnection();
-			c.setRequestMethod("GET");
-			c.setDoOutput(true);
-			c.connect();
-			// Getting InputStream
-			InputStream is = c.getInputStream();
-			byte[] buffer = new byte[1024];
-			int len1 = 0;
-			while ((len1 = is.read(buffer)) != -1) {
-				fos.write(buffer, 0, len1);
-			}
-			fos.close();
-			is.close();
-			// Return uri
-			return Uri.fromFile(apkFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * Very simple AsyncTask that in background downloads an APK and then on the
-	 * UI thread launch an intent to prompt installation to user.
-	 */
-	public static class ApkDownloaderTask extends AsyncTask<Void, Void, Uri> {
-
-		private String mAppUrl;
-		private Context mContext;
-		private ProgressDialog mProgressDialog;
-
-		public ApkDownloaderTask(Context context, String appUrl) {
-			mContext = context;
-			mAppUrl = appUrl;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			mProgressDialog = ProgressDialog.show(mContext, "",
-					mContext.getString(R.string.getting_apk));
-		}
-
-		@Override
-		protected Uri doInBackground(Void... params) {
-			Uri uri = null;
-			uri = retrieveApk(mAppUrl,
-					mContext.getString(R.string.downloaded_app));
-			return uri;
-		}
-
-		@Override
-		protected void onPostExecute(Uri result) {
-			mProgressDialog.dismiss();
-			// Checking result
-			if (result != null) {
-				promptInstall(mContext, result);
-			} else {
-				Toast.makeText(mContext, "Error!", Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
 }
