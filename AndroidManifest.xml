@@ -15,6 +15,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.smartcampuslab.launcher"
+    android:sharedUserId="it.smartcampuslab.launcher"
+    android:sharedUserLabel="@string/app_uid_label"
     android:installLocation="internalOnly"
     android:versionCode="29"
     android:versionName="0.15.1" >
@@ -67,9 +69,6 @@
             android:value="true" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.AUTHORITY_ARRAY" android:value="fbk,unitn"/>
-        <meta-data
-            android:name="SHARED_PACKAGE"
-            android:value="it.smartcampuslab.launcher" />
         
         <activity
             android:name="eu.trentorise.smartcampus.launcher.MainActivity"
