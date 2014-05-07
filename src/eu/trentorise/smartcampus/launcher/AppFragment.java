@@ -465,25 +465,25 @@ public class AppFragment extends SherlockFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		AboutFragment newFragment;
+		Bundle args;
+		FragmentTransaction transaction;
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.settings:
 			startActivity(new Intent(getSherlockActivity(), SettingsActivity.class));
 			return true;
 		case R.id.about:
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse(getString(R.string.smartcampus_url_credits)));
-			startActivity(browserIntent);
-			// fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
-			// .beginTransaction();
-			// newFragment = new AboutFragment();
-			// args = new Bundle();
-			// newFragment.setArguments(args);
-			// transaction = getSherlockActivity().getSupportFragmentManager()
-			// .beginTransaction();
-			// transaction.replace(R.id.fragment_container, newFragment);
-			// transaction.addToBackStack(null);
-			// transaction.commit();
+//			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+//					Uri.parse(getString(R.string.smartcampus_url_credits)));
+//			startActivity(browserIntent);
+			 newFragment = new AboutFragment();
+			 args = new Bundle();
+			 newFragment.setArguments(args);
+			 transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
+			 transaction.replace(R.id.fragment_container, newFragment);
+			 transaction.addToBackStack(null);
+			 transaction.commit();
 			return true;
 
 		default:
