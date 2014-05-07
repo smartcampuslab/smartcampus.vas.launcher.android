@@ -17,6 +17,7 @@
 
     <string name="app_name">Smart Campus</string>
     <string name="menu_settings">Impostazioni</string>
+    <string name="menu_help">Aiuto</string>
     <string name="app_uid_label">SmartCampus</string>
     <string name="downloaded_app">temp</string>
     <string name="getting_apk">Scaricamento della app&#8230;</string>
@@ -42,8 +43,8 @@
     <string name="label_coming_soon">Disponibile a breve!</string>
     
     
-    <string name="about_0"><![CDATA[<div style="text-align:center;font-family:Arial">Le app Smart Campus sono state create con gli studenti, dagli studenti e per gli studenti dell’Università di Trento.</div>]]></string>
-	<string name="about_1"><![CDATA[<div style="text-align:center;font-family:Arial"><a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da</div>]]></string>
-	<string name="about_2"><![CDATA[<div style="text-align:center;font-family:Arial"><b>Importante:</b> le app utilizzano alcuni dati provenienti dal tuo account UniTn. Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.</div>]]></string>
+    <string name="about_0"><![CDATA[Le app Smart Campus sono state create con gli studenti, dagli studenti e per gli studenti dell’Università di Trento.]]></string>
+	<string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da]]></string>
+	<string name="about_2"><![CDATA[Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.]]></string>
 	    
 </resources>

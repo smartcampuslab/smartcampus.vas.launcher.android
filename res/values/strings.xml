@@ -17,6 +17,7 @@
 
     <string name="app_name">Smart Campus</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_help">Help</string>
     <string name="app_uid_label">SmartCampus</string>
     <string name="downloaded_app">temp</string>
     <string name="getting_apk">Retrieving the app&#8230;</string>
@@ -49,6 +50,6 @@
 <![CDATA[<div style="text-align:center;font-family:Arial">The Smart Campus apps are built with students, by students, and for students of the University of Trento.</div>]]>
     </string>
     <string name="about_1"><![CDATA[<div style="text-align:center;font-family:Arial"><a href="http://www.smartcampuslab.it/">Smart Campus</a> is an <a href="htpp://www.smartcampuslab.it/swabout">open source</a> project realized by</div>]]></string>
-    <string name="about_2"><![CDATA[<div style="text-align:center;font-family:Arial"><b>Important:</b> to gain full access to all of the apps’ functions, you must give the University of Trento permission to release your data to Smart Campus. To do so, go to this <a href="http://bit.do/smartcampus_unitn.">website</a>, sign into your UniTn account, and fill out the form.</div>]]></string>
+    <string name="about_2"><![CDATA[<div style="text-align:center;font-family:Arial">To gain full access to all of the apps’ functions, you must give the University of Trento permission to release your data to Smart Campus.<br/>To do so, go to this <a href="http://bit.do/smartcampus_unitn.">website</a>, sign into your UniTn account, and fill out the form.</div>]]></string>
 
 </resources>

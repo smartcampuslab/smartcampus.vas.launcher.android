@@ -27,17 +27,11 @@ public class AboutFragment extends SherlockFragment {
 		View v = inflater.inflate(R.layout.about, null, false);
 		TextView first = (TextView) v.findViewById(R.id.textView1);
 		first.setText(Html.fromHtml(getString(R.string.about_0)));
-		//first.setGravity(Gravity.CENTER_HORIZONTAL);
 		
 		TextView second = (TextView) v.findViewById(R.id.textView2);
 		second.setText(Html.fromHtml(getString(R.string.about_1)));
 		second.setMovementMethod(LinkMovementMethod.getInstance());
-		//second.setGravity(Gravity.CENTER_HORIZONTAL);
 
-		TextView third = (TextView) v.findViewById(R.id.textView3);
-		third.setText(Html.fromHtml(getString(R.string.about_2)));
-		third.setMovementMethod(LinkMovementMethod.getInstance());
-		//third.setGravity(Gravity.CENTER_HORIZONTAL);
 		return v;
 	}
 

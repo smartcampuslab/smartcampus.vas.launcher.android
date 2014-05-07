@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +37,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -46,6 +49,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -54,6 +59,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
+import eu.trentorise.smartcampus.android.common.LauncherHelper;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
@@ -73,7 +79,6 @@ public class AppFragment extends SherlockFragment {
 
 	private ConnectivityManager mConnectivityManager;
 	private AppInspector mInspector;
-
 
 	// variable used for forcing refresh coming back from setting activity
 
@@ -99,7 +104,8 @@ public class AppFragment extends SherlockFragment {
 	public void onCreate(Bundle args) {
 		super.onCreate(args);
 		// Getting connectivity manager
-		mConnectivityManager = ConnectionUtil.getConnectivityManager(getSherlockActivity());
+		mConnectivityManager = ConnectionUtil
+				.getConnectivityManager(getSherlockActivity());
 		// Getting inspector
 		mInspector = new AppInspector(getSherlockActivity());
 		// Asking for an option menu
@@ -109,12 +115,13 @@ public class AppFragment extends SherlockFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle args) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+			Bundle args) {
 		View v = inflater.inflate(R.layout.frag_apps, null);
 		// Getting UI references
 		mGridView = (GridView) v.findViewById(R.id.gridview);
-//		mGridView.setEnabled(false); // disable scrolling
-//		mGridView.setVerticalScrollBarEnabled(false);
+		// mGridView.setEnabled(false); // disable scrolling
+		// mGridView.setVerticalScrollBarEnabled(false);
 		return v;
 	}
 
@@ -135,12 +142,16 @@ public class AppFragment extends SherlockFragment {
 	public void onStart() {
 		super.onStart();
 		getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.app_name));
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(
+				false);
+		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(
+				true);
+		getSherlockActivity().getSupportActionBar().setTitle(
+				getString(R.string.app_name));
 
 		if (getSherlockActivity().getSupportActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
-			getSherlockActivity().getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			getSherlockActivity().getSupportActionBar().setNavigationMode(
+					ActionBar.NAVIGATION_MODE_STANDARD);
 		}
 		// Starting new task
 		startNewAppTask();
@@ -168,30 +179,31 @@ public class AppFragment extends SherlockFragment {
 		}
 	}
 
-	
 	private void downloadApplication(String url, String name) {
 		if (ConnectionUtil.isConnected(mConnectivityManager)) {
 			// Checking url
 			if (!TextUtils.isEmpty(url)) {
 				startPlayStore(url);
 			} else {
-				Log.d(AppFragment.class.getName(), "Empty url for download: " + name);
-				Toast.makeText(getSherlockActivity(), R.string.error_occurs, Toast.LENGTH_SHORT).show();
+				Log.d(AppFragment.class.getName(), "Empty url for download: "
+						+ name);
+				Toast.makeText(getSherlockActivity(), R.string.error_occurs,
+						Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Toast.makeText(getSherlockActivity(), R.string.enable_connection, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getSherlockActivity(), R.string.enable_connection,
+					Toast.LENGTH_SHORT).show();
 			Intent intent = ConnectionUtil.getWifiSettingsIntent();
 			startActivity(intent);
 		}
 	}
 
 	private void startPlayStore(String url) {
-		Intent openPlayStore = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
-		Log.i(AppFragment.class.getName(), "open market for: "+url);
+		Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+		Log.i(AppFragment.class.getName(), "open market for: " + url);
 		startActivity(openPlayStore);
 	}
 
-	
 	// Task that retrieves applications info
 	private class AppTask extends AsyncTask<Void, Void, List<AppItem>> {
 
@@ -215,28 +227,35 @@ public class AppFragment extends SherlockFragment {
 			List<AppItem> notInstalledItems = new ArrayList<AppItem>();
 			// Getting applications names, packages, ...
 			String[] labels = getResources().getStringArray(R.array.app_labels);
-			String[] packages = getResources().getStringArray(R.array.app_packages);
-			String[] backgrounds = getResources().getStringArray(R.array.app_backgrounds);
-			
+			String[] packages = getResources().getStringArray(
+					R.array.app_packages);
+			String[] backgrounds = getResources().getStringArray(
+					R.array.app_backgrounds);
+
 			String url = getResources().getString(R.string.open_playstore_url);
-			
+
 			int[] versions = getResources().getIntArray(R.array.app_version);
-			String[] filenames = getResources().getStringArray(R.array.apk_filename);
+			String[] filenames = getResources().getStringArray(
+					R.array.apk_filename);
 
-
-			TypedArray icons = getResources().obtainTypedArray(R.array.app_icons);
-			TypedArray grayIcons = getResources().obtainTypedArray(R.array.app_gray_icons);
+			TypedArray icons = getResources().obtainTypedArray(
+					R.array.app_icons);
+			TypedArray grayIcons = getResources().obtainTypedArray(
+					R.array.app_gray_icons);
 			// They have to be the same length
-			assert labels.length == packages.length && labels.length == backgrounds.length
-					&& labels.length == icons.length() && labels.length == grayIcons.length();
+			assert labels.length == packages.length
+					&& labels.length == backgrounds.length
+					&& labels.length == icons.length()
+					&& labels.length == grayIcons.length();
 			// Preparing all items
 			for (int i = 0; i < labels.length; i++) {
 				AppItem item = new AppItem();
 				item.app = new SmartApp();
 
 				item.app.fillApp(labels[i], packages[i],
-						buildUrlDownloadApp(url, packages[i]), icons.getDrawable(i),
-						grayIcons.getDrawable(i), backgrounds[i], versions[i], filenames[i]);
+						buildUrlDownloadApp(url, packages[i]),
+						icons.getDrawable(i), grayIcons.getDrawable(i),
+						backgrounds[i], versions[i], filenames[i]);
 				try {
 					mInspector.isAppInstalled(item.app.appPackage);
 					item.status = eu.trentorise.smartcampus.common.Status.OK;
@@ -262,9 +281,8 @@ public class AppFragment extends SherlockFragment {
 			// Returning result
 			return items;
 		}
-		
-		
-		private String buildUrlDownloadApp(String url,String packageID) {
+
+		private String buildUrlDownloadApp(String url, String packageID) {
 			return String.format(url, packageID);
 		}
 
@@ -298,13 +316,13 @@ public class AppFragment extends SherlockFragment {
 				mAppItems.addAll(result);
 
 			}
-			AppFragment.this.getSherlockActivity().supportInvalidateOptionsMenu();
+			AppFragment.this.getSherlockActivity()
+					.supportInvalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
 			if (forced)
 				forced = false;
 		}
-
 
 	}
 
@@ -329,7 +347,8 @@ public class AppFragment extends SherlockFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
 
-			convertView = LayoutInflater.from(getSherlockActivity()).inflate(R.layout.item_app_tile, null);
+			convertView = LayoutInflater.from(getSherlockActivity()).inflate(
+					R.layout.item_app_tile, null);
 			// Create Holder
 			holder.button = new TileButton(convertView);
 			// add Holder to View
@@ -345,30 +364,36 @@ public class AppFragment extends SherlockFragment {
 			Window window = getSherlockActivity().getWindow();
 			window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
 			int statusBarHeight = rectgle.top;
-			int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+			int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT)
+					.getTop();
 			// Dimension
-			Display display = getSherlockActivity().getWindowManager().getDefaultDisplay();
+			Display display = getSherlockActivity().getWindowManager()
+					.getDefaultDisplay();
 			// We are using android v8
-			heightActionBar = getSherlockActivity().getSupportActionBar().getHeight();
+			heightActionBar = getSherlockActivity().getSupportActionBar()
+					.getHeight();
 			mWidth = Math.round(display.getWidth() / NUMBER_OF_COLUMNS);
-			mHeight = Math.round(((display.getHeight() - (heightActionBar)) - statusBarHeight) / NUMBER_OF_ROWS); // problem
-																													// if
-																													// the
-																													// sum
-																													// of
-																													// the
-																													// tails
-																													// is
-																													// less
-																													// or
-																													// great
-																													// than
-																													// the
-																													// number
+			mHeight = Math
+					.round(((display.getHeight() - (heightActionBar)) - statusBarHeight)
+							/ NUMBER_OF_ROWS); // problem
+												// if
+												// the
+												// sum
+												// of
+												// the
+												// tails
+												// is
+												// less
+												// or
+												// great
+												// than
+												// the
+												// number
 			// if the row is the last add the difference (positive or negative)
 			if (position >= (NUMBER_OF_COLUMNS * (NUMBER_OF_ROWS - 1))) {
 				mHeight = mHeight
-						+ (display.getHeight() - (mHeight * NUMBER_OF_ROWS+heightActionBar+statusBarHeight));
+						+ (display.getHeight() - (mHeight * NUMBER_OF_ROWS
+								+ heightActionBar + statusBarHeight));
 			}
 			// Setting sizes
 			convertView.setMinimumWidth(mWidth);
@@ -386,24 +411,26 @@ public class AppFragment extends SherlockFragment {
 
 			} else {
 				holder.button.setImage(item.app.gray_icon);
-				holder.button.setBackgroundColor(getResources().getColor(R.color.tile_background_unsel));
-				holder.button.setTextColor(getResources().getColor(R.color.tile_text_unsel));
+				holder.button.setBackgroundColor(getResources().getColor(
+						R.color.tile_background_unsel));
+				holder.button.setTextColor(getResources().getColor(
+						R.color.tile_text_unsel));
 			}
 
-
-
-//			//temporary Coming Soon
-//			if ("eu.trentorise.smartcampus.studymate".equals(item.app.appPackage))
-//			{
-//				holder.button.setOnClickListener(new OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						// Asking user to remove application
-//						Toast.makeText(getActivity(), R.string.label_coming_soon, Toast.LENGTH_SHORT).show();
-//					}
-//				});
-//				return convertView;
-//			}
+			// //temporary Coming Soon
+			// if
+			// ("eu.trentorise.smartcampus.studymate".equals(item.app.appPackage))
+			// {
+			// holder.button.setOnClickListener(new OnClickListener() {
+			// @Override
+			// public void onClick(View v) {
+			// // Asking user to remove application
+			// Toast.makeText(getActivity(), R.string.label_coming_soon,
+			// Toast.LENGTH_SHORT).show();
+			// }
+			// });
+			// return convertView;
+			// }
 
 			// Setting application info name
 			switch (item.status) {
@@ -412,8 +439,11 @@ public class AppFragment extends SherlockFragment {
 					@Override
 					public void onClick(View v) {
 						try {
-							mAppInspector.launchApp(item.app.appPackage, getString(R.string.smartcampus_action_start),
-									null, null);
+							mAppInspector
+									.launchApp(
+											item.app.appPackage,
+											getString(R.string.smartcampus_action_start),
+											null, null);
 						} catch (LauncherException e) {
 							e.printStackTrace();
 						}
@@ -433,7 +463,9 @@ public class AppFragment extends SherlockFragment {
 					@Override
 					public void onClick(View v) {
 						// Asking user to remove application
-						Toast.makeText(getSherlockActivity(), R.string.not_secure_app, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getSherlockActivity(),
+								R.string.not_secure_app, Toast.LENGTH_SHORT)
+								.show();
 					}
 				});
 				break;
@@ -451,17 +483,18 @@ public class AppFragment extends SherlockFragment {
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.gripmenu, menu);
-		SubMenu submenu = menu.getItem(0).getSubMenu();
+		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.gripmenu,
+				menu);
+		SubMenu submenu = menu.getItem(1).getSubMenu();
 		submenu.clear();
 		submenu.setIcon(R.drawable.ic_action_overflow);
-//		submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE, R.string.settings);// settings
-																						// page
+		// submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE,
+		// R.string.settings);// settings
+		// page
 		submenu.add(Menu.CATEGORY_SYSTEM, R.id.about, Menu.NONE, R.string.about);// about
 																					// page
 
 	}
-
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -471,21 +504,32 @@ public class AppFragment extends SherlockFragment {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.settings:
-			startActivity(new Intent(getSherlockActivity(), SettingsActivity.class));
+			startActivity(new Intent(getSherlockActivity(),
+					SettingsActivity.class));
 			return true;
 		case R.id.about:
-//			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-//					Uri.parse(getString(R.string.smartcampus_url_credits)));
-//			startActivity(browserIntent);
-			 newFragment = new AboutFragment();
-			 args = new Bundle();
-			 newFragment.setArguments(args);
-			 transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-			 transaction.replace(R.id.fragment_container, newFragment);
-			 transaction.addToBackStack(null);
-			 transaction.commit();
+			// Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+			// Uri.parse(getString(R.string.smartcampus_url_credits)));
+			// startActivity(browserIntent);
+			newFragment = new AboutFragment();
+			args = new Bundle();
+			newFragment.setArguments(args);
+			transaction = getSherlockActivity().getSupportFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.fragment_container, newFragment);
+			transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			transaction.addToBackStack(null);
+			transaction.commit();
 			return true;
-
+		case R.id.help:
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			TextView tv = new TextView(getActivity());
+			tv.setPadding(20, 20, 20, 20);
+			tv.setTextSize(18f);
+			tv.setText(Html.fromHtml(getString(R.string.about_2)));
+			tv.setMovementMethod(LinkMovementMethod.getInstance());
+			builder.setTitle("").setView(tv).create().show();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 
