@@ -43,83 +43,76 @@ import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 
 public class MainActivity extends SherlockFragmentActivity {
-		
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		try {
-//			initGlobalConstants();
-			showDownloadMarket();
-//			if (!SCAccessProvider.getInstance(this).login(this, null)) {
-//				new TokenTask().execute();
-//			}
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-			Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
-			finish();
-		}
 
-    	// Getting saved instance
+		showDownloadMarket();
+
+		// Getting saved instance
 		if (savedInstanceState == null) {
 			// Loading first fragment that works as home for application.
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
 			Fragment frag = new AppFragment();
 			ft.add(R.id.fragment_container, frag).commit();
 		}
-		
+
 	}
 
 	private void showDownloadMarket() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.dialog_market_title))
 				.setMessage(getString(R.string.dialog_market_info))
-				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+				.setPositiveButton(getString(R.string.label_go),
+						new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String package_name= "it.smartcampuslab.launcher";
-						Intent market = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+package_name));
-						startActivity(market);
-						finish();
-					}
-				})
-				.setNeutralButton(getString(R.string.cancel),null);	
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+//								String package_name = "it.smartcampuslab.launcher";
+//								Intent market = new Intent(Intent.ACTION_VIEW,
+//										Uri.parse("market://details?id="
+//												+ package_name));
+								startActivity(new Intent(MainActivity.this,Wizard.class));
+								finish();
+							}
+						}).setNeutralButton(getString(R.string.cancel), null);
 		builder.create().show();
-	}
-
-	private void initGlobalConstants() throws NameNotFoundException, NotFoundException {
-		GlobalConfig.setAppUrl(this, getResources().getString(R.string.smartcampus_app_url));
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		  FragmentManager fragmentManager = getSupportFragmentManager();
-		  try{
-		  AppFragment appfragment =  (AppFragment) fragmentManager.findFragmentById(R.id.fragment_container);	
-		  appfragment.flip();
-		  } catch (ClassCastException e){
-			  
-		  }
-		  }
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		try {
+			AppFragment appfragment = (AppFragment) fragmentManager
+					.findFragmentById(R.id.fragment_container);
+			appfragment.flip();
+		} catch (ClassCastException e) {
+
+		}
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			String token = data.getExtras().getString(AccountManager.KEY_AUTHTOKEN);
+			String token = data.getExtras().getString(
+					AccountManager.KEY_AUTHTOKEN);
 			if (token == null) {
-				Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getString(R.string.auth_failed),
+						Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Toast.makeText(this, getString(R.string.token_required), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, getString(R.string.token_required),
+					Toast.LENGTH_LONG).show();
 			finish();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.clear();
@@ -127,53 +120,15 @@ public class MainActivity extends SherlockFragmentActivity {
 		inflater.inflate(R.menu.emptymenu, menu);
 		return true;
 	}
-	
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	        case android.R.id.home:
-	        	onBackPressed();
-	    }
+		// Handle item selection
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private class TokenTask extends AsyncTask<Void, Void, String> {
-
-		@Override
-		protected String doInBackground(Void... params) {
-			SCAccessProvider provider = SCAccessProvider.getInstance(MainActivity.this);
-			try {
-				return provider.readToken(MainActivity.this);
-			} catch (AACException e) {
-				Log.e(MainActivity.class.getName(), ""+e.getMessage());
-				switch (e.getStatus()) {
-				case HttpStatus.SC_UNAUTHORIZED:
-					try {
-						provider.logout(MainActivity.this);
-					} catch (AACException e1) {
-						e1.printStackTrace();
-					}
-				default:
-					break;
-				}
-				return null;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			if (result == null) {
-				SCAccessProvider provider = SCAccessProvider.getInstance(MainActivity.this);
-				try {
-					provider.login(MainActivity.this, null);
-				} catch (AACException e) {
-					Log.e(MainActivity.class.getName(), ""+e.getMessage());
-				}
-			}
-		}
-		
-	} 
-	
 }

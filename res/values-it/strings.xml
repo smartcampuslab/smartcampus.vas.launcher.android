@@ -23,7 +23,6 @@
     <string name="error_occurs">OOPS! App non ancora disponibile.</string>
     <string name="not_secure_app">App non sicura!</string>
     <string name="enable_connection">Connettività assente!\nAttiva una connessione di rete e riprova.</string>
-
     <string name="token_required">Per accedere alla app Smart Campus è necessario effettuare l\'autenticazione.</string>
     <string name="auth_failed">Errore di inizializzazione dell\'applicazione.</string>
     <string name="update_application_question">È disponibile una nuova versione. Vuoi aggiornarla adesso?</string>
@@ -38,7 +37,11 @@
     <string name="about">Info</string>
     <string name="update_dev">Versione app</string>
     <string name="update_dev_sum">Verifica versioni di prova</string>
-	<string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
+    <string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
     <string name="label_coming_soon">Disponibile a breve!</string>
+    <string name="label_go">Vai!</string>
+    <string name="dialog_market_title">Ci Siamo!</string>
+    <string name="dialog_market_info">Finalmente siamo sul Google Play Store, scarica le nostre apps!\nQuesta versione non sarà più supportata!.</string>
+    <string name="upgrade_notice">Per favore, prima aggiorna il launcher.</string>
 
 </resources>

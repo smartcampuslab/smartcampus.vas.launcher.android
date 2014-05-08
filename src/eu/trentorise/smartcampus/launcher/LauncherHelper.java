@@ -1,5 +1,8 @@
 package eu.trentorise.smartcampus.launcher;
 
+import java.util.List;
+
+import eu.trentorise.smartcampus.launcher.AppFragment.AppItem;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -7,6 +10,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 
 public class LauncherHelper {
+	
+	public static List<AppItem> items;
+	
 //	private static String CLIENT_ID = null;
 //	private static String CLIENT_SECRET = null;
 //	

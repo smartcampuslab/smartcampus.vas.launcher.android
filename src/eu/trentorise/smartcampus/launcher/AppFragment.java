@@ -184,9 +184,12 @@ public class AppFragment extends SherlockFragment {
 	}
 
 	private void startPlayStore(String url) {
-		Intent openPlayStore = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
-		Log.i(AppFragment.class.getName(), "open market for: "+url);
-		startActivity(openPlayStore);
+//		String package_name = "it.smartcampuslab.launcher";
+//		Intent openPlayStore = new Intent(Intent.ACTION_VIEW,
+//				Uri.parse("market://details?id="
+//						+ package_name));
+//		startActivity(openPlayStore);
+		Toast.makeText(getActivity().getBaseContext(), R.string.upgrade_notice, Toast.LENGTH_SHORT).show();
 	}
 
 	
@@ -209,7 +212,7 @@ public class AppFragment extends SherlockFragment {
 		@Override
 		protected List<AppItem> doInBackground(Void... params) {
 
-			List<AppItem> items = new ArrayList<AppItem>();
+			LauncherHelper.items = new ArrayList<AppItem>();
 			List<AppItem> notInstalledItems = new ArrayList<AppItem>();
 			// Getting applications names, packages, ...
 			String[] labels = getResources().getStringArray(R.array.app_labels);
@@ -247,7 +250,7 @@ public class AppFragment extends SherlockFragment {
 				// Matching just retrieved status
 				switch (item.status) {
 				case OK:
-					items.add(item);
+					LauncherHelper.items.add(item);
 					break;
 				default:
 					// Not installed list
@@ -256,9 +259,9 @@ public class AppFragment extends SherlockFragment {
 				}
 			}
 			// Concatenation of not installed ones
-			items.addAll(notInstalledItems);
+			LauncherHelper.items.addAll(notInstalledItems);
 			// Returning result
-			return items;
+			return LauncherHelper.items;
 		}
 		
 		
@@ -296,7 +299,7 @@ public class AppFragment extends SherlockFragment {
 				mAppItems.addAll(result);
 
 			}
-			AppFragment.this.getSherlockActivity().invalidateOptionsMenu();
+			AppFragment.this.getSherlockActivity().supportInvalidateOptionsMenu();
 			// Notifying adapter
 			mAdapter.notifyDataSetChanged();
 			if (forced)

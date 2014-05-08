@@ -48,7 +48,9 @@
 	<string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
     <string name="label_coming_soon">Coming soon!</string>
     
+    <string name="label_go">Go!</string>
+    
     <string name="dialog_market_title">We\'re live!</string>
-    <string name="dialog_market_info">Finally we are on the Goole Play store, check our apps out!\nThis version won\'t be supported anymore.</string>
-
+    <string name="dialog_market_info">Finally we are on the Google Play store, check our apps out!\nThis version won\'t be supported anymore.</string>
+	<string name="upgrade_notice">Please, upgrade your launcher first</string>
 </resources>
