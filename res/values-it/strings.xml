@@ -40,8 +40,7 @@
     <string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
     <string name="label_coming_soon">Disponibile a breve!</string>
     <string name="label_go">Vai!</string>
-    <string name="dialog_market_title">Ci Siamo!</string>
-    <string name="dialog_market_info">Finalmente siamo sul Google Play Store, scarica le nostre apps!\nQuesta versione non sarà più supportata!.</string>
-    <string name="upgrade_notice">Per favore, prima aggiorna il launcher.</string>
-
+    <string name="dialog_market_title">Ora siamo su Google Play!</string>
+   	<string name="dialog_market_info">Le app di Smart Campus sono ora disponibili sul Google Play store!\nQuesto versione delle app non sarà più supportata.\nDisinstalla tutte le app di Smart Campus che sono installate sul tuo smartphone e scarica la nuova Smart Campus Toolbox cercandola sullo store o direttamente da questo <a href="http://play.google.com/store/apps/details?id=it.smartcampuslab.launcher">URL</a></string>
+   	<string name="upgrade_notice">Per favore, prima aggiorna il launcher.</string>
 </resources>

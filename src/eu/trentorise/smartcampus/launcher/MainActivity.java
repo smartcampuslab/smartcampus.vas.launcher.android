@@ -15,32 +15,21 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.launcher;
 
-import org.apache.http.HttpStatus;
-
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.content.res.Resources.NotFoundException;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
-import eu.trentorise.smartcampus.ac.AACException;
-import eu.trentorise.smartcampus.ac.SCAccessProvider;
-import eu.trentorise.smartcampus.android.common.GlobalConfig;
 
 public class MainActivity extends SherlockFragmentActivity {
 
@@ -76,8 +65,8 @@ public class MainActivity extends SherlockFragmentActivity {
 //								Intent market = new Intent(Intent.ACTION_VIEW,
 //										Uri.parse("market://details?id="
 //												+ package_name));
-								startActivity(new Intent(MainActivity.this,Wizard.class));
-								finish();
+//								startActivity(new Intent(MainActivity.this,Wizard.class));
+//								finish();
 							}
 						}).setNeutralButton(getString(R.string.cancel), null);
 		builder.create().show();
