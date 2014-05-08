@@ -55,20 +55,21 @@ public class MainActivity extends SherlockFragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.dialog_market_title))
 				.setMessage(getString(R.string.dialog_market_info))
-				.setPositiveButton(getString(R.string.label_go),
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-//								String package_name = "it.smartcampuslab.launcher";
-//								Intent market = new Intent(Intent.ACTION_VIEW,
-//										Uri.parse("market://details?id="
-//												+ package_name));
-//								startActivity(new Intent(MainActivity.this,Wizard.class));
-//								finish();
-							}
-						}).setNeutralButton(getString(R.string.cancel), null);
+				.setNeutralButton(getString(R.string.ok), null);
+//		.setPositiveButton(getString(R.string.label_go),
+//		new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog,
+//					int which) {
+////				String package_name = "it.smartcampuslab.launcher";
+////				Intent market = new Intent(Intent.ACTION_VIEW,
+////						Uri.parse("market://details?id="
+////								+ package_name));
+////				startActivity(new Intent(MainActivity.this,Wizard.class));
+////				finish();
+//			}
+//		})
 		builder.create().show();
 	}
 
