@@ -45,6 +45,6 @@
     
     <string name="about_0"><![CDATA[Le app Smart Campus sono state create con gli studenti, dagli studenti e per gli studenti dell’Università di Trento.]]></string>
 	<string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da]]></string>
-	<string name="about_2"><![CDATA[Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.]]></string>
+	<string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.</div>]]></string>
 	    
 </resources>

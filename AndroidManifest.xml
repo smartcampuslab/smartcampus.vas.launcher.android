@@ -48,10 +48,10 @@
         android:theme="@style/Theme.smartcampus" >
         <meta-data
             android:name="eu.trentorise.smartcampus.account.CLIENT_ID"
-            android:value="" />
+            android:value="@string/client_id" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.CLIENT_SECRET"
-            android:value="" />
+            android:value="@string/client_secret" />
         <meta-data
             android:name="eu.trentorise.smartcampus.account.AUTH_URL"
             android:value="https://ac.smartcampuslab.it/aac" />

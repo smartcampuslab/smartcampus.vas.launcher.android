@@ -529,7 +529,7 @@ public class AppFragment extends SherlockFragment {
 //			tv.setTextSize(18f);
 //			tv.setText(Html.fromHtml(getString(R.string.about_2)));
 			WebView wv = new WebView(getActivity());
-			wv.loadData(getString(R.string.about_2), "text/html", "utf-8");
+			wv.loadData(getString(R.string.about_2), "text/html; charset=UTF-8", "utf-8");
 			//tv.setMovementMethod(LinkMovementMethod.getInstance());
 			builder.setTitle("").setView(wv).create().show();
 			return true;
