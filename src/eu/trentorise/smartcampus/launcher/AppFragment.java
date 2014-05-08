@@ -484,16 +484,16 @@ public class AppFragment extends SherlockFragment {
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.gripmenu,
+		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.mainmenu,
 				menu);
-		SubMenu submenu = menu.getItem(1).getSubMenu();
-		submenu.clear();
-		submenu.setIcon(R.drawable.ic_action_overflow);
-		// submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE,
-		// R.string.settings);// settings
-		// page
-		submenu.add(Menu.CATEGORY_SYSTEM, R.id.about, Menu.NONE, R.string.about);// about
-																					// page
+//		SubMenu submenu = menu.getItem(1).getSubMenu();
+//		submenu.clear();
+//		submenu.setIcon(R.drawable.ic_action_overflow);
+//		// submenu.add(Menu.CATEGORY_SYSTEM, R.id.settings, Menu.NONE,
+//		// R.string.settings);// settings
+//		// page
+//		submenu.add(Menu.CATEGORY_SYSTEM, R.id.about, Menu.NONE, R.string.about);// about
+//																					// page
 
 	}
 
@@ -531,7 +531,7 @@ public class AppFragment extends SherlockFragment {
 			WebView wv = new WebView(getActivity());
 			wv.loadData(getString(R.string.about_2), "text/html; charset=UTF-8", "utf-8");
 			//tv.setMovementMethod(LinkMovementMethod.getInstance());
-			builder.setTitle("").setView(wv).create().show();
+			builder.setTitle(android.R.string.dialog_alert_title).setView(wv).create().show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
