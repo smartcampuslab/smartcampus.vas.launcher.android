@@ -24,7 +24,6 @@
     <string name="error_occurs">OOPS! App non ancora disponibile.</string>
     <string name="not_secure_app">App non sicura!</string>
     <string name="enable_connection">Connettività assente!\nAttiva una connessione di rete e riprova.</string>
-
     <string name="token_required">Per accedere alla app Smart Campus è necessario effettuare l\'autenticazione.</string>
     <string name="auth_failed">Errore di inizializzazione dell\'applicazione.</string>
     <string name="update_application_question">È disponibile una nuova versione. Vuoi aggiornarla adesso?</string>
@@ -39,12 +38,14 @@
     <string name="about">Info</string>
     <string name="update_dev">Versione app</string>
     <string name="update_dev_sum">Verifica versioni di prova</string>
-	<string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
+    <string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
     <string name="label_coming_soon">Disponibile a breve!</string>
-    
-    
     <string name="about_0"><![CDATA[Le app Smart Campus sono state create con gli studenti, dagli studenti e per gli studenti dell’Università di Trento.]]></string>
-	<string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da]]></string>
-	<string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.</div>]]></string>
-	    
+    <string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da]]></string>
+    <string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.</div>]]></string>
+    
+    
+    <string name="dialog_market_title">We are on Google Play now!</string>
+    <string name="dialog_market_info">Smart Campus apps are now available on Google Play store!\nThis version of the apps will no longer be supported.\nPlease, uninstall all the Smart Campus apps that are currently installed on your device and get the new Smart Campus Toolbox either searching on the store or directly at this <a href="https://play.google.com/store/apps/details?id=it.smartcampuslab.launcher">URL</a></string>
+
 </resources>

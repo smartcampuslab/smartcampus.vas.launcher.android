@@ -49,5 +49,9 @@
     <string name="about_0"><![CDATA[The Smart Campus apps are built with students, by students, and for students of the University of Trento.]]></string>
     <string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> is an <a href="http://www.smartcampuslab.it/swabout">open source</a> project realized by]]></string>
     <string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">To gain full access to all of the apps\' functions, you must give the University of Trento permission to release your data to Smart Campus.<br/>To do so, go to this <a href="http://bit.do/smartcampus_unitn.">website</a>, sign into your UniTn account, and fill out the form.</div>]]></string>
+    
+    
+    <string name="dialog_market_title">We are on Google Play now!</string>
+    <string name="dialog_market_info">Smart Campus apps are now available on Google Play store!\nThis version of the apps will no longer be supported.\nPlease, uninstall all the Smart Campus apps that are currently installed on your device and get the new Smart Campus Toolbox either searching on the store or directly at this <a href="https://play.google.com/store/apps/details?id=it.smartcampuslab.launcher">URL</a></string>
 
 </resources>
