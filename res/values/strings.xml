@@ -47,7 +47,7 @@
     <string name="smartcampus_url_credits">http://www.smartcampuslab.it/swabout</string>
     <string name="label_coming_soon">Coming soon!</string>
     <string name="about_0"><![CDATA[The Smart Campus apps are built with students, by students, and for students of the University of Trento.]]></string>
-    <string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> is an <a href="htpp://www.smartcampuslab.it/swabout">open source</a> project realized by]]></string>
+    <string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> is an <a href="http://www.smartcampuslab.it/swabout">open source</a> project realized by]]></string>
     <string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">To gain full access to all of the apps\' functions, you must give the University of Trento permission to release your data to Smart Campus.<br/>To do so, go to this <a href="http://bit.do/smartcampus_unitn.">website</a>, sign into your UniTn account, and fill out the form.</div>]]></string>
 
 </resources>
