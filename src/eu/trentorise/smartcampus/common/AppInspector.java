@@ -104,21 +104,6 @@ public final class AppInspector {
 		return info;
 	}
 	
-	/**
-	 * Utility method that allows to know if an application is updated or not
-	 */
-	public boolean isAppUpdated(String app, int versionCode) throws LauncherException{
-		boolean res = false;
-		ApplicationInfo appInfo = isAppInstalled(app);
-		PackageInfo packInfo;
-		try {
-			packInfo = mContext.getPackageManager().getPackageInfo(appInfo.packageName, 0);
-			res = packInfo.versionCode >= versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
 	
 	/*
 	 * Check if the app is in the manual install applications list

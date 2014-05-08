@@ -24,6 +24,7 @@
 <!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
 <!--     <string name="smartcampus_auth_url"> https://vas-dev.smartcampuslab.it/accesstoken-provider/ac</string> -->
     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string>
+    <string name="open_playstore_url">market://details?id=%1$s</string>
 <!--     <string name="smartcampus_auth_url">https://ac.smartcampuslab.it/accesstoken-provider/ac/</string> -->
 <!--     <string name="smartcampus_app_url">https://vas.smartcampuslab.it</string> -->
     
