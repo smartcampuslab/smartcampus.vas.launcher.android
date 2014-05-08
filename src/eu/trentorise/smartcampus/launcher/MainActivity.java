@@ -50,7 +50,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_main);
 		
 		try {
-			initGlobalConstants();
+//			initGlobalConstants();
 			showDownloadMarket();
 //			if (!SCAccessProvider.getInstance(this).login(this, null)) {
 //				new TokenTask().execute();
@@ -80,20 +80,13 @@ public class MainActivity extends SherlockFragmentActivity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						String package_name= MainActivity.this.getPackageName();
+						String package_name= "it.smartcampuslab.launcher";
 						Intent market = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+package_name));
 						startActivity(market);
 						finish();
 					}
 				})
-				.setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						finish();
-					}
-				});	
+				.setNeutralButton(getString(R.string.cancel),null);	
 		builder.create().show();
 	}
 
