@@ -18,8 +18,8 @@
     android:sharedUserId="it.smartcampuslab.launcher"
     android:sharedUserLabel="@string/app_uid_label"
     android:installLocation="internalOnly"
-    android:versionCode="29"
-    android:versionName="0.15.1" >
+    android:versionCode="32"
+    android:versionName="0.16.2" >
 
     <uses-sdk
         android:minSdkVersion="9"
