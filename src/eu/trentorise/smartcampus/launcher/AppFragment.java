@@ -47,6 +47,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -523,12 +524,14 @@ public class AppFragment extends SherlockFragment {
 			return true;
 		case R.id.help:
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			TextView tv = new TextView(getActivity());
-			tv.setPadding(20, 20, 20, 20);
-			tv.setTextSize(18f);
-			tv.setText(Html.fromHtml(getString(R.string.about_2)));
-			tv.setMovementMethod(LinkMovementMethod.getInstance());
-			builder.setTitle("").setView(tv).create().show();
+//			TextView tv = new TextView(getActivity());
+//			tv.setPadding(20, 20, 20, 20);
+//			tv.setTextSize(18f);
+//			tv.setText(Html.fromHtml(getString(R.string.about_2)));
+			WebView wv = new WebView(getActivity());
+			wv.loadData(getString(R.string.about_2), "text/html", "utf-8");
+			//tv.setMovementMethod(LinkMovementMethod.getInstance());
+			builder.setTitle("").setView(wv).create().show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
