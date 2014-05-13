@@ -41,6 +41,7 @@
     <string name="label_coming_soon">Disponibile a breve!</string>
     <string name="label_go">Vai!</string>
     <string name="dialog_market_title">Ora siamo su Google Play!</string>
-   	<string name="dialog_market_info">Le app di Smart Campus sono ora disponibili su Google Play!\n\Questo versione delle app non sarà più supportata.\n\nPer usare la nuova SmartCampus Toolbox, disinstalla le applicazioni presenti sul tuo smartphone tramite “Impostazioni – Gestione Applicazioni” e cerca “SmartCampus Toolbox” su Google Play.</string>
+   	<string name="dialog_market_info">Le app di Smart Campus sono ora disponibili su Google Play!\n\nQuesto versione delle app non è più supportata.\n\nPer usare la nuova SmartCampus Toolbox, disinstalla le applicazioni presenti sul tuo smartphone tramite “Impostazioni – Gestione Applicazioni” e cerca “SmartCampus Toolbox” su Google Play.</string>
    	<string name="upgrade_notice">Per favore, prima aggiorna il launcher.</string>
+   	<string name="close_app">Chiudi la app</string>
 </resources>
