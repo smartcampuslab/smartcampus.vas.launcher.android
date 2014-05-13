@@ -4,6 +4,8 @@ import it.smartcampuslab.launcher.R;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -41,18 +43,15 @@ public class WizardActivity extends SherlockActivity {
 					AnimatorSet as = new AnimatorSet();
 					as.setDuration(500);
 					as.playTogether(
-							
-							ObjectAnimator.ofObject(v,
-							"backgroundColor", new ArgbEvaluator(),
-							Color.rgb(0x33, 0xB5, 0xE5), Color.LTGRAY),
-							
-							ObjectAnimator.ofFloat(
-									findViewById(R.id.progressBar1), "alpha",
-									0, 1.0f),
-							ObjectAnimator.ofFloat(
-									findViewById(R.id.wiz_msg), "alpha",
-									0, 1.0f));
-					
+
+					ObjectAnimator.ofObject(v, "backgroundColor",
+							new ArgbEvaluator(), Color.rgb(0x33, 0xB5, 0xE5),
+							Color.LTGRAY),
+
+					ObjectAnimator.ofFloat(findViewById(R.id.progressBar1),
+							"alpha", 0, 1.0f), ObjectAnimator.ofFloat(
+							findViewById(R.id.wiz_msg), "alpha", 0, 1.0f));
+
 					as.start();
 					buildUninstallList();
 					v.setEnabled(false);
@@ -63,14 +62,12 @@ public class WizardActivity extends SherlockActivity {
 					.getStringArrayList("installed");
 			mIndex = savedInstanceState.getInt("index");
 
-			process();
-
 		}
 
 	}
 
 	private void process() {
-		if (!mAppsPackageNames.isEmpty() && mIndex<mAppsPackageNames.size())
+		if (!mAppsPackageNames.isEmpty() && mIndex < mAppsPackageNames.size())
 			unistall(mAppsPackageNames.get(mIndex));
 		else
 			this.finish();
@@ -113,29 +110,35 @@ public class WizardActivity extends SherlockActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE_UNINSTALL_APP) {
-			if(requestCode == RESULT_OK){
+			AppInspector ai = new AppInspector(WizardActivity.this);
+			try {
+				ai.isPackageInstalled(mAppsPackageNames.get(mIndex));
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						WizardActivity.this);
+				builder.setTitle(android.R.string.dialog_alert_title)
+						.setMessage(
+								"Vuoi uscire dal wizard?\nSe non lo completi, non potrai utilizzare le nostre app.")
+						.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								process();
+							}
+						})
+						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								System.exit(0);
+							}
+						});
+				builder.create().show();
+			} catch (LauncherException le) {
 				mIndex++;
 				process();
 			}
-			else{
-				findViewById(R.id.startButton).setEnabled(true);
-				AnimatorSet as = new AnimatorSet();
-				as.setDuration(500);
-				as.playTogether(
-						
-						ObjectAnimator.ofObject(findViewById(R.id.startButton),
-						"backgroundColor", new ArgbEvaluator(),
-						 Color.LTGRAY,Color.rgb(0x33, 0xB5, 0xE5)),
-						
-						ObjectAnimator.ofFloat(
-								findViewById(R.id.progressBar1), "alpha",
-								1.0f, 0),
-						ObjectAnimator.ofFloat(
-								findViewById(R.id.wiz_msg), "alpha",
-								1.0f, 0));
-				
-				as.start();
-			}
+			
+
 		} else
 			super.onActivityResult(requestCode, resultCode, data);
 	}
