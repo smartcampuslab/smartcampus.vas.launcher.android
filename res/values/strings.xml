@@ -47,7 +47,7 @@
     <string name="label_coming_soon">Coming soon!</string>
     <string name="label_go">Go!</string>
     <string name="dialog_market_title">We are on Google Play now!</string>
-    <string name="dialog_market_info">Smart Campus apps are now available on Google Play store!\nThis version of the apps will no longer be supported.\nPlease, uninstall all the Smart Campus apps that are currently installed on your device and get the new Smart Campus Toolbox either searching on the store or directly at this <a href="https://play.google.com/store/apps/details?id=it.smartcampuslab.launcher">URL</a></string>
+    <string name="dialog_market_info">Smart Campus apps are now available on Google Play!\n\This version of the apps will no longer be supported.\n\nTo use the new SmartCampus Toolbox, please go to “Settings – Application Manager” and uninstall the apps already in your phone. Then, you can search “SmartCampus Toolbox” on Google Play.</string>
     <string name="upgrade_notice">Please, upgrade your launcher first</string>
     <string name="start">Start!</string>
     <string name="wizard_msg">This wizard will guide you through the process, Don\'t worry!\nAll the old apps has to be uninstalled but your data will be kept.</string>
