@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="6dp"
-        android:background="#FF8800"
+        android:background="@drawable/start_background"
         android:text="@string/wizard_start"
         android:textColor="#fff" />
 
@@ -27,18 +27,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:alpha="0" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/wiz_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progressBar1"
         android:layout_centerHorizontal="true"
-        android:padding="8dp"
         android:text="@string/wizard_msg"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white"
-        android:visibility="invisible" />
+        android:alpha="0" />
 
 </RelativeLayout>

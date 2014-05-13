@@ -4,7 +4,6 @@ import it.smartcampuslab.launcher.R;
 
 import java.util.ArrayList;
 
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ArgbEvaluator;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -38,33 +38,24 @@ public class WizardActivity extends SherlockActivity {
 
 				@Override
 				public void onClick(final View v) {
-
 					AnimatorSet as = new AnimatorSet();
 					as.setDuration(500);
-//					as.playTogether(ObjectAnimator.ofObject(
-//							findViewById(R.id.progressBar1), "alpha",
-//							new ArgbEvaluator(), 0, 1.0f), ObjectAnimator
-//							.ofObject(findViewById(R.id.textView1), "alpha",
-//									new ArgbEvaluator(), 0, 1.0f),
-//							ObjectAnimator.ofObject(v, "backgroundColor",
-//									new ArgbEvaluator(),
-//									Color.rgb(0xFF, 0x88, 0), Color.LTGRAY));
 					as.playTogether(
-						    ObjectAnimator.ofFloat(v, "backgroundColor", Color.rgb(0xFF, 0x88, 0), Color.LTGRAY),
-						    ObjectAnimator.ofFloat(findViewById(R.id.progressBar1), "alpha", 0, 1.0f),
-						    ObjectAnimator.ofFloat(findViewById(R.id.progressBar1), "alpha", 0, 1.0f)
-						);
-
-					v.postDelayed(new Runnable() {
-
-						@Override
-						public void run() {
-							buildUninstallList();
-							findViewById(R.id.progressBar1).setVisibility(
-									View.VISIBLE);
-							v.setEnabled(false);
-						}
-					}, 500);
+							
+							ObjectAnimator.ofObject(v,
+							"backgroundColor", new ArgbEvaluator(),
+							Color.rgb(0x33, 0xB5, 0xE5), Color.LTGRAY),
+							
+							ObjectAnimator.ofFloat(
+									findViewById(R.id.progressBar1), "alpha",
+									0, 1.0f),
+							ObjectAnimator.ofFloat(
+									findViewById(R.id.wiz_msg), "alpha",
+									0, 1.0f));
+					
+					as.start();
+					buildUninstallList();
+					v.setEnabled(false);
 				}
 			});
 		} else {
@@ -79,8 +70,10 @@ public class WizardActivity extends SherlockActivity {
 	}
 
 	private void process() {
-		if (!mAppsPackageNames.isEmpty())
+		if (!mAppsPackageNames.isEmpty() && mIndex<mAppsPackageNames.size())
 			unistall(mAppsPackageNames.get(mIndex));
+		else
+			this.finish();
 	}
 
 	private void buildUninstallList() {
@@ -113,14 +106,36 @@ public class WizardActivity extends SherlockActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putInt("index", ++mIndex);
+		outState.putInt("index", mIndex);
 		outState.putStringArrayList("installed", mAppsPackageNames);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE_UNINSTALL_APP) {
-			// uninstaller();
+			if(requestCode == RESULT_OK){
+				mIndex++;
+				process();
+			}
+			else{
+				findViewById(R.id.startButton).setEnabled(true);
+				AnimatorSet as = new AnimatorSet();
+				as.setDuration(500);
+				as.playTogether(
+						
+						ObjectAnimator.ofObject(findViewById(R.id.startButton),
+						"backgroundColor", new ArgbEvaluator(),
+						 Color.LTGRAY,Color.rgb(0x33, 0xB5, 0xE5)),
+						
+						ObjectAnimator.ofFloat(
+								findViewById(R.id.progressBar1), "alpha",
+								1.0f, 0),
+						ObjectAnimator.ofFloat(
+								findViewById(R.id.wiz_msg), "alpha",
+								1.0f, 0));
+				
+				as.start();
+			}
 		} else
 			super.onActivityResult(requestCode, resultCode, data);
 	}
