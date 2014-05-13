@@ -70,6 +70,18 @@
         <item>it.smartcampuslab.launcher</item>
     </string-array>
     
+    <string-array name="old_app_packages">
+        <item>eu.trentorise.smartcampus.jp</item>
+        <item>eu.trentorise.smartcampus.dt</item>
+        <item>eu.trentorise.smartcampus.cm</item>
+        <item>eu.trentorise.smartcampus.communicator</item>
+        <item>eu.trentorise.smartcampus.eb</item>
+        <item>eu.trentorise.smartcampus.portfolio</item>
+        <item>eu.trentorise.smartcampus.ifame</item>
+        <item>eu.trentorise.smartcampus.studymate</item>        
+        <item>eu.trentorise.smartcampus.launcher</item>
+    </string-array>
+    
     
     
     <string-array name="app_urls">

@@ -21,6 +21,7 @@ import org.apache.http.HttpStatus;
 
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -83,7 +84,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(android.R.string.dialog_alert_title))
 				.setMessage(getString(R.string.dialog_market_info))
-				.setNeutralButton(getString(R.string.ok), null);
+				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(new Intent(MainActivity.this,WizardActivity.class));
+					}
+				});
 		builder.create().show();
 	}
 
