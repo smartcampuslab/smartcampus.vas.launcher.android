@@ -84,11 +84,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(android.R.string.dialog_alert_title))
 				.setMessage(getString(R.string.dialog_market_info))
+				.setCancelable(false)
 				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						startActivity(new Intent(MainActivity.this,WizardActivity.class));
+						MainActivity.this.finish();
 					}
 				});
 		builder.create().show();
