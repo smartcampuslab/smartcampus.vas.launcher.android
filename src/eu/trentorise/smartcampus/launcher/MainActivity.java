@@ -55,7 +55,14 @@ public class MainActivity extends SherlockFragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.dialog_market_title))
 				.setMessage(getString(R.string.dialog_market_info))
-				.setNeutralButton(getString(R.string.ok), null);
+				.setCancelable(false)
+				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						MainActivity.this.finish();
+					}
+				});
 //		.setPositiveButton(getString(R.string.label_go),
 //		new DialogInterface.OnClickListener() {
 //

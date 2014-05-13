@@ -11,15 +11,13 @@
 #proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
 
 # Project target.
-target=Google Inc.:Google APIs:18
-<<<<<<< Updated upstream
+target=Google Inc.:Google APIs:19
 android.library.reference.1=../ActionBarSherlock
-android.library.reference.2=../protocol-carrier
-android.library.reference.3=../android.common
-android.library.reference.4=../android.aac
+android.library.reference.2=../android.aac
+<<<<<<< Updated upstream
+android.library.reference.3=../android.protocol-carrier
+android.library.reference.4=../../../git/android.common
 =======
-android.library.reference.1=../android.aac
-android.library.reference.2=../protocol-carrier
-android.library.reference.3=../android.common
-android.library.reference.4=../ActionBarSherlock
+android.library.reference.3=../../../git/android.common
+android.library.reference.4=../android.protocol-carrier
 >>>>>>> Stashed changes
