@@ -81,7 +81,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	private void showOldVersion() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.dialog_market_title))
+		builder.setTitle(getString(android.R.string.dialog_alert_title))
 				.setMessage(getString(R.string.dialog_market_info))
 				.setNeutralButton(getString(R.string.ok), null);
 		builder.create().show();
