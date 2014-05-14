@@ -69,8 +69,9 @@ public class WizardActivity extends SherlockActivity {
 	private void process() {
 		if (!mAppsPackageNames.isEmpty() && mIndex < mAppsPackageNames.size())
 			unistall(mAppsPackageNames.get(mIndex));
-		else
-			this.finish();
+		else{
+			startActivity(new Intent(this,MainActivity.class));
+		}
 	}
 
 	private void buildUninstallList() {
@@ -118,6 +119,13 @@ public class WizardActivity extends SherlockActivity {
 				builder.setTitle(android.R.string.dialog_alert_title)
 						.setMessage(
 								"Vuoi uscire dal wizard?\nSe non lo completi, non potrai utilizzare le nostre app.")
+						.setOnCancelListener(new DialogInterface.OnCancelListener() {
+							
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								process();
+							}
+						})		
 						.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 							
 							@Override

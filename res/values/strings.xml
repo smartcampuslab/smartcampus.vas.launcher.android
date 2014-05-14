@@ -54,6 +54,6 @@
     <!-- <string name="dialog_market_title">We are on Google Play now!</string> -->
     <string name="dialog_market_info">An old version of the Smart Campus apps was found. To let this new version run properly you must uninstall any Smart Campus app that was previously installed.</string>
 
-    <string name="wizard_start">Start!</string>
+    <string name="wizard_start">Uninstall</string>
     <string name="wizard_msg">Uninstalling&#8230;</string>
 </resources>
