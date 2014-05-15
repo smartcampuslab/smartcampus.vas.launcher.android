@@ -21,8 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="@string/wizard_msg"
-        android:padding="6dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:paddingTop="16dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
     
     <ImageView
@@ -32,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wiz_msg"
         android:layout_above="@+id/startButton"  
-        android:src="@drawable/min_logosc"
+        android:src="@drawable/wizard"
         android:layout_centerHorizontal="true" />
     
 

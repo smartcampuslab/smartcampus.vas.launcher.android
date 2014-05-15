@@ -106,7 +106,8 @@
             android:theme="@style/Theme.smartcampus" />
 
         <uses-library android:name="com.google.android.maps" />
-        <activity android:name="eu.trentorise.smartcampus.launcher.WizardActivity"></activity>
+        <activity android:name="eu.trentorise.smartcampus.launcher.WizardActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
