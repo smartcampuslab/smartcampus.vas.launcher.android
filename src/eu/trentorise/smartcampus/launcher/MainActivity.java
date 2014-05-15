@@ -53,23 +53,27 @@ public class MainActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		AppInspector ai = new AppInspector(this);
-		try {
-			ai.isPackageInstalled("eu.trentorise.smartcampus.launcher");
-			showOldVersion();
-		} catch (LauncherException le) {
+		String[] old_apps = getResources().getStringArray(
+				R.array.old_app_packages);
+		for (String old_pkgname : old_apps) {
 			try {
-				initGlobalConstants();
-				if (!SCAccessProvider.getInstance(this).login(this, null)) {
-					new TokenTask().execute();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				Toast.makeText(this, getString(R.string.auth_failed),
-						Toast.LENGTH_SHORT).show();
-				finish();
+				ai.isPackageInstalled(old_pkgname);
+				showOldVersion();
+			} catch (LauncherException le) {
+				
 			}
 		}
-
+		try {
+			initGlobalConstants();
+			if (!SCAccessProvider.getInstance(this).login(this, null)) {
+				new TokenTask().execute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Toast.makeText(this, getString(R.string.auth_failed),
+					Toast.LENGTH_SHORT).show();
+			finish();
+		}
 		// Getting saved instance
 		if (savedInstanceState == null) {
 			// Loading first fragment that works as home for application.
@@ -85,14 +89,17 @@ public class MainActivity extends SherlockFragmentActivity {
 		builder.setTitle(getString(android.R.string.dialog_alert_title))
 				.setMessage(getString(R.string.dialog_market_info))
 				.setCancelable(false)
-				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						startActivity(new Intent(MainActivity.this,WizardActivity.class));
-						MainActivity.this.finish();
-					}
-				});
+				.setNeutralButton(getString(R.string.ok),
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								startActivity(new Intent(MainActivity.this,
+										WizardActivity.class));
+								MainActivity.this.finish();
+							}
+						});
 		builder.create().show();
 	}
 

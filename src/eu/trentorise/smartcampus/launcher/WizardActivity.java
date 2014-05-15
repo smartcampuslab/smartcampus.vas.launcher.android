@@ -62,6 +62,7 @@ public class WizardActivity extends SherlockActivity {
 			unistall(mAppsPackageNames.get(mIndex));
 		else {
 			startActivity(new Intent(this, MainActivity.class));
+			this.finish();
 		}
 	}
 
