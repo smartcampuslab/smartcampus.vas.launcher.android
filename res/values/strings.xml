@@ -51,9 +51,8 @@
     <string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">To gain full access to all of the apps\' functions, you must give the University of Trento permission to release your data to Smart Campus.<br/>To do so, go to this <a href="http://bit.do/smartcampus_unitn.">website</a>, sign into your UniTn account, and fill out the form.</div>]]></string>
 
     <!-- <string name="dialog_market_title">We are on Google Play now!</string> -->
-    <string name="dialog_market_info">An old version of the Smart Campus apps was found. To let this new version run properly you must uninstall any Smart Campus app that was previously installed.</string>
     <string name="wizard_start">Uninstall</string>
-    <string name="wiz_dialog">Do you want to exit? You don\'t finish the wizard, you can\'t use our apps.</string>
     <string name="wizard_msg">The wizard will guide you through the uninstallation procedure.\n\nDon\'t worry! Your data will be saved and retrieved once the new versions of the apps are installed.</string>
-
+    <string name="dialog_market_info">An old version of the Smart Campus apps was found. For this new version to run properly you must uninstall any Smart Campus app that was previously installed.</string>
+	<string name="wiz_dialog">Are you sure you want to exit? If you don\'t finish the wizard, you won\'t be able to use our apps.</string>
 </resources>

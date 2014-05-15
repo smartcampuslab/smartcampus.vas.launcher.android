@@ -47,7 +47,6 @@
     
     <!-- <string name="dialog_market_title">We are on Google Play now!</string> -->
     <string name="dialog_market_info">E\' stata trovata una versione precedente delle app di Smart Campus. Per far funzionare correttamente questa nuova versione è necessario disinstallare tutte le app di Smart Campus precedentemente installate.</string>
-
     <string name="wizard_start">Disinstalla</string>
     <string name="wiz_dialog">Vuoi uscire dal wizard?\nSe non lo completi, non potrai utilizzare le nostre app.</string>
     <string name="wizard_msg">Il wizard ti guiderà durante la procedura di disinstallazione.\n\nNon preoccuparti! I tuoi dati verranno salvati e potrai ritrovarli una volta installate le nuove versioni delle app.</string>

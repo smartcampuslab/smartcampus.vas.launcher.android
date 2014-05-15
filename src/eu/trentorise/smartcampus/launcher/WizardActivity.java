@@ -7,18 +7,14 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ArgbEvaluator;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.ValueAnimator;
 
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
@@ -29,35 +25,30 @@ public class WizardActivity extends SherlockActivity {
 	private static ArrayList<String> mAppsPackageNames;
 	private static int mIndex = 0;
 
+	private TextView mTextView;
+	private Button mStart;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wizard);
-		if (savedInstanceState == null
-				|| !savedInstanceState.containsKey("installed")) {
-			Button btn = (Button) findViewById(R.id.startButton);
-			btn.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(final View v) {
-					AnimatorSet as = new AnimatorSet();
-					as.setDuration(500);
-					as.playTogether(
+		mTextView = (TextView) findViewById(R.id.wiz_msg);
+		
+		
+		mStart = (Button) findViewById(R.id.startButton);
+		mStart.setOnClickListener(new View.OnClickListener() {
 
-					ObjectAnimator.ofObject(v, "backgroundColor",
-							new ArgbEvaluator(), Color.rgb(0x33, 0xB5, 0xE5),
-							Color.LTGRAY),
+			@Override
+			public void onClick(final View v) {
+				buildUninstallList();
+				v.setEnabled(false);
+			}
+		});
 
-					ObjectAnimator.ofFloat(findViewById(R.id.progressBar1),
-							"alpha", 0, 1.0f), ObjectAnimator.ofFloat(
-							findViewById(R.id.wiz_msg), "alpha", 0, 1.0f));
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey("installed")) {
 
-					as.start();
-					buildUninstallList();
-					v.setEnabled(false);
-				}
-			});
-		} else {
 			mAppsPackageNames = savedInstanceState
 					.getStringArrayList("installed");
 			mIndex = savedInstanceState.getInt("index");
@@ -69,8 +60,8 @@ public class WizardActivity extends SherlockActivity {
 	private void process() {
 		if (!mAppsPackageNames.isEmpty() && mIndex < mAppsPackageNames.size())
 			unistall(mAppsPackageNames.get(mIndex));
-		else{
-			startActivity(new Intent(this,MainActivity.class));
+		else {
+			startActivity(new Intent(this, MainActivity.class));
 		}
 	}
 
@@ -118,34 +109,38 @@ public class WizardActivity extends SherlockActivity {
 						WizardActivity.this);
 				builder.setTitle(android.R.string.dialog_alert_title)
 						.setMessage(
-								"Vuoi uscire dal wizard?\nSe non lo completi, non potrai utilizzare le nostre app.")
-						.setOnCancelListener(new DialogInterface.OnCancelListener() {
-							
-							@Override
-							public void onCancel(DialogInterface dialog) {
-								process();
-							}
-						})		
-						.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								process();
-							}
-						})
-						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								System.exit(0);
-							}
-						});
+								R.string.wiz_dialog)
+						.setOnCancelListener(
+								new DialogInterface.OnCancelListener() {
+
+									@Override
+									public void onCancel(DialogInterface dialog) {
+										process();
+									}
+								})
+						.setNeutralButton(android.R.string.cancel,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										process();
+									}
+								})
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										System.exit(0);
+									}
+								});
 				builder.create().show();
 			} catch (LauncherException le) {
 				mIndex++;
 				process();
 			}
-			
 
 		} else
 			super.onActivityResult(requestCode, resultCode, data);

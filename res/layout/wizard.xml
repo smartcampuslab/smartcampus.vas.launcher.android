@@ -35,14 +35,6 @@
         android:src="@drawable/min_logosc"
         android:layout_centerHorizontal="true" />
     
-    <ProgressBar
-        android:id="@+id/wiz_progbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView1"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_centerInParent="true"
-        style="?android:attr/progressBarStyleLarge" />
 
 
 </RelativeLayout>
