@@ -55,7 +55,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		AppInspector ai = new AppInspector(this);
 		String[] old_apps = getResources().getStringArray(
 				R.array.old_app_packages);
-		boolean thereisanoldapp=false;
+		boolean thereisanoldapp = false;
 		for (String old_pkgname : old_apps) {
 			try {
 				ai.isPackageInstalled(old_pkgname);
@@ -66,18 +66,21 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		if (thereisanoldapp)
 			showOldVersion();
-		else
+		else {
 			try {
 				initGlobalConstants();
 				if (!SCAccessProvider.getInstance(this).login(this, null)) {
 					new TokenTask().execute();
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(this, getString(R.string.auth_failed),
 						Toast.LENGTH_SHORT).show();
 				finish();
 			}
+
+		}
 		// Getting saved instance
 		if (savedInstanceState == null) {
 			// Loading first fragment that works as home for application.
