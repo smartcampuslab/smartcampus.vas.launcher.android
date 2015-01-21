@@ -55,4 +55,28 @@
     <string name="wizard_msg">The wizard will guide you through the uninstallation procedure.\n\nDon\'t worry! Your data will be saved and retrieved once the new versions of the apps are installed.</string>
     <string name="dialog_market_info">An old version of the Smart Campus apps was found. For this new version to run properly you must uninstall any Smart Campus app that was previously installed.</string>
 	<string name="wiz_dialog">Are you sure you want to exit? If you don\'t finish the wizard, you won\'t be able to use our apps.</string>
+	
+    <string name="disclaimer"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:18px;padding:8px">
+      The Trento Rise project "Smart Campus" ended officially on December 31st, 2014, but is still alive 
+      in the results it produced and disseminated in Trentino. Besides having had important research impacts, 
+      Smart Campus distributed over the territory a set of services that will not get lost but they will 
+      remain available on the Google and Apple marketplaces.
+ 
+      <p>The services that have been most successful among the campus students will continue to live, 
+      hosted by the Smart Community project: "iFame" - created and produced entirely by students to better 
+      enjoy meals in the university canteens - and "ViaggiaTrento" - an app about sustainable mobility which 
+      is already widely used outside the campus. Other services, such as "StudyMate", "Inbox" and "ViviTrento" 
+      will follow shortly.</p>
+ 
+      <p>The Smart Campus project team wants to thank all those who contributed to the success of the project: 
+      first of all the real stars of the project, the students, who have contributed in various ways to 
+      achieve the expected results; but also our partners throughout the territory: Municipality of Trento, 
+      Consorzio dei Comuni, the Open Data Initiative of the Autonomous Province of Trento, ITT Marconi in 
+      Rovereto, ITI Buonarroti in Trento, Opera Universitaria, Trentino Trasporti Esercizio; without 
+      forgetting the institutes and associations that have allowed all this with their support: Trento Rise 
+      Association, University of Trento and Fondazione Bruno Kessler.</p>
+	     </div>]]></string>
+	  
+    <string name="close">Close</string>
+    
 </resources>

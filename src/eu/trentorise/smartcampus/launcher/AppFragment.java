@@ -18,28 +18,21 @@ package eu.trentorise.smartcampus.launcher;
 import it.smartcampuslab.launcher.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -50,17 +43,13 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 
-import eu.trentorise.smartcampus.android.common.LauncherHelper;
 import eu.trentorise.smartcampus.common.AppInspector;
 import eu.trentorise.smartcampus.common.LauncherException;
 import eu.trentorise.smartcampus.common.Status;
@@ -156,7 +145,38 @@ public class AppFragment extends SherlockFragment {
 		}
 		// Starting new task
 		startNewAppTask();
+		
+		showDisclaimer();
 
+	}
+
+	private void showDisclaimer() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		WebView wv = new WebView(getActivity());
+		wv.loadData(getString(R.string.disclaimer), "text/html; charset=UTF-8", "utf-8");
+
+		builder//.setTitle(android.R.string.dialog_alert_title)
+				.setView(wv)
+//				.setMessage(R.string.welcome_msg)
+				.setOnCancelListener(
+						new DialogInterface.OnCancelListener() {
+
+							@Override
+							public void onCancel(DialogInterface arg0) {
+								arg0.dismiss();
+								getActivity().finish();
+							}
+						})
+				.setPositiveButton(getString(R.string.close),
+								new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+								getActivity().finish();
+							}
+						});
+		builder.create().show();
 	}
 
 	@Override

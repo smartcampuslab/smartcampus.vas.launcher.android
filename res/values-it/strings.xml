@@ -43,6 +43,27 @@
     <string name="about_0"><![CDATA[Le app Smart Campus sono state create con gli studenti, dagli studenti e per gli studenti dell’Università di Trento.]]></string>
     <string name="about_1"><![CDATA[<a href="http://www.smartcampuslab.it/">Smart Campus</a> è un progetto <a href="http://www.smartcampuslab.it/swabout">open source</a> realizzato da]]></string>
     <string name="about_2"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:20px;padding:8px">Le app utilizzano alcuni dati provenienti dal tuo account UniTn.<br/>Per utilizzarne appieno le funzionalità, devi consentire all’Università di Trento di passare i tuoi dati a Smart Campus. Se non lo hai già fatto, per favore visita <a href="http://bit.do/smartcampus_unitn.">questo sito</a> web, accedi con il tuo account UniTn e compila la scheda.</div>]]></string>
+
+    <string name="disclaimer"><![CDATA[<div style="text-align:justify;font-family:Arial;font-size:18px;padding:8px">
+      Il progetto Smart Campus di Trento Rise si è ufficialmente concluso il 31/12/2014 ma continua a 
+      vivere nei risultati che ha prodotto e disseminato sul territorio trentino. Oltre ad aver avuto 
+      importanti impatti di ricerca, Smart Campus ha distribuito sul territorio un insieme di 
+      servizi che non andranno persi ma resteranno disponibili sui marketplace di Google a Apple.
+ 
+      <p>I servizi che hanno riscosso più successo tra gli studenti del campus continueranno a vivere, 
+      ospitati dal progetto Smart Community: partiamo con "iFame" - ideato e realizzato interamente da 
+      studenti per migliorare la fruizione dei pasti nelle mense universitarie - e "ViaggiaTrento" - una 
+      app a supporto della mobilità sostenibile che è già ora molto utilizzata al di fuori del campus. 
+      Altri servizi, come "StudyMate", "Inbox" e "ViviTrento" seguiranno a breve.</p>
+ 
+      <p>Il team del progetto Smart Campus vuole ringraziare tutti colori i quali hanno contribuito al 
+      successo del progetto: prima di tutto i veri protagonisti del progetto, gli studenti, che hanno 
+      contributo in vari modi a raggiungere i risultati attesi; ma anche i partner sparsi sul territorio: 
+      Comune di Trento, Consorzio dei Comuni, Iniziativa Open Data della Provincia Autonoma di Trento, 
+      ITT Marconi di Rovereto, ITI Buonarroti di Trento, Opera Universitaria, Trentino Trasporti Esercizio; 
+      senza dimenticare gli enti e le associazioni che hanno permesso tutto questo con il loro supporto: 
+      Associazione Trento Rise, Università degli Studi di Trento e Fondazione Bruno Kessler.        
+        </div>]]></string>
     
     
     <!-- <string name="dialog_market_title">We are on Google Play now!</string> -->
@@ -50,4 +71,7 @@
     <string name="wizard_start">Disinstalla</string>
     <string name="wiz_dialog">Vuoi uscire dal wizard?\nSe non lo completi, non potrai utilizzare le nostre app.</string>
     <string name="wizard_msg">Il wizard ti guiderà durante la procedura di disinstallazione.\n\nNon preoccuparti! I tuoi dati verranno salvati e potrai ritrovarli una volta installate le nuove versioni delle app.</string>
+    
+    <string name="close">Chiudi</string>
+    
 </resources>
